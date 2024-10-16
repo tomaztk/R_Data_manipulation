@@ -62,3 +62,11 @@ df %>%
 | int	| Numeric data that are integer	| 24| 
 | Date	| Dates| 	'2020-01-01'| 
 | POSIXct| 	Timestamps| 	'2020-01-01 00:01:00'| 
+
+
+
+## Data preprocessing
+### Filtering
+
+We can filter rows according to some conditions as follows:
+
