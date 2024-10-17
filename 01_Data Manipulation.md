@@ -70,3 +70,32 @@ df %>%
 
 We can filter rows according to some conditions as follows:
 
+```
+df %>%
+  filter(some_col some_operation some_value_or_list_or_col)
+```
+
+where some_operation is one of the following:
+
+| Category |	Operation |	Command |
+|----|----|----|
+| Basic |	Equality | / non-equality	== / != |
+| Basic  | Inequalities |	<, <=, >=, > |
+| Basic  | And  | / or	& / |  |
+| Advanced	| Check for missing value | is.na() |
+| Advanced | Belonging	| %in% c(val_1, ..., val_n) |
+| Advanced  | Pattern matching |x	%like% 'val' |
+
+
+### Changing columns
+ The table below summarizes the main column operations:
+ 
+| Action	| Command |
+|----|----|
+| Add new columns on top of old ones	| df %>% mutate(new_col = operation(other_cols)) |
+| Add new columns and discard old ones | 	df %>% transmute(new_col = operation(other_cols)) |
+| Modify several columns in-place	 | df %>% mutate_at(vars, funs) |
+| Modify all columns in-place	 | df %>% mutate_all(funs) |
+| Modify columns fitting a specific condition |	df %>% mutate_if(condition, funs) |
+| Unite columns	| df %>% unite(new_merged_col, old_cols_list) |
+| Separate columns	| df %>% separate(col_to_separate, new_cols_list) |
