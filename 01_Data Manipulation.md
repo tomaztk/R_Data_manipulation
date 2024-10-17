@@ -99,3 +99,56 @@ where some_operation is one of the following:
 | Modify columns fitting a specific condition |	df %>% mutate_if(condition, funs) |
 | Unite columns	| df %>% unite(new_merged_col, old_cols_list) |
 | Separate columns	| df %>% separate(col_to_separate, new_cols_list) |
+
+
+### Conditional column
+
+A column can take different values with respect to a particular set of conditions with the `case_when()` command as follows:
+
+```
+case_when(condition_1 ~ value_1,  # If condition_1 then value_1
+          condition_2 ~ value_2,  # If condition_2 then value_2
+                ...
+          TRUE ~ value_n)         # Otherwise, value_n
+```
+
+Remark: the `ifelse(condition_if_true, value_true, value_other)` function can be used and is easier to manipulate if there is only one condition.
+
+
+### Datetime conversion
+Fields containing datetime values can be stored in two different POSIXt data types:
+
+| Action	| Command |
+|----|----|
+| Converts to datetime with seconds since origin |	as.POSIXct(col, format) |
+| Converts to datetime with attributes (e.g. time zone) |	as.POSIXlt(col, format) |
+
+where `format` is a string describing the structure of the field and using the commands summarized in the table below:
+
+|Category	| Command	| Description |	Example | 
+|----|----|----|----|
+|Year	| `%Y` / `%y`	| With / without century | 2020 / 20 |
+|Month	| `%B` / `%b`  / `%m`	| Full / abbreviated / numerical | August / Aug / 8 |
+| Weekday	| `%A` / `%a`	| Full / abbreviated | Sunday / Sun |
+| Weekday | `%u` / `%w`	 | Number (1-7) / Number (0-6) | 7 / 0 |
+| Day	| `%d` / `%j` |	Of the month / of the year | 09 / 222 |
+| Time	| `%H` / `%M` 	| Hour / minute | 09 / 40 |
+| Timezone	| `%Z` / `%z` | 	String / Number of hours from UTC | EST / -0400 |
+
+
+Remark: data frames only accept datetime in `POSIXct` format.
+
+### Date properties
+In order to extract a date-related property from a datetime object, the following command is used:
+
+```
+format(datetime_object, format)
+```
+
+where `format` follows the same convention as in the table above.
+
+## Data frame transformation
+
+### Merging data frames 
+We can merge two data frames by a given field as follows:
+
