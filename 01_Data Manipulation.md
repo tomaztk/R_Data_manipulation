@@ -152,3 +152,22 @@ where `format` follows the same convention as in the table above.
 ### Merging data frames 
 We can merge two data frames by a given field as follows:
 
+```
+merge(df_1, df_2, join_field, join_type)
+```
+
+where `join_field` indicates fields where the join needs to happen with option
+for the same field names	: `by = 'field'` and for different field names
+`by.x = 'field_name_1', by.y = 'field_name_2'`
+
+
+and where join_type indicates the join type, and is one of the following:
+
+
+
+|Join type | Option| Join draw|
+|----|----|---|
+|Inner join	|default	| Inner join|
+|Left join	|all.x = TRUE	 | Left join|
+|Right join	|all.y = TRUE	 | Right join|
+|Full join	|all = TRUE	| Full outer join|
