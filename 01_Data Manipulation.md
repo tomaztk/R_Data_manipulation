@@ -171,3 +171,24 @@ and where join_type indicates the join type, and is one of the following:
 |Left join	|all.x = TRUE	 | Left join|
 |Right join	|all.y = TRUE	 | Right join|
 |Full join	|all = TRUE	| Full outer join|
+
+
+Remark: if the by parameter is not specified, the merge will be a cross join.
+
+### Concatenation
+
+The table below summarizes the different ways data frames can be concatenated:
+
+|Type |	Command |	Draw| 
+|----|----|---|
+|Rows| 	rbind(df_1, ..., df_n)	| Row concatenation |
+|Columns	|cbind(df_1, ..., df_n)	|Column concatenation |
+
+
+### Common transformations
+The common data frame transformations are summarized in the table below:
+
+| Type| 	Command | 	 
+|----|----|
+|Long to wide | 	 `spread( df, key = 'key', value = 'value')`|
+|Wide to long |	 `gather( df, key = 'key', value = 'value', c(key_1, ..., key_n))` |
