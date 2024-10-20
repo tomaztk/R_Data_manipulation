@@ -192,3 +192,11 @@ The common data frame transformations are summarized in the table below:
 |----|----|
 |Long to wide | 	 `spread( df, key = 'key', value = 'value')`|
 |Wide to long |	 `gather( df, key = 'key', value = 'value', c(key_1, ..., key_n))` |
+
+
+
+### Row operations
+The following actions are used to make operations on rows of the data frame:
+
+
+## Aggregations
