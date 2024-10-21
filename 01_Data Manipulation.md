@@ -200,3 +200,38 @@ The following actions are used to make operations on rows of the data frame:
 
 
 ## Aggregations
+
+### Grouping data
+
+Aggregate metrics are computed across groups as follows:
+
+```
+df %>%                                                 # Original ungrouped data frame
+ group_by(col_1, ..., col_n) %>%                       # Group by some columns
+ summarize(agg_metric = some_aggregation(some_cols))   # Aggregation step
+```
+
+### Aggregation functions
+The table below summarizes the main aggregate functions that can be used in an aggregation query: 
+ 
+ 
+| Category | 	Action | Command |	 
+|----|----|----|
+|Properties |	Count of observations |	n()|
+|Values	| Sum of values of observations |sum()| 
+|Values|Max / min of values of observations | max() / min() |
+|Values|Mean / median of values of observations | mean() / median()
+|Values| Standard deviation / variance across observations | sd() / var() |
+
+
+ 
+## Window functions
+
+### Definition
+A window function computes a metric over groups and has the following structure:
+
+```
+df %>%                                       # Original ungrouped data frame
+ group_by(col_1, ..., col_n) %>%             # Group by some columns
+ mutate(win_metric = window_function(col))   # Window function
+```
