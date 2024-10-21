@@ -235,3 +235,29 @@ df %>%                                       # Original ungrouped data frame
  group_by(col_1, ..., col_n) %>%             # Group by some columns
  mutate(win_metric = window_function(col))   # Window function
 ```
+
+_Remark: applying a window function will not change the initial number of rows of the data frame._
+
+### Row numbering
+
+The table below summarizes the main commands that rank each row across specified groups, ordered by a specific field:
+
+
+|Command	|Description|	Example|
+|----|----|----|
+|row_number(x)|	Ties are given different ranks|1, 2, 3, 4 |
+|rank(x)	|Ties are given same rank and skip numbers|1, 2.5, 2.5, 4 |
+|dense_rank(x)|	Ties are given same rank and do not skip numbers|1, 2, 2, 3 |
+
+
+### Values
+
+The following window functions allow to keep track of specific types of values with respect to the group:
+
+|Command|	Description|
+|----|----|
+|first(x)|	Takes the first value of the column|
+|last(x)|	Takes the last value of the column|
+|lag(x, n)	|Takes the  n_th previous value of the column|
+|lead(x, n)|	Takes the  n_th  following value of the column|
+|nth(x, n)|	Takes the  n_th value of the column |
