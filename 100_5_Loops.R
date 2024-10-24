@@ -43,7 +43,7 @@ while(a<=5) {
 # A block of statements are executed for each of the items in the list provided to the for loop.
 
 # Syntax: for (xin vector) {statements}
-
+a
 # R for loop Example
 
 a = c(2, 45, 9, 12)
