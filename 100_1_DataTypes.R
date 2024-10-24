@@ -1,3 +1,6 @@
+# Clear the Terminal 
+rm(list = ls())
+
 # ================================= Data Types in R =====================================
 
 #R has many data structures. These include

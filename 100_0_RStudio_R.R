@@ -137,11 +137,32 @@ print(MyVariable == myVariable)
 
 
 # R uses a "less than" sign and a dash (<-) for assignment values to variables
+# R Operators - R Assignment Operators
 
 a <- 100
+print ( a )
 
 # you can also use
 aa = 1000
+print (aa)
+
+#logical values
+a <- TRUE
+print ( a )
+
+#left to right (not prefered way)
+454 -> a
+print ( a )
+
+# double arrows (not prefered way)
+a <<- 2.9
+print ( a )
+
+#left to right (not prefered way)
+c(6, 8, 9) -> a
+print ( a )
+
+
 
 
 # R quoting convention (single vs. double)

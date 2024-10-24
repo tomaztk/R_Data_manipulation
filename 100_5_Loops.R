@@ -1,16 +1,25 @@
+# Clear the Terminal 
+rm(list = ls())
+
+
 # ================================= Loops and Functions ============================================
 
 # R programming language provides three looping statements. They are :
 # 1.Repeat Loop  2.While Loop  3.For Loop
 
 # ----------------------------------1. Repeat Loop :-----------------------------------------------
-#  A block of statements are repeated forever. A breaking condition has to be provided inside the repeat block to come out of the loop.
+#  A block of statements are repeated forever. 
+# A breaking condition has to be provided inside the repeat block to come out of the loop.
 
 #Syntax of R Repeat Loop
-#repeat {   statements  if(stop_condition) {    break   } }
+#repeat {   
+#  statements  
+# if(stop_condition) {    
+#  break   } }
+
+
 
 # R Repeat Loop statement Example:
-
 a = 1
 
 repeat {
@@ -27,7 +36,8 @@ repeat {
 # ------------------------------------------ R while loop ---------------------------------------
 # A block of statements are executed repeatedly in a loop till the condition provided to while statement returns TRUE.
 
-# Syntax : while (expression) {  statements}
+# Syntax : while (expression is true) { 
+#         statements}
 
 # R while loop statement Example
 
@@ -43,6 +53,7 @@ while(a<=5) {
 # A block of statements are executed for each of the items in the list provided to the for loop.
 
 # Syntax: for (xin vector) {statements}
+
 a
 # R for loop Example
 
@@ -53,13 +64,19 @@ for(i in a) {
 }
 
 
-# --------------------------------------Funtion in R ----------------------------------------
+# --------------------------------------Function in R ----------------------------------------
+
+# nonsense functions; but it shows you can use multiple functions
 
 x <- 10
+
 f1 <- function(x) {
   function() {
+    function() {
     x + 10
+    }
   }
 }
-f1(1)()
+
+f1(1)()()
 

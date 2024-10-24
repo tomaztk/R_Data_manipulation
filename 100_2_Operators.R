@@ -1,3 +1,7 @@
+# Clear the Terminal 
+rm(list = ls())
+
+
 #=================================== Operators in R ==================================================
 
 # There are four main categories of Operators in R programming language.
@@ -28,8 +32,8 @@ print ( a+b ) #addition
 print ( a-b ) #subtraction
 print ( a*b ) #multiplication
 print ( a/b ) #Division
-print ( a%%b ) #Reminder
-print ( a%/%b ) #Quotient
+print ( a%%b ) #Reminder a.k.a modulo a.k.a. ostanek pri deljenju
+print ( a%/%b ) #Quotient a.k.a. celo število
 print ( a^b ) #Power of
 
 #------------------------------------- 2.Relational Operators --------------------------------------
@@ -90,40 +94,48 @@ print ( a && b ) # logical AND consolidated for all elements
 print ( a || b ) # logical OR consolidated for all elements
 
 
-# ----------------------------------------- 4.Assignment Operators ---------------------------------
-# Assignment Operators are those that help in assigning a value to the variable.
-
-# R Operators - R Assignment Operators
-
-a = 2
-print ( a )
-
-a <- TRUE
-print ( a )
-
-454 -> a
-print ( a )
-
-a <<- 2.9
-print ( a )
-
-c(6, 8, 9) -> a
-print ( a )
-
 
 # ----------------------------------------- R Miscellaneous Operators -----------------------------
-# These operators does not fall into any of the categories mentioned above, but are significantly important during R programming for manipulating data.
 
 # R Operators - R Misc Operators
 
-a = 23:31 # Creates series of numbers from left operand to right operand
+# semicolon  :  -creates series of numbers from left operand to right operand
+
+a = 23:31 
 print ( a )
 
-a = c(25, 27, 76) # Identifies if an element(a) belongs to a vector(b)
+# matching elements -  Identifies if an element(a) belongs to a vector(b)
+
+a = c(25, 27, 76) 
 b = 27
 print ( b %in% a )
 
-M = matrix(c(1,2,3,4), 2, 2, TRUE) # Performs multiplication of a vector with its transpose
+# Matrix  multiplication (%*%) of a vector with its transpose (t)
 
-print ( M %*% t(M) )
+M = matrix(c(1,2,3,4), 2, 2, TRUE) 
+
+#multiplication
+print (M %*% t(M))
+
+
+m <- matrix(1:8, nrow=2)
+n <- matrix(8:15, nrow=4)
+print(m)
+print(n)
+
+# Multiplying matrices using operator
+print(m %*% n)
+
+
+# multiplications
+crossprod(M,M) 
+#same as (M %*% t(M))
+tcrossprod(M,M) 
+
+# solve matrix
+solve(M)
+
+#eigenvalues
+eigen(M)
+
 
