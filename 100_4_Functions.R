@@ -13,7 +13,9 @@ rm(list = ls())
 #                        |_____ Other Statistical Function
 
 
+# -------------------------------------
 # 1) Math Function
+# -------------------------------------
 
 # a) abs(var_name or value) ==> Absolute Value
 
@@ -22,82 +24,67 @@ variable_1 <- 25  # change to negative!!!
 abs_value <- abs(variable_1)
 print(abs_value)
 
-# b) sqrt(var_name or value) ==> square root of the value
 
+# b) sqrt(var_name or value) ==> square root of the value
 sqrt_value <- sqrt(variable_1)
 
 print(sqrt_value)
 
 # c) ceiling(var_name or value) ==> 6.1,6.,6.,.....,6.9 ==> 7
-
 variable_2 <- 6.4
-
 ceiling_value <- ceiling(variable_2)
 
 print(ceiling_value)
 
-# d) floor(var_name or value) ==> 6.1,6.,6.,.....,6.9 ==> 6
 
+# d) floor(var_name or value) ==> 6.1,6.,6.,.....,6.9 ==> 6
 floor_value <- floor(variable_2)
 
 print(floor_value)
 
 # e) trunc(values or var_name) ==> vector value are exact convert
-
 variable_3 <- c(2.4,3.5,5.3)
-
 trunc_value <- trunc(variable_3)
 
 print(trunc_value)
 
 # f) sin(values or var_name), cos(values or var_name) and tan(values or var_name) ==> trignometric convertion
-
 variable_4 <- 4
 
 sin_value <- sin(variable_4)
-
 cos_value <- cos(variable_4)
-
 tan_value <- tan(variable_4)
 
 print(sin_value)
-
 print(cos_value)
-
 print(tan_value)
 
 # g) log(values or var_name) ==> normal logarithm 
-
 log_value <- log(variable_4)
 
 print(log_value)
 
 # h) log10(values or var_name)  ==> Common logarithm 
-
 log10_value <- log10(variable_4)
 
 print(log10_value)
 
 # i) exp(values or var_name)  ==> Exponent
-
 exp_value <- exp(variable_4)
 
 print(exp_value)
 
-# String or Character Function in R
+# -------------------------------------
+# 2) String or Character Function in R
+# -------------------------------------
 
-# Clear the Terminal
-
-rm(list = ls())
-
-# 1) substr( var_name , selection_start_no , selection_end_no)
-
+# a) substr( var_name , selection_start_no , selection_end_no)
 variable1 <- "987654321"
 
 substr(variable1, 1, 4)
 
 
-# 2) grep( searching-key , items-list)
+# b) grep( searching-key , items-list)
 
 str_1 <- c('joyal','noyal','justin') # index : 1 -> joyal , 2 -> noyal , 3 -> justin
 
@@ -107,68 +94,50 @@ grep(pattern, str_1)
 
 # 3) sub("Changing_Key" , "Inserting_New_Key" , Changing_variable_name)
 
-str_2 <- "India is my Contury"
+str_2 <- "Slovenija is beaufitul country"
+change_var <- "Avstrija"
+sub("Slovenija" , change_var , str_2)
 
-change_var <- "Pakisthan"
 
-sub("India" , change_var , str_2)
-
-str_3 <- "My Friend is Bad"
-
+str_3 <- "My friend Jakob is bad"
 change_var_1 <- "Good"
-
-sub("Bad" , change_var_1 , str_3)
+sub("bad" , change_var_1 , str_3)
 
 # 4) paste(any datatypes are declare join to String) 
 
 paste("One",2,"Three",4,"Five")
-
-paste("jobin",2,"dads",1,"is","Bino","and","Zen")
+paste0("One",2,"Three",4,"Five") #without the space
 
 
 # 5) strsplit(split_string_data , " ") => character by split
-
 str_4 <- "Split all the Characters"
-
 strsplit(str_4," ")
 
 str_5 <- "Work hard to great success"
-
 strsplit(str_5," ")
 
 # 6) tolower( var_name or value ) ==> convert to small letters
 
-var_1 <- "HELLO JOYAL SHAJI"
-
+var_1 <- "HELLO LJUBLJANA"
 tolower(var_1)
 
 
 # 7) toupper( var_name or value ) ==> convert to Capital letters
 
-var_2 <- "hello joyal shaji"
-
+var_2 <- "hello LjuBljana"
 toupper(var_2)
 
 # Basic Other Statistices Function
-
 var_1 <- c(0:10)
 
 mean(var_1)
-
 sd(var_1)
-
 median(var_1)
-
 range(var_1)
-
 sum(var_1)
-
 min(var_1)
-
 max(var_1)
-
 summary(var_1)
-
 
 # Create a sequence of numbers from 32 to 44.
 print(seq(32,44))
@@ -178,7 +147,6 @@ print(mean(25:82))
 
 # Find sum of numbers frm 41 to 68.
 print(sum(41:68))
-
 
 
 
