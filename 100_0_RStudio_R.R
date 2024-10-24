@@ -1,13 +1,22 @@
 
+# ================================= R and R Studio =====================================
 
 ## -------------------------
 ## What are R and RStudio?
 ## -------------------------
 
 # R refers to a programming language as well as the software that runs R code.
+# It is a statistical computing language that is open source, and hence freely available to anyone. 
+# You do not need a special license or set of permissions to use and develop code in R. This makes this langauge also super popular 
+# and broadly available.
+
+# R language is itself is an interpreted computer language and comes with functionality that comes bundled with the language itself, 
+# known as “base R”. But there is also rich additional functionality provided by external packages, or libraries of code for 
+# accomplishing certain tasks and can be freely downloaded and loaded for use. Normally, these packages are available through CRAN.
 
 
-# RStudio is a software interface that can make it easier to write R scripts and interact with the R software.
+
+#  RStudio (now Posit Software, PBC) is a software interface that can make it easier to write R scripts and interact with the R software.
 # R Studio is an integrated development environment(IDE) for R
 # It’s a very popular platform,  and RStudio also maintains the tidyverse series of packages we will use. 
 # R Studio is available as both Open source and Commercial software.
@@ -44,6 +53,7 @@
 
 
 ## R Studio commands
+# ------------------------------------
 
 # Short-hands
 
@@ -102,3 +112,66 @@ sum()
 
 # or :)
 help("sum")
+
+
+## R Language syntax rules and history
+# ------------------------------------
+
+
+# The R language is a dialect of S (S language) which was designed in the 1980s and has been 
+# in widespread use in the statistical community since. Its principal designer, John M. Chambers, 
+# was awarded the 1998 ACM Software Systems Award for S.
+
+# The language syntax has a superficial similarity with C, 
+# but the semantics are of the FPL (functional programming language) variety with stronger affinities with Lisp and APL. 
+# In particular, it allows “computing on the language”, which in turn makes it possible to write functions that take expressions
+# as input, something that is often useful for statistical modeling and graphics. 
+
+
+# R is case-sensitive
+
+MyVariable <- 10
+myVariable <- 200
+
+print(MyVariable == myVariable)
+
+
+# R uses a "less than" sign and a dash (<-) for assignment values to variables
+
+a <- 100
+
+# you can also use
+aa = 1000
+
+
+# R quoting convention (single vs. double)
+
+text1 <- "Tomaz's laptop"
+text2 <- 'Tomaz\'s laptop2'
+
+print(text1)
+print(text2)
+
+# path specifications and exiting the backslash (double)
+path <- "c:\\users\\Tomazkastrun\\MyDocuments" #for windows
+path <- "/Users/tomazkastrun"
+
+# adding new line in print
+data <- c(1,2,3,4)
+cat("\nCases in Split: ", data[1])
+# print("\nCases in Split: ", data[1])
+
+# commenting
+
+# sigle #
+
+# for multiple lines use
+
+#  Select the lines of code that we want to comment out.
+#  Press Ctrl + Shift + C (on Mac: Cnt + Shift + C) on your keyboard and toggle 
+
+# test
+# test
+# test
+
+
