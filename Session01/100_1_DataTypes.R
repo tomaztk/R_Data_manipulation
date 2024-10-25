@@ -21,7 +21,13 @@ rm(list = ls())
 
 #although the term "vector" most commonly refers to the atomic types not to lists.
 
-# Vector: 1. Character Vector 2. Numeric Vector 3.Integer Vector  4. Logical Vector 5. Complex
+# Vector: 
+# 1. Character Vector 
+# 2. Numeric Vector 
+# 3. Integer Vector  
+# 4. Logical Vector 
+# 5. Complex
+
 
 # Character Vector
 str1 <- c("R","Python","Java","Scala","Julia")
@@ -30,10 +36,24 @@ str1 <- c("R","Python","Java","Scala","Julia")
 num2 <- c(1, 2, 3.4, 5, 5.9)
 
 # Integer Vector  
-int3 <- (1:10) 
+int3 <- (9:1)
+#int3 <- c(1,2,3,4,5,6,7,8,9,10)
+
+int3   #              9 8 7 6 5 4 3 2 1
+int[3] # ... 0-based; 0 1 2 3 4 ... Python
+       # ... 1-based; 1 2 3 4 5 ... R
+
 
 # Logical Vector 
-log4 <- c(TRUE, FALSE, FALSE, T, F) 
+log4 <- c("True", FALSE, FALSE, T, F) 
+log4
+
+log4_1 <- c(TRUE, FALSE, FALSE, T, F)
+
+log4
+log4_1
+
+
 
 # 5. Complex
 com5 <- c(2+3i, 3+5i, 4+5i)
@@ -47,6 +67,8 @@ class(num2)
 class(int3)
 
 class(log4)
+
+class(log4_1)
 
 class(com5)
 
@@ -75,10 +97,13 @@ log_1 <- logical(5)
 log_1
 
 
+
 #--------------------------------------- Examining Vectors -----------------------------------
 # The functions typeof(), length(), class() and str() provide useful information about your vectors and R objects in general.
 
+
 x1 <- c(2L, 4L, 5L, 7L)
+
 
 y1 <- c("R", "Python", "Java", "Scala","Julia")
 
@@ -101,8 +126,11 @@ str(y1)
 # ------------------------------ Adding Elements -------------------------------------------
 
 # elements in vector will change the vector type
+
+x1
 x1 <- c(x1, 4.6, 6.6)
 x1
+
 class(x1)
 
 x1 <- c(x1, "Java")
@@ -118,8 +146,14 @@ class(x1)
 series <- 1:10
 series
 
+letters[1:10]
+LETTERS[10:13]
+
 seq(1,10,0.1)
 seq(from = 10, to = 100, by = 5)
+
+help(seq)
+
 
 # -------------------------- Missing Values ------------------------------------------------
 # R supports missing data in vectors. They are represented as NA (Not Available) 
@@ -134,11 +168,9 @@ x <- c("a", NA, "c", "d", NA)
 y <- c("a", "b", "c", "d", "e")
 
 is.na(x)
-
 is.na(y)
 
 anyNA(x)
-
 anyNA(y)
 
 
@@ -159,7 +191,17 @@ b
 
 #In R matrices are an extension of the numeric or character vectors. They are not a separate type of object but simply an atomic vector with dimensions; the number of rows and columns.
 
-m <- matrix(nrow = 2, ncol = 2)
+help(matrix)
+
+matrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
+       dimnames = NULL)
+
+m <- matrix(
+        data= 1:2, 
+        nrow = 3, 
+        ncol = 4,
+        byrow = T
+        )
 m
 
 dim(m)
@@ -174,27 +216,36 @@ typeof(m)
 m3 <- matrix(1:6, nrow = 2, ncol = 3)
 m3
 
+class(m3)
+typeof(m3)
+
 #Other ways to construct a matrix
 m4 <- 1:10
 dim(m4) <- c(2,5)
-m4
+
+matrix(data=1:10, nrow=2, ncol =5, byrow=T)
+
 
 # Another way is to bind columns or rows using cbind() and rbind().
 #cbind
+
+help(cbind)
+
 x <- 1:3
-y <- 10:12
+y <- 12:10
 cbind(x, y)
 
 #rbind
 rbind(x, y)
 
+
 # You can also use the byrow argument to specify how the matrix is filled. From R's own documentation:
-mdat <- matrix(c(1, 2, 3, 11, 12, 13),
+mdat <- matrix( 1:44,
                nrow = 2,
                ncol = 3,
                byrow = TRUE)
+#rm(mdat)
 mdat
-
 
 #========================================== List ==================================================
 
@@ -207,6 +258,7 @@ y_1
 x_2 <- vector("list", length = 5)
 x_2
 
+
 #Vectors can be coerced to lists as follows:
 
 x2 <- 1:10
@@ -215,7 +267,7 @@ length(x2)
 
 class(x2)
 
-xlist <- list(a = "SID Banka", b = 1:10, data = head(iris))
+xlist <- list(a = "SID Banka", b = 1:6, data = head(iris))
 xlist
 
 names(xlist)
@@ -232,8 +284,13 @@ result <- array(c(vector1,vector2),dim = c(3,3,2))
 
 # Creating Data Frames by Hand
 
+help(data.frame)
+
+rm(df)
+
 df <- data.frame(id = letters[1:10], x = 1:10, y = 11:20)
 df
+
 
 # Useful Data Frame Functions
 head(df,6)  # returns first 6 rows
@@ -245,6 +302,7 @@ str(df)  # structure of data frame - name, type and preview of data in each colu
 
 # both show the names attribute for a data frame
 names(df) 
+
 # or
 colnames(df)  
 
@@ -252,6 +310,8 @@ colnames(df)
 
 
 #============================================= Factors =========================================
+
+help(factor)
 
 data <- c("East","West","East","North","North","East","West","West","East")
 
@@ -271,6 +331,8 @@ data
 #@ First three observations are normally distributed random numbers with mean '5'and standard deviation '1'
 #@ Next three observations are normally distributed random numbers with mean '3' and standard deviation '3'
 #@ Last four observations are normally distributed random numbers with mean '1' and standard deviation '4'
+
+help(rnorm)
 
 x <- rnorm(3,5,1)
 y <- rnorm(3,3,3)
