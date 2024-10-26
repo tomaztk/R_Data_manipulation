@@ -15,7 +15,6 @@
 # accomplishing certain tasks and can be freely downloaded and loaded for use. Normally, these packages are available through CRAN.
 
 
-
 #  RStudio (now Posit Software, PBC) is a software interface that can make it easier to write R scripts and interact with the R software.
 # R Studio is an integrated development environment(IDE) for R
 # It’s a very popular platform,  and RStudio also maintains the tidyverse series of packages we will use. 
@@ -60,17 +59,22 @@
 # Execute the current line
 ## Control + Enter
 
+234+123
+
 ## clear the terminal
 ## Control + L
 
+
 # Installing the package
 install.packages('package_name')
+install.packages("ggplot2")
 
 # Loading R package
 library(package_name)
+library(ggplot2)
 
 # About package
-help(package_name)
+help("geom_area")
 
 
 ## Some environment variables
@@ -79,7 +83,9 @@ help(package_name)
 getwd()
 
 # Set the working directory.
-setwd(add_path)
+setwd("/Users/tomazkastrun/Documents/AoC2020")
+# setwd("c:\\Users\\tomazkastrun\\Documents")
+
 
 # Content of the current file folder
 dir()
@@ -92,6 +98,9 @@ date()
 
 # Clear the Terminal 
 rm(list = ls())
+
+a=1
+b=2
 
 # returns the list of all the environmental variables
 ls()
@@ -112,11 +121,12 @@ sum()
 
 # or :)
 help("sum")
+#help(sum)
+
 
 
 ## R Language syntax rules and history
 # ------------------------------------
-
 
 # The R language is a dialect of S (S language) which was designed in the 1980s and has been 
 # in widespread use in the statistical community since. Its principal designer, John M. Chambers, 
@@ -131,9 +141,13 @@ help("sum")
 # R is case-sensitive
 
 MyVariable <- 10
-myVariable <- 200
+myVariable <- 10
 
 print(MyVariable == myVariable)
+
+a <- 100
+
+a_1 <- 200
 
 
 # R uses a "less than" sign and a dash (<-) for assignment values to variables
@@ -145,6 +159,7 @@ print ( a )
 # you can also use
 aa = 1000
 print (aa)
+
 
 #logical values
 a <- TRUE
@@ -164,7 +179,6 @@ print ( a )
 
 
 
-
 # R quoting convention (single vs. double)
 
 text1 <- "Tomaz's laptop"
@@ -179,20 +193,26 @@ path <- "/Users/tomazkastrun"
 
 # adding new line in print
 data <- c(1,2,3,4)
+
 cat("\nCases in Split: ", data[1])
-# print("\nCases in Split: ", data[1])
+print("\nCases in Split: ", data[1])
+
 
 # commenting
 
-# sigle #
+# single 
+
+# r <- 12
+# b <- 444
+
 
 # for multiple lines use
 
 #  Select the lines of code that we want to comment out.
 #  Press Ctrl + Shift + C (on Mac: Cnt + Shift + C) on your keyboard and toggle 
 
-# test
-# test
-# test
+test
+test
+test
 
 
