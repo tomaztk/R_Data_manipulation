@@ -242,3 +242,86 @@ square_function <- function(a) {
 }
 
 square_function(6)
+
+# =======================================
+# =======================================
+# ====   Sample Functions : for training
+# =======================================
+# =======================================
+
+# ToDo Example
+todo <- 64
+while (todo > 30) {
+  print("Work harder")
+  todo <- todo - 7
+}
+
+# Primes example
+primes <- c(2, 3, 5, 7, 11, 13)
+
+# primes example 1
+for (p in primes) {
+  print(p)
+}
+
+# primes example 2
+for (i in 1:length(primes)) {
+  print(primes[i])
+}
+
+
+
+# sqrt with print
+my_sqrt <- function(x, print_info = TRUE) {
+  y <- sqrt(x)
+  if (print_info) {
+    print(paste("sqrt", x, "equals", y))
+  }
+  return(y)
+}
+
+
+my_sqrt(16)
+my_sqrt(16, FALSE)
+my_sqrt(16, TRUE)
+
+
+# sum function
+my_sum <- function (x, y) {
+  r <- x + y
+  r
+}
+
+my_sum(5, 10)
+
+
+# count only numbers == 10
+my_count <- function (v, x) {
+  count <- 0
+  for (i in 1:length(v)) {
+    if (v[i] == x) {
+      count <- count + 1
+    }
+  }
+  count
+}
+
+# my_count(v=c(1:9, rep(10, 100)), x=11)  # [0]
+my_count(v=c(1:9, rep(10, 100)), x=10)   # [100]
+
+
+# calculating statistics
+my_stats <- function(x, med = FALSE) {
+  mean <- round(mean(x), 1) #avg
+  stdv <- round(sd(x), 1)   #standardni odklon
+  cat("Mean is:", mean, ", SD is:", stdv, "\n")
+  
+  if(med){   #if med(ian) is set to TRUE return, else not!
+    median <- median(x)
+    cat("Median is:", median , "\n")
+  }
+}
+
+# my_stats(1:10, med=F)
+my_stats(1:10, med=TRUE)
+
