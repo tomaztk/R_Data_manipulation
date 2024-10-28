@@ -194,7 +194,8 @@ left
 #######################################################################################
 
 # Uncomment and edit as necessary
-install.packages(c("Lahman", "ggplot2", "plyr", "reshape2", "data.table", "tidyr"))
+install.packages(c("Lahman", "ggplot2", "plyr", "reshape2", 
+"data.table", "tidyr"))
 
 # Download and install latest version of dplyr
 # On Windows and Macs, you need to install from source at present
