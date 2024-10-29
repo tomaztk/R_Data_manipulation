@@ -172,9 +172,10 @@ police60201 <- police %>%
   select(date, time, beat, type, outcome) 
 
 
+head(police60201)
+
 
 ### EXERCISE
 
 # Select only vehicle_year and vehicle_make columns for observations where there were contraband_weapons
 
- 
