@@ -77,4 +77,21 @@ police %>%
          ) %>% 
   summarize(across(c(vehicle_year, department_id, beat_int2), sum)) #adding different data type; we need to change 
 
+# using multiple functions and doing data type conversion
+# select columns that are not of type character using `where` and exclamation mark (! is opposite)
+police %>%
+  summarize(across(!where(is.character), 
+                   list(min, max)))   # take the min and max of each column
 
+
+# and giving columns names:
+police %>%
+  summarize(across(!where(is.character), 
+                   list(min_val=min, max_val=max)))
+
+
+## using lmabda function
+#   that operates on each column
+police %>%
+  summarize(across(everything(),
+                   ~sum(is.na(.x))))  
