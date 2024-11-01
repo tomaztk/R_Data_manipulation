@@ -95,3 +95,51 @@ police %>%
 police %>%
   summarize(across(everything(),
                    ~sum(is.na(.x))))  
+
+
+## ====================
+# # Group by
+## ====================
+
+
+police <- mutate(police, vehicle_age = 2017-vehicle_year)
+
+
+# summarize and combine with group_by on column `vehicle_age` 
+
+
+police %>% 
+  group_by(subject_sex) %>%
+  summarize(mean_vehicle_age = mean(vehicle_age),
+            sd_vehicle_age = sd(vehicle_age))
+
+
+# Now we get one row for each group, and one column for each summary measure.
+# We can group by multiple columns
+
+police %>% 
+  group_by(subject_sex, subject_race) %>%
+  summarize(mean_vehicle_age = mean(vehicle_age),
+            sd_vehicle_age = sd(vehicle_age))
+
+
+# we can immediately use variables, we have created in the same run
+police %>%
+  group_by(subject_race) %>%
+  summarize(warnings = sum(outcome == "warning"),
+            citations = sum(outcome == "citation"), 
+            ratio = warnings/citations)
+
+
+## ====================
+## Ungrouping
+## ====================
+
+# If you have a grouped data frame, 
+# you may need to ungroup it to get rid of the groups.  
+# To do so, use `ungroup()`:
+
+police %>% 
+  group_by(subject_sex) %>%
+  summarize(avg_gender = mean(vehicle_age) ) %>% 
+  ungroup()
