@@ -6,6 +6,10 @@ police <- read_csv("https://raw.githubusercontent.com/nuitrcs/r-tidyverse/main/d
                    col_types=c("location"="c"))
 
 
+# or generate some data
+
+
+
 
 ## ====================
 # # summarize
@@ -143,3 +147,54 @@ police %>%
   group_by(subject_sex) %>%
   summarize(avg_gender = mean(vehicle_age) ) %>% 
   ungroup()
+
+
+## ====================
+## Slicing
+## ====================
+
+# Select  certain rows from each group.  
+# to  use the `slice()` function for selecting the first row of each group
+
+police %>%
+  select(outcome, everything()) %>%  # to reorder columns for output
+  group_by(outcome) %>%
+  slice(1)
+
+
+#If you look at this output in the console, you'll see the resulting tibble still has groups in it.  
+# This is a case where you might want to ungroup:
+
+police %>%
+  select(outcome, everything()) %>%  # to reorder columns for output
+  group_by(outcome) %>%
+  slice(1) %>%
+  ungroup()
+
+
+## ====================
+# Arrange
+## ====================
+
+# Sort the rows by using  `arrange()`
+
+arrange(police, time)
+
+# To sort in reverse order, wrap the column name in `desc()`.  
+arrange(police, desc(date))
+
+
+# or Arrange by multiple columns, in order:
+
+arrange(police, date, desc(time))
+
+
+# compute time between stops in the dataset:
+
+police %>%
+  arrange(date, time) %>%
+  mutate(datetime = lubridate::ymd_hms(paste(date, time)),  # combine to single value
+         time_since_last = datetime - lag(datetime)) %>%  # current time - previous time
+  select(datetime, time_since_last)
+
+
