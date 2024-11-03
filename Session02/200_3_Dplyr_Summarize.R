@@ -7,9 +7,31 @@ police <- read_csv("https://raw.githubusercontent.com/nuitrcs/r-tidyverse/main/d
 
 
 # or generate some data
+set.seed(2908)
+n <- 1200
 
+data <- data.frame(
+  integer_col = sample(1:100, n, replace = TRUE),
+  numeric_col = rnorm(n, mean = 50, sd = 10),
+  char_col = sample(letters, n, replace = TRUE),
+  logical_col = sample(c(TRUE, FALSE), n, replace = TRUE),
+  date_col = Sys.Date() - sample(1:100, n, replace = TRUE)
+)
 
+introduce_na <- function(column, na_fraction = 0.1) {
+  na_count <- floor(length(column) * na_fraction)
+  na_positions <- sample(1:length(column), na_count)
+  column[na_positions] <- NA
+  return(column)
+}
 
+data$integer_col <- introduce_na(data$integer_col)
+data$numeric_col <- introduce_na(data$numeric_col)
+data$char_col <- introduce_na(data$char_col)
+data$logical_col <- introduce_na(data$logical_col)
+data$date_col <- introduce_na(data$date_col)
+
+head(data)
 
 ## ====================
 # # summarize
