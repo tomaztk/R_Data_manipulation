@@ -51,5 +51,5 @@ filter(deaths, countyFIPS == 1009)
 
 
 cases %>%
-  slice(60:65) %>% ## grab just a few rows for demonstration
-  left_join(deaths, by="countyFIPS")
+  left_join(deaths, by="countyFIPS") %>% 
+  slice(1:7)
