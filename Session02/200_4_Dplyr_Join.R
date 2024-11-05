@@ -37,3 +37,19 @@ bind_rows(delaware, hawaii)
 ## =========================
 # # Joins
 ## =========================
+
+
+# I'm applying (with lapply) the nrow function to each element of a list, 
+# where each element is one of our data frames
+# Again, this is just for easy printing together in the notebook
+lapply(list(demo=demo, cases=cases, deaths=deaths), nrow)
+
+
+filter(demo, fips == 1009)
+filter(cases, countyFIPS == 1009)
+filter(deaths, countyFIPS == 1009)
+
+
+cases %>%
+  slice(60:65) %>% ## grab just a few rows for demonstration
+  left_join(deaths, by="countyFIPS")
