@@ -30,3 +30,10 @@ list("delaware"=names(delaware), "hawaii"=names(hawaii))
 
 # binding the rows together
 bind_rows(delaware, hawaii)
+
+# `bind_rows` includes all columns the exist in either dataset and fills in missing values with NA. 
+# It matches columns by full name.  If we tried this with `rbind`, we'd get an error, because the set of columns doesn't match.  
+
+## =========================
+# # Joins
+## =========================
