@@ -60,3 +60,30 @@ cases %>%
 left_join(cases, deaths, by="countyFIPS")
 
 cases_deaths <- left_join(cases, deaths, by="countyFIPS")
+
+
+## Unmatched rows
+left_join(deaths, cases,
+          by=c("countyFIPS")) %>%
+  ## cases is the name of a column in the cases data frame
+  filter(is.na(cases))  
+
+# or "anti" join
+
+anti_join(deaths, cases, 
+          by=c("countyFIPS")) 
+
+
+##  join with missing values
+
+a <- tibble(id=c(1, 2, NA), val=c(10, 20, 30))
+b <- tibble(id=c(2, 3, NA, NA), val2 = c("a", "b", "c", "d"))
+a
+b
+
+
+left_join(a, b, by="id")
+
+# If we want this to not happen, we can set the `na_matches` argument to "never"
+
+left_join(a, b, by="id",  na_matches="never")
