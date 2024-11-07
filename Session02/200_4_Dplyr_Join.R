@@ -53,3 +53,10 @@ filter(deaths, countyFIPS == 1009)
 cases %>%
   left_join(deaths, by="countyFIPS") %>% 
   slice(1:7)
+
+
+## Background: Join Types
+
+left_join(cases, deaths, by="countyFIPS")
+
+cases_deaths <- left_join(cases, deaths, by="countyFIPS")
