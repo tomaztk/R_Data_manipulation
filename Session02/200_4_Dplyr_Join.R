@@ -87,3 +87,38 @@ left_join(a, b, by="id")
 # If we want this to not happen, we can set the `na_matches` argument to "never"
 
 left_join(a, b, by="id",  na_matches="never")
+
+
+### Cleanup
+
+# So you've joined two data sets, and now you have a bunch of columns with ".x" and ".y" (or other types of repeats).  What do you do?
+#Option 1: select only the columns you really want in the result ahead of doing the join.  
+# NOTE: this is one of the very few times I might nest dplyr function calls
+
+
+cases %>%
+  select(countyFIPS, county, state, cases) %>%
+  left_join(select(demo, fips, total, white, black),
+            by=c("countyFIPS"="fips"))
+
+
+# Why nest the `select` call instead of saving a subset of the data first, and using that? 
+# Mostly for situations where the datasets are large, and I don't want extra copies of the data frame 
+# in my environment.  In this case, the data sets are small enough that I could do this instead:
+
+demo_sub <- select(demo, fips, total, white, black)
+
+cases %>%
+  select(countyFIPS, county, state, cases) %>%
+  left_join(demo_sub,
+            by=c("countyFIPS"="fips"))
+
+#But I have `demo_sub` hanging around in my environment then (I like to keep my environment clean when possible!).
+#Option 2: use `rename()` or `select()` on the result of the join:
+  
+
+cases %>%
+  left_join(demo,
+            by=c("countyFIPS"="fips")) %>%
+  select(countyFIPS, county=county.x, state=state.x, 
+         cases, total, white, black)
