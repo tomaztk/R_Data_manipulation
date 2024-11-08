@@ -19,7 +19,7 @@ rm(list = ls())
 
 # a) abs(var_name or value) ==> Absolute Value
 
-variable_1 <- 25  # change to negative!!!
+variable_1 <- -25  # change to negative!!!
 
 abs_value <- abs(variable_1)
 print(abs_value)
@@ -83,6 +83,7 @@ variable1 <- "987654321"
 
 substr(variable1, 1, 4)
 
+help(substr)
 
 # b) grep( searching-key , items-list)
 
@@ -105,13 +106,15 @@ sub("bad" , change_var_1 , str_3)
 
 # 4) paste(any datatypes are declare join to String) 
 
+
 paste("One",2,"Three",4,"Five")
+
 paste0("One",2,"Three",4,"Five") #without the space
 
 
 # 5) strsplit(split_string_data , " ") => character by split
 str_4 <- "Split all the Characters"
-strsplit(str_4," ")
+strsplit(str_4,"")
 
 str_5 <- "Work hard to great success"
 strsplit(str_5," ")

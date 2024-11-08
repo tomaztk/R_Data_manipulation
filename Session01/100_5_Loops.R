@@ -18,23 +18,19 @@ rm(list = ls())
 #  break   } }
 
 
-
-# R Repeat Loop statement Example:
 a = 1
-
 repeat {
-  # starting of repeat statements block
+  # statement
   print(a)
   a = a+1
-  # ending of repeat statements block
-  if(a>5){ # breaking condition
+  if(a>5){
     break
   }
 }
 
-
 # ------------------------------------------ R while loop ---------------------------------------
-# A block of statements are executed repeatedly in a loop till the condition provided to while statement returns TRUE.
+# A block of statements are executed repeatedly in a loop till the condition 
+# provided to while statement returns TRUE.
 
 # Syntax : while (expression is true) { 
 #         statements}
@@ -45,23 +41,28 @@ a = 1
 
 while(a<=5) {
   print(a)
-  a = a+1
+  a<- a+1
 }
 
 
-# ----------------------------------------- R for loop --------------------------------------------- 
+# ----------------------------------------- For loop --------------------------------------------- 
 # A block of statements are executed for each of the items in the list provided to the for loop.
 
 # Syntax: for (xin vector) {statements}
 
-a
 # R for loop Example
 
-a = c(2, 45, 9, 12)
+mat <- matrix(16:31,4,4,T)
 
-for(i in a) {
-  print(i)
+for( i in 1:4){
+  for (j in 1:4){
+    print(mat[i,j])
+    if (mat[i,j] %% 2 == 0){
+      print("ostanek deljenje z 2 = 0")
+    }
+  }
 }
+
 
 
 # --------------------------------------Function in R ----------------------------------------

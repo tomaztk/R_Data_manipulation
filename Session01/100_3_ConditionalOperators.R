@@ -10,18 +10,29 @@ rm(list = ls())
 num1 <- 10
 num2 <- 20
 
-if(num1<=num2){
-  print("Num1 is less or equal to Num2")
+print(num1<num2)
+
+# TRUE
+
+if(num1<=num2) { 
+  print("živjo") 
+} else { 
+    print("adijo") 
 }
 
+
+
 x <- 2
+
+# 
+
 repeat {
-    x <-  x^2
+    x <- x^2
     print(x)
 
-  if(x>1000) { #exit criterion
-    break    
-  }
+   if(x > 10000000) { #exit criterion
+     break    
+   }
 }  
 
 #-------------- If Else IF Statement ----------------------------------------------------------
@@ -40,7 +51,7 @@ if (2==1) {
 #Example2: 
 
 Num1 <- 10
-Num2 <- 20
+Num2 <- 120
 
 if (Num1<Num2) { 
   print("Num1 is lesser than Num2") 
@@ -91,28 +102,22 @@ if(x > 0){
 
 # Case 1: Arithmetic Operations
 
-cat(" 1) Addition\n")
-cat(" 2) Subtraction\n")
-cat(" 3) Multiplication\n")
-cat(" 4) Division\n")
-cat(" 5) Modulas\n")
-var1 <- readline(prompt = "Enter the First Element :")
-var2 <- readline(prompt = "Enter the Second Element :")
-choice <- readline(prompt = "Enter Your Choice :")
 
-var1 <- as.integer(var1)
-var2 <- as.integer(var2)
-choice <- as.numeric(choice)
+var1 <- 4
+var2 <- 8
+choice <- 3
 
-res <- switch (
+switch (
   choice,
-  
   "1" <- cat("Addtion of Two Number is :",var1+var2),
   "2" <- cat("Subtraction of Two Number is :",var1-var2),
   "3" <- cat("Multiplication of Two Number is :",var1*var2),
   "4" <- cat("Division of Two Number is :",var1/var2),
   "5" <- cat("Mod of Two Number is :",var1%%var2)
 )
+
+help(switch)
+
 
 # case 2: 
 
