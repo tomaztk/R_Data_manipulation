@@ -7,21 +7,21 @@ rm(list = ls())
 
 #----------------If Statement-----------------------------------------------------------------
 
-num1=10
-num2=20
+num1 <- 10
+num2 <- 20
 
 if(num1<=num2){
-print("Num1 is less or equal to Num2")
+  print("Num1 is less or equal to Num2")
 }
 
-x<=2
+x <- 2
 repeat {
-x<= x^2
-print(x)
+    x <-  x^2
+    print(x)
 
-if(x>100) {
-  break    
-}
+  if(x>1000) { #exit criterion
+    break    
+  }
 }  
 
 #-------------- If Else IF Statement ----------------------------------------------------------
@@ -39,8 +39,8 @@ if (2==1) {
 
 #Example2: 
 
-Num1 = 10
-Num2 = 20
+Num1 <- 10
+Num2 <- 20
 
 if (Num1<Num2) { 
   print("Num1 is lesser than Num2") 
@@ -52,7 +52,7 @@ if (Num1<Num2) {
 
 #Example3:
 
-x<-2
+x <- 2
 if(x>2) {
   print("x is greater than 5")
 } else if(x==2) {
@@ -66,6 +66,7 @@ if(x>2) {
 
 #Example:
 x <- -5
+
 if(x > 0){
   print("Non-negative number")
 } else {

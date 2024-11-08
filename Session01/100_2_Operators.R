@@ -18,7 +18,7 @@ print ( a+b ) #addition
 print ( a-b ) #subtraction
 print ( a*b ) #multiplication
 print ( a/b ) #Division
-print ( a%%b ) #Reminder
+print ( a%%b ) #Reminder (a.k.a. modulus / modulo)
 print ( a%/%b ) #Quotient
 print ( a^b ) #Power of
 
@@ -90,10 +90,6 @@ b <- c(TRUE, FALSE, TRUE, FALSE)
 print ( a & b ) # logical AND element wise
 print ( a | b ) # logical OR element wise
 print ( !a ) # logical NOT element wise
-print ( a && b ) # logical AND consolidated for all elements
-print ( a || b ) # logical OR consolidated for all elements
-
-
 
 # ----------------------------------------- R Miscellaneous Operators -----------------------------
 
@@ -139,3 +135,60 @@ solve(M)
 eigen(M)
 
 
+# ----------------------------------------- Subsetting dataframes -----------------------------
+
+# Dataframe is constructed as 
+# 
+# [ {rows} : {columns}]
+#
+
+# Rows and columns are separated by "," comma
+
+df <- data.frame(
+  ID = 1:5,
+  Ime = c("Ivan", "Marko", "Anita", "Anja", "Saša"),
+  Starost = c(23, 34, 28, 45, 30),
+  Indeks = c(88, 92, 95, 85, 90)
+)
+
+print(df)
+
+# Subsetting the columns by specific row names
+
+df_subset <- df[, c("Ime", "Starost")]
+print(df_subset)
+
+# Subsetting the first three rows
+df_subset <- df[1:3, ]
+print(df_subset)
+
+# Subsetting and filtering the  rows by age
+df_subset <- df[df$Starost > 30, ]
+print(df_subset)
+
+
+# subsetting specific rows and columns
+df_subset <- df[df$Indeks > 90, c("Ime", "Indeks")]
+print(df_subset)
+
+
+# Subsetting by using subset() function for filtering
+df_subset <- subset(df, Starost < 35, select = c(ID, Ime))
+print(df_subset)
+
+
+# Subsetting by using two filter conditions Age and Index - ANDing
+df_subset <- df[df$Starost > 25 & df$Indeks > 90, ]
+print(df_subset)
+
+# Subsetting by using two filter conditions Age and Index - ORing
+df_subset <- df[df$Starost > 40 | df$Indeks < 90, ]
+print(df_subset)
+
+# Filter where Age is between 25 and 35 AND Indeks > 90
+df_subset <- subset(df, Starost >= 25 & Starost <= 35 & Indeks > 90)
+print(df_subset)
+
+# Filter with a combination of ANDing and ORing and order!
+df_subset <- df[df$Starost > 30 | (df$Indeks > 90 & df$Ime != "Marko"), ]
+print(df_subset)
