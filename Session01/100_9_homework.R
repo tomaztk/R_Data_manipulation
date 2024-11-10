@@ -1,3 +1,7 @@
+# Clear the Terminal 
+rm(list = ls())
+
+
 ## ================= =================
 ## ================= =================
 ###  
@@ -274,15 +278,196 @@ print(positions_o)
 
 # Task 10: Basic Data Manipulation with Data Frames
 
-# 1. Create a data frame grades df_student with columns Student (character), Predmet (character), and Ocena (numeric).
-# 2. Populate it with data for 4 students and 2 predmets (each student has one ocena for each subject).
-# 3. Calculate the average ocena of each student using tapply() or aggregate().
-# 4. Use a subset of grades where Grade is greater than 4.
-# 5. Use the order() function to sort grades by Grade in descending order.
+# 1. Given a dataframe df.
+# 2. Calculate the average and standard deviation for Indeks.
+# 3. Use a subset of starost where Starost is greater or equal than 30.
+#    Extra: select only columns: ID and Ime.
+# 4. Use the order() function to sort Indeks in the descending order.
+#    Extra: select only columns: ID and Ime.
 
 
-df_student <- data.frame(
-    Student = c(),
-    Predmet = c(),
-    Ocena = c()
+df <- data.frame(
+  ID = 1:5,
+  Ime = c("Ivan", "Marko", "Anita", "Anja", "Saša"),
+  Starost = c(23, 34, 28, 45, 30),
+  Indeks = c(88, 92, 95, 85, 90)
 )
+
+
+mean(df$Indeks)
+sd(df$Indeks)
+
+df_subset <- df[df$Staort >= 30,]
+print(df_subset)
+
+df_subset <- df[df$Starost >= 30, c("ID", "Ime")]
+print(df_subset)
+
+
+df[order(-df$Indeks),]
+
+df[order(-df$Indeks), c("ID", "Ime")]
+
+
+
+# Task 11: Advanced Vector and Conditional Operations
+
+# 1. Create a numeric vector vec with values 3, 4, 5, 7, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 22.
+# 2. Using a loop, create a new vector vec_squared that contains the square of each element in vec.
+# 3. Use an if-else statement inside the loop to only add squares of odd numbers in vec to vec_squared, 
+#    while skipping even numbers (in case the vector is changed to include even numbers).
+# 4. Find the sum of all elements in vec_squared.
+#    Use the which() function to find the positions in vec_squared where the values are greater than 100.
+
+
+vec <- c(3, 4, 5, 7, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 22)
+
+# Init
+vec_squared <- c()  
+for (vrednost in vec) {
+  if (vrednost %% 2 == 1) { # modulo
+    vec_squared <- c(vec_squared, vrednost^2)   
+  }
+}
+
+print(vec_squared)  
+
+sum_vec_squared <- sum(vec_squared)
+print(sum_vec_squared)  
+
+#`
+positions_in_vector_gt_100 <- which(vec_squared > 100)
+print(positions_in_vector_gt_100)   # from position [1] 5 6 7 8 9 values are gt than 100
+
+# And display the values at those positions
+values_gt_100 <- vec_squared[positions_in_vector_gt_100]
+print(values_gt_100)
+
+
+
+# Task 12: String Manipulation and Pattern Matching
+
+# 1. Create a character vector sentences with five sentences that contain the word "data".
+# 2. Write a function replace_data() that takes a character vector, searches for the word "data", and replaces it with "information".
+# 3. Apply the replace_data() function to each element in sentences using sapply() and store the results in a new vector modified_sentences.
+# 4. Use the grep() function to find the indices of sentences that contain the word "information".
+#    Use substring() to extract the first 10 characters of each sentence in modified_sentences and store these as first_10_chars.
+
+
+six_senteces <- c("Data scientist is the job in every data-driven organization", 
+                   "Data is the new oil",
+                   "Pearl Jam music is grunge",
+                   "With data exctraction we get only parts of data",
+                   "Datawarehouse or data warehouse is the process of storing data in cannonical way for faster and repetable data analysis", 
+                   "Data, data, DATA!"
+                   )
+
+replace_data <- function(sentence){
+  gsub("data", "information", sentence)
+}
+
+
+modified_sentences_sapply <- sapply(six_senteces, replace_data)
+
+# OR - instead of sapply
+
+# Init empty vector
+modified_sentences_for_loop <- character(length(six_senteces))  
+
+for (i in seq_along(six_senteces)) {
+  modified_sentences_for_loop[i] <- replace_data(six_senteces[i])
+}
+
+print(modified_sentences_sapply)       # we see that .. not all data was replaced!
+print(modified_sentences_for_loop)     # we see that .. not all data was replaced!
+
+# how to solve this issue? 
+# toupper? tolower? 
+
+
+information_indices <- grep("information", modified_sentences_sapply)
+print(information_indices)   
+
+
+first_10_chars <- substring(modified_sentences_sapply, 1, 10)
+print(first_10_chars)  
+
+
+
+
+
+# Task 13: Data Frames, Loops, and Custom Sorting
+
+# 1.  Create a data frame employees with columns:
+#       EmployeeID: a vector of 5 unique IDs.
+#       Department: a character vector of department names (choose 3 distinct departments).
+#       Salary: a numeric vector of 5 salaries (randomly generated between 3000 and 7000).
+
+# 2.  Write a function increase_salary() that takes a salary and increases it by 10% if the salary is below 5000.
+# 3.  Use a loop to apply increase_salary() to each salary in the Salary column, updating the values in the employees data frame.
+# 4.  Sort the data frame first by Department (alphabetically) and then by Salary (in descending order).
+#     Use subset() to create a new data frame high_salary with only employees who have a salary above 6000.
+# 5.  Calculate the average salary between the departments.
+
+
+# Set seed for reproducibility
+set.seed(2908)  
+employees <- data.frame(
+  EmployeeID = c("E01", "E02", "E03", "E04", "E05", "E06", "E07", "E08", "E09"),
+  Department = c("Prodaja", "HR", "Prodaja", "IT", "HR","Prodaja", "IT", "HR", "IT"),
+  Salary = sample(3000:7000, 9)  
+)
+
+
+
+increase_salary <- function(salary) {
+  if (salary < 5000) {
+    return(salary * 1.10)  
+  } else {
+    return(salary)   
+  }
+}
+
+#check dataframe
+print(employees)
+
+for (i in 1:nrow(employees)) {
+  employees$Salary[i] <- increase_salary(employees$Salary[i])
+}
+
+#check dataframe for updates
+print(employees)
+
+
+employees <- employees[order(employees$Department, -employees$Salary), ]
+print(employees)
+
+
+high_salary <- subset(employees, Salary > 6000)
+print(high_salary)
+
+
+
+# tapply() applies a function (in this case, mean()) to subsets of the Salary column, grouped by the Department column.
+# The first argument is the data to be summarized.
+# The second argument is the grouping factor.
+# The third argument is the function to be applied to each group. In this case mean.
+
+avg_salary_per_dept <- tapply(employees$Salary, employees$Department, mean)
+print(avg_salary_per_dept) # and we can see that IT sucks :)
+
+# without tapply()
+
+
+# init - empty list
+avg_salary_per_dept <- list()
+
+unique_departments <- unique(employees$Department)
+for (dept in unique_departments) {
+  dept_salaries <- employees$Salary[employees$Department == dept]
+  avg_salary_per_dept[[dept]] <- mean(dept_salaries)
+}
+
+# Convert the list to a named vector - just for simplicity and readability
+avg_salary_per_dept <- unlist(avg_salary_per_dept)
+print(avg_salary_per_dept)
