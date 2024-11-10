@@ -65,3 +65,61 @@ third_elem <- num_vec1[3]
 sum(num_vec1)
 print(paste0("Vsota je: ", sum(num_vec1)))
 
+num_vec <- c(num_vec1, 12)
+print(num_vec)
+
+
+# Task 4: Matrix Creation and Basic Operations
+
+# 1. Create a 3x3 matrix mat with values from 1 to 9 using the matrix() function and orientation by rows.
+# 2. Calculate the row-wise sum and column-wise sum of mat using rowSums() and colSums(). 
+#     Extra points: write your own function for sum of columns or rows.
+# 3. Access the element in the second row and third column and store it in matrix_el23.
+# 4. Multiply each element in the matrix by 2 and print the updated matrix.
+#     Extra points:  Multiply the matrix with the vector 2,4,6.
+
+
+mat <- matrix(1:9, 3, 3, TRUE)
+
+row_wise_sum <- rowSums(mat)
+col_wise_sum <- colSums(mat)
+
+matrix_el23 <- mat[2,3]
+
+update_mat <- mat*2
+
+
+
+
+# Task 5: Data Frames and Slicing
+
+# 1. Create a data frame df wwith the following three columns:
+#           Ime           : a character vector of 5 values.
+#           Starost       : a integer vector of 5 values.
+#           Kredit_sposob : a numeric vector of 5 values. (from 0 to 1; eg.: 0.42)
+# Hint: total of 5 rows and 3 columns.
+
+# 2. Return / Print the first 3 rows of the data frame.
+# 3. Select only the 'Ime' and 'Kredit_sposob' columns and assign them to a new data frame df_subset.
+# 4. Extract and print the value from original df from column  'Starost' of the third person.
+# 5. Show the dataframe from solution! 
+#   Select all the dows where 'Kredit_sposob' is equal or bigger than 0.52  and the name ('Ime') starts with "Ti" and 
+#   return only  columns 'Ime' and 'STarost' 
+
+
+df <- data.frame(
+    Ime = c("Tone", "Tina", "Tomaz", "Tilen", "Tia"),
+    Starost = c(30,40,35,42,32),
+    Kredit_sposob = c(0.32, 0.54, 0.66, 0.52, 0.51)
+)
+
+head(df, 3)
+
+df_subset <- df[, c("Ime", "Starost")]
+print(df_subset)
+
+df[3, "Starost"]
+
+
+ df[df$Kredit_sposob >= 0.52 & substr(df$Ime, 1,2) == "Ti", "Ime"]
+ 
