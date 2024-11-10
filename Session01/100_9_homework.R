@@ -133,7 +133,6 @@ print(df_subset2)
 #     Call this function "stevka_kvadrat" :-)
 #     Hint: check the input argument data type
 # 2. Write a function add_numbers() that takes two arguments and returns their sum.
-# 3. Use the square() function to calculate the square of 5 and store the result in sq_5.
 # 4. Use the add_numbers() function to add 10 and 15 and store the result in sum_10_15.
 
 
@@ -146,4 +145,144 @@ stevka_kvadrat <- function(stevka){
 stevka_kvadrat(6)
 
 
- 
+add_numbers <- function(num1, num2){
+  print(sum(num1, num2))
+}
+
+add_numbers(112,25.2)
+
+sum_10_15 <- add_numbers(10,15)
+
+
+# Task 7: For Loops and Basic Iteration
+
+# 1. Create a numeric vector called nums with values from 1 to 5.
+# 2. Write a for-loop to iterate over each element in nums and print each element.
+# 3. Use a for-loop to calculate the cumulative sum of the vector nums and store it in a variable cum_sum.
+#   Print the final value of cum_sum after the loop ends.
+
+nums <- 1:5
+
+class(nums)
+
+nums <- as.numeric(nums)
+
+class(nums)
+
+for (i in 1:length(nums)){
+  print(paste0("For position: ",i, " this is the value of nums vector: ", nums[i]))
+}
+
+# additinal Loop to check the difference in i and position of nums2 on i
+nums2 <- -20:4
+for (i in 1:length(nums2)){
+  print(paste0("For position: ",i, " this is the value of nums vector: ", nums2[i]))
+}
+
+
+nums <- 1:5
+cum_sum <- 0
+for (i in 1:length(nums)){
+  cum_sum <- cum_sum + nums[i]
+  if (i==length(nums)){
+    print(cum_sum)
+  }
+}
+
+# alternatives 1
+
+nums <- 1:5
+cum_sum <- cumsum(nums)
+print(cum_sum[length(cum_sum)])
+
+# alternatives 2
+
+cum_sum <- numeric(length(nums)) #initialize wheere to store the data
+
+for (i in 1:length(nums)) {
+  cum_sum[i] <- ifelse(i == 1, nums[i], cum_sum[i - 1] + nums[i])
+}
+print(cum_sum)
+
+# alternatives 3
+
+nums <- c(1, 2, 3, 4, 5) # same as 1:5
+cum_sum <- Reduce(`+`, nums, accumulate = TRUE)
+print(cum_sum)
+
+
+# Task 8: Conditional Statements and Logical Operations
+
+# 1. Assign a numeric value to a variable temperature (in range from -30 to +50).
+# 2. Write an if-else-then statement that prints “Hot” if temperature is above 30, “Warm” if temperature 
+#  is between 20 and 30, and “Cold” if temperature is between 10 and 20 and "Ljubljana Cold" if temperature is below 10.
+# 3. Create a logical vector temp_check that is TRUE if temperature is above 25 and FALSE otherwise. Print temp_check.
+
+temperature <- 22
+
+# Discuss what could be pitfalls with this solution!
+if (temperature > 30) {
+  print("Hot")
+} else if (temperature >= 20 && temperature <= 30) {
+  print("Warm")
+} else if (temperature >= 10 && temperature <= 20) {
+  print("Ljubljana cold")
+} else {
+  print("Super Cold")
+}
+
+temp_check <- temperature > 25
+print(temp_check)
+
+
+
+# Tak 9: Working with Strings
+
+# 1. Create a character vector fruit containing "jabolka", "borovnice", "hruške", and "banana".
+# 2. Use the paste() function to create a single string fruit_list that combines all the elements of fruit separated by commas.
+# 3. Find the length of the string "banana" using the nchar() function.
+# 4. Convert the string "hello world" to uppercase and store it in greeting_upper.
+# 5. Find all positions of letter "o" in fruit vector, for the second element (word: borovnica).
+
+
+fruit <- c("jabolka", "borovnice", "hruske", "banana")
+
+fruit
+fruit_list <- paste0(fruit, collapse = "")
+fruit_list
+
+fruit_list <- paste0(fruit, collapse = ",")
+fruit_list
+
+nchar(fruit[4])
+
+
+string_HW <- "hello world"
+string_HW_big_case <- toupper(string_HW)
+print(string_HW)
+print(string_HW_big_case)
+
+
+# Extract the second element of `fruit`, which is "borovnica"
+sec_word <- fruit[2]
+
+# Use `gregexpr()` 
+positions_o <- gregexpr("o", fruit[2])[[1]]
+print(positions_o)
+
+
+
+# Task 10: Basic Data Manipulation with Data Frames
+
+# 1. Create a data frame grades df_student with columns Student (character), Predmet (character), and Ocena (numeric).
+# 2. Populate it with data for 4 students and 2 predmets (each student has one ocena for each subject).
+# 3. Calculate the average ocena of each student using tapply() or aggregate().
+# 4. Use a subset of grades where Grade is greater than 4.
+# 5. Use the order() function to sort grades by Grade in descending order.
+
+
+df_student <- data.frame(
+    Student = c(),
+    Predmet = c(),
+    Ocena = c()
+)
