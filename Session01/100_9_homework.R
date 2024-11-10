@@ -104,7 +104,7 @@ update_mat <- mat*2
 # 4. Extract and print the value from original df from column  'Starost' of the third person.
 # 5. Show the dataframe from solution! 
 #   Select all the dows where 'Kredit_sposob' is equal or bigger than 0.52  and the name ('Ime') starts with "Ti" and 
-#   return only  columns 'Ime' and 'STarost' 
+#   return only  columns 'Ime' and 'Starost' and create a new dataframe named df_subset2
 
 
 df <- data.frame(
@@ -121,5 +121,29 @@ print(df_subset)
 df[3, "Starost"]
 
 
- df[df$Kredit_sposob >= 0.52 & substr(df$Ime, 1,2) == "Ti", "Ime"]
+df_subset2 <-  df[df$Kredit_sposob >= 0.52 & substr(df$Ime, 1,2) == "Ti", c("Ime", "Starost")]
+
+print(df_subset2)
+ 
+ 
+ 
+# Task 6: Creating Functions
+ 
+# 1. Write a function to calculate the square of a single numeric argument called 'stevka' and returns its square. 
+#     Call this function "stevka_kvadrat" :-)
+#     Hint: check the input argument data type
+# 2. Write a function add_numbers() that takes two arguments and returns their sum.
+# 3. Use the square() function to calculate the square of 5 and store the result in sq_5.
+# 4. Use the add_numbers() function to add 10 and 15 and store the result in sum_10_15.
+
+
+stevka_kvadrat <- function(stevka){
+  
+      rezultat <- stevka**2
+      return(rezultat)
+}
+
+stevka_kvadrat(6)
+
+
  
