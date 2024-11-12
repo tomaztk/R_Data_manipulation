@@ -63,6 +63,41 @@ dplyr::n_distinct(iris)
 dplyr::summarise(iris, minimum=min(Sepal.Length))
 
 
+#####################
+# selecting columns
+#####################
+
+# Select columns by name or helper function
+dplyr::select(iris, Sepal.Width, Petal.Length, Species)
+
+
+# Select columns whose name contains a character string.
+select(iris, contains("."))
+
+# Select columns whose name ends with a character string.
+select(iris, ends_with("Length"))
+
+# Select every column.
+select(iris, everything())
+
+# Select columns whose name matches a regular expression.
+select(iris, matches(".t."))
+
+# Select columns named x1, x2, x3, x4, x5.
+select(iris, num_range("x2", 1:5))
+
+# Select columns whose names are in a group of names.
+select(iris, one_of(c("Species","Sepal.Width", "nonexisting", "justaName")))
+
+# Select columns whose name starts with a character string.
+select(iris, starts_with("Sepal"))
+
+# Select all columns between Sepal.Length and Petal.Width (inclusive).
+select(iris, Sepal.Length:Petal.Width)
+
+# Select all columns except Species
+select(iris, -Species)
+
 
 
 
