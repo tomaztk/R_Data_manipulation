@@ -41,7 +41,10 @@ dplyr::top_n(iris, 2, Species)
 
 
 
+######################
 ### Summarising data
+#####################
+
 # Summarise uses summary functions, functions that
 # take a vector of values and return a single value
 
@@ -97,6 +100,58 @@ select(iris, Sepal.Length:Petal.Width)
 
 # Select all columns except Species
 select(iris, -Species)
+
+
+#####################
+# Making new variables
+#####################
+
+
+# Compute and append one or more new columns.
+dplyr::mutate(iris, sepal = Sepal.Length + Sepal.Width)
+
+# Apply window function to each column.
+dplyr::mutate_each(iris, funs(min_rank))
+
+# Compute one or more new columns. Drop original columns.
+dplyr::transmute(iris, sepal = Sepal.Length + Sepal.Width)
+
+
+## Window functions
+
+# Copy with values shifted by 1.
+dplyr::lead(iris, n  = 1)
+
+# Copy with values lagged by 1.
+dplyr::lag(iris, n = 1)
+
+
+# Ranks with no gaps.
+dplyr::dense_rank(iris$Sepal.Length)
+
+# Ranks. Ties get min rank.
+dplyr::min_rank(iris$Sepal.Length)
+
+# eg
+barplot(dplyr::min_rank(iris$Sepal.Length))
+
+# Ranks rescaled to [0, 1].
+dplyr::percent_rank(iris$Sepal.Length)
+
+# Ranks. Ties got to first value.
+dplyr::row_number(iris$Sepal.Length)
+
+# Bin vector into n buckets.
+dplyr::ntile(x = row_number()) #, iris$Sepal.Length)
+
+# Are values between a and b?
+dplyr::between(iris$Sepal.Length, 5, 6)
+
+# Cumulative distribution.  
+dplyr::cume_dist(iris$Sepal.Length)
+
+#Cumulative all
+dplyr::cumall(iris$Sepal.Length)
 
 
 
