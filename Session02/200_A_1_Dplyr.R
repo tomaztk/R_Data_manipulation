@@ -154,5 +154,31 @@ dplyr::cume_dist(iris$Sepal.Length)
 dplyr::cumall(iris$Sepal.Length)
 
 
+#####################
+#  Joins
+#####################
+
+df1 <- data_frame(
+  ime = c("Matjaz", "Marko", "Tomaz"),
+  dom = c("Ljubljana", "Celje", "Koper"),
+  institut = c("ABC-CD", "ABC-CD", "ABC-DE")
+)
+df2 <- data_frame(
+  ime = c("Matjaz", "Marko", "Janez"),
+  barva = c("modra", "rdeca", "zelena")
+)
+
+# Join matching rows from b to a.
+dplyr::left_join(df1, df2, by = "ime")
+
+# Join matching rows from a to b.
+dplyr::right_join(df1, df2, by = "ime")
+
+# Join data. Retain only rows in both sets.
+dplyr::inner_join(df1, df2, by = "ime")
+
+# Join data. Retain all values, all rows.
+dplyr::full_join(df1, df2, by = "ime")
+
 
 
