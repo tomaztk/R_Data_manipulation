@@ -182,3 +182,18 @@ dplyr::full_join(df1, df2, by = "ime")
 
 
 
+df1 <- data_frame(
+  ime = c("Matjaz", "Marko", "Tomaz"),
+  dom = c("Ljubljana", "Celje", "Koper"),
+  okraj = c("ABC-CD", "ABC-CD", "ABC-DE")
+)
+df2 <- data_frame(
+  ime = c("Matjaz", "Marko", "Janez"),
+  barva = c("modra", "rdeca", "zelena"),
+  okraj = c("ABC-CD", "ABC-DE", "ABC-DE")
+)
+
+inner_join(df1, df2, by = c("ime"))
+
+inner_join(df1, df2, by = c("ime", "okraj"))
+
