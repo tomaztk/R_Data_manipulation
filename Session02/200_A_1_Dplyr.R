@@ -197,3 +197,39 @@ inner_join(df1, df2, by = c("ime"))
 
 inner_join(df1, df2, by = c("ime", "okraj"))
 
+
+####################
+## Creating dataset
+####################
+
+(d1 <- tibble(
+  ID = 1:10,
+  Year.2021 = c(12, 10, 5, 3, 15, 11, 12, 10, 7, 5),
+  Year.2022 = c(12, 3, 15, 1, 13, 4, 1, 16, 7, 13),
+  Year.2023 = c(12, 0, 5, 3, 15, 11, 12, 10, 7, 15),
+  Year.2024 = c(2, 10, 6, 3, 1, 11, 12, 10, 7, 10)))
+
+
+d1
+
+tibble(
+  trap = rep(1:10, 4),
+  year = c(rep(2013, 10), rep(2014, 10), rep(2015, 10), rep(2016, 10)),
+  numberInsects = c(12, 10, 5, 3, 15, 11, 12, 10, 7, 5,
+                    12, 3, 15, 1, 13, 4, 1, 16, 7, 13,
+                    12, 0, 5, 3, 15, 11, 12, 10, 7, 15,
+                    2, 10, 6, 3, 1, 11, 12, 10, 7, 10))
+
+
+# Nesting converts grouped data to a form where each group becomes a single row containing a nested data frame, 
+# and unnesting does the opposite.  nest(), unnest()
+
+# Splitting and combining character columns. 
+# Use separate() and extract() to pull a single character column into multiple columns; 
+# use unite() to combine multiple columns into a single character column.
+
+## Missing
+# complete()
+# drop_na() 
+# fill()
+# replace_na()
