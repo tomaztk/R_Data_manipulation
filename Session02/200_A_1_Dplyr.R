@@ -224,6 +224,18 @@ tibble(
 # Nesting converts grouped data to a form where each group becomes a single row containing a nested data frame, 
 # and unnesting does the opposite.  nest(), unnest()
 
+df <- tibble(
+  id_year = c(1,2,3),
+  info_years = list(tibble(
+    id_info = c(2,3,4),
+    info_desc = c("this 2","this 3","this 4")
+  ))
+)
+
+df
+
+tidyr::unnest(df, info_years)
+
 # Splitting and combining character columns. 
 # Use separate() and extract() to pull a single character column into multiple columns; 
 # use unite() to combine multiple columns into a single character column.
