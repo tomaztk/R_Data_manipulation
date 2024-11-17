@@ -153,6 +153,8 @@ dplyr::cume_dist(iris$Sepal.Length)
 #Cumulative all
 dplyr::cumall(iris$Sepal.Length)
 
+#Cumulative any, mean, sum, max, min, cumulative prod, element-wise min, element-wise max
+# dplyr::cumany; dplyr::cummean; dplyr::sum; dplyr::max; dplyr::min; dplyr::cumprod: dplyr::pmin, dplyr::pmax
 
 #####################
 #  Joins
