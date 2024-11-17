@@ -220,6 +220,9 @@ tibble(
                     12, 0, 5, 3, 15, 11, 12, 10, 7, 15,
                     2, 10, 6, 3, 1, 11, 12, 10, 7, 10))
 
+## ## ## ## ## ## ##
+## nest | unnest
+## ## ## ## ## ## ##
 
 # Nesting converts grouped data to a form where each group becomes a single row containing a nested data frame, 
 # and unnesting does the opposite.  nest(), unnest()
@@ -235,6 +238,45 @@ df <- tibble(
 df
 
 tidyr::unnest(df, info_years)
+
+
+library(tidyverse)
+
+# Create a sample data frame
+data <- tibble(
+  group = c("A", "A", "B", "B", "C"),
+  value = c(10, 20, 30, 40, 50)
+)
+data
+
+dplyr::group_by(data, group)
+
+# Nest data by group
+nested_data <- data %>%
+  group_by(group) %>%
+  nest()
+
+print(nested_data)
+
+
+# Unnest the nested data back to a flat structure
+unnested_data <- nested_data %>%
+  unnest(data)
+print(unnested_data)
+
+
+# combining both
+# Group, nest, process, and unnest
+# Add average value per group on each row
+processed_data <- data %>%
+  group_by(group) %>%
+  nest() %>%
+  mutate(mean_value = map_dbl(data, ~ mean(.x$value))) %>%
+  unnest(data)
+
+print(processed_data)
+
+
 
 # Splitting and combining character columns. 
 # Use separate() and extract() to pull a single character column into multiple columns; 
