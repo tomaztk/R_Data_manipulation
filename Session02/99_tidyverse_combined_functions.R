@@ -212,3 +212,40 @@ df %>%
   pivot_longer(cols = starts_with("year"), names_to = "year", values_to = "value") %>%
   mutate(value = replace_na(value, median(value, na.rm = TRUE))) %>%
   pivot_wider(names_from = year, values_from = value)
+
+
+
+# 5. Hierarchical Pivoting and Imputation
+
+df <- tibble(
+  region = rep(c("North", "South"), each = 3),
+  year = c(2020, 2021, 2022, 2020, 2021, 2022),
+  value = c(130, NA, 220, 170, 255, NA)
+)
+
+df
+
+df %>%
+  group_by(region) %>%
+  summarise(across(value, list(mean = ~ mean(., na.rm = TRUE)), .names = "mean_{.col}")) %>%
+  pivot_longer(cols = starts_with("mean"), names_to = "stat", values_to = "value") %>%
+  mutate(value = replace_na(value, 0)) %>%
+  pivot_wider(names_from = stat, values_from = value)
+
+
+
+#  Time-Series Interpolation and Rolling Aggregates
+library(zoo)
+
+df <- tibble(
+  date = as.Date("2024-01-01") + c(0, 2, 4, 6, 8, 10, 11, 12, 13),
+  value = c(10, NA, 30, NA, 50, 60, 50, NA, 40)
+)
+
+df
+
+df %>%
+  complete(date = seq.Date(min(date), max(date), by = "day")) %>%
+  mutate(value = zoo::na.approx(value, na.rm = FALSE)) %>%
+  mutate(rolling_avg = rollapply(value, width = 3, align = "right", fill = NA, FUN = mean))
+
