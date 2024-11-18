@@ -1,0 +1,214 @@
+library(tidyverse)
+
+
+# 1. Combining map() (from purrr), nest(), and mutate() for grouped transformations
+mtcars
+
+mtcars %>%
+  group_by(cyl) %>%
+  nest() %>%
+  mutate(
+    summary_stats_for_cyl = map(data, ~ summarise(.x, 
+                                          mean_mpg_per_cyl_group = mean(mpg), 
+                                          sd_mpg_per_cyl_group = sd(mpg)
+                                          )
+                        )
+  ) %>% 
+ unnest(.) 
+# or
+# unnest(summary_stats)
+
+
+
+# 2. pivot_longer() + separate() + mutate(across()) for reshaping and engineering
+
+df <- tibble(
+  id = 1:3,
+  scores_math = c("90_pass", "85_pass", "70_fail"),
+  scores_science = c("95_pass", "88_pass", "65_fail")
+)
+
+df
+
+
+df %>%
+  pivot_longer(cols = starts_with("scores"), names_to = "subject", values_to = "result") %>%
+  separate(result, into = c("score", "status"), sep = "_") %>%
+  mutate(across(c(score), as.numeric))
+
+
+
+# 3. filter(across()) + case_when() for complex filtering and flag creation
+
+set.seed(2908)
+df <- tibble(
+  id = 1:10,
+  var1 = rnorm(10),
+  var2 = rnorm(10),
+  var3 = rnorm(10)
+)
+
+df
+
+df %>%
+  filter(if_any(starts_with("var"), ~ .x > 0)) %>%
+  mutate(flag = case_when(
+    var1 > 1 & var2 > 1 ~ "High",
+    var1 < -1 & var2 < -1 ~ "Low",
+    TRUE ~ "Medium"
+  ))
+
+
+
+# 4. 4. rowwise() + c_across() for row-wise aggregation or calculation
+
+set.seed(2908)
+
+df <- tibble(
+  id = 1:5,
+  var1 = runif(5),
+  var2 = runif(5),
+  var3 = runif(5)
+)
+
+df
+
+df %>%
+  rowwise() %>%
+  mutate(mean_value = mean(c_across(starts_with("var")), na.rm = TRUE))
+
+
+
+# 5. cur_data() + cur_group() for custom group-wise operations
+
+df <- tibble(
+  group = rep(1:2, each = 5),
+  value = rnorm(10)
+)
+
+df
+
+df %>%
+  group_by(group) %>%
+  mutate(
+    group_summary = list(cur_data()),
+    group_label = cur_group()
+  ) 
+# %>%  unnest(.)
+
+
+
+iris %>%
+  group_by(Species) %>%
+  group_map(~ tibble(
+    mean_sepal = mean(.x$Sepal.Length),
+    median_sepal = median(.x$Sepal.Width)
+  )) %>%
+  bind_rows(.id = "Species") %>%
+  unnest_wider()
+
+
+# Example: Filter and reshape variables containing "disp" or "hp"
+mtcars %>%
+  pivot_longer(cols = everything(), names_to = "variable", values_to = "value") %>%
+  filter(str_detect(variable, "disp|hp")) %>%
+  mutate(value_scaled = scale(value)) %>%
+  pivot_wider(names_from = variable, values_from = value_scaled)
+
+
+
+# Example: Add the mean of each column's name length to its values
+mt <- mtcars
+mtt<- mtcars %>%
+  mutate(across(everything(), ~ .x + nchar(cur_column())))
+
+
+# 5. mutate() + rowwise() + c_across() + summarise() for applying row-wise functions
+df <- tibble(
+  id = 1:5,
+  var1 = c(1, 2, 3, 4, 5),
+  var2 = c(6, 7, 8, 9, 10)
+)
+
+df %>%
+  rowwise() %>%
+  mutate(
+    total = sum(c_across(starts_with("var")), na.rm = TRUE)
+  ) %>%
+  summarise(mean_total = mean(total))
+
+
+
+# 2. tidyr::extract() + mutate(across()) + regular expressions for feature extraction
+
+df <- tibble(
+  id = 1:4,
+  info = c("A_12345_X", "B_67890_Y", "C_13579_Z", "D_24680_W")
+)
+
+df
+
+df %>%
+  extract(info, into = c("group", "number", "code"), regex = "([A-Z])_(\\d+)_(\\w)") %>%
+  mutate(across(number, as.integer)) %>%
+  mutate(category = case_when(
+    group %in% c("A", "B") ~ "Type1",
+    TRUE ~ "Type2"
+  ))
+
+
+
+# 1. Frequency Table with Row and Column Percentages
+
+
+df <- tibble(
+  gender = c("Male", "Female", "Male", "Female", "Male"),
+  preference = c("A", "B", "A", "A", "B")
+)
+
+
+df
+
+# Frequency table with row and column percentages
+df %>%
+  count(gender, preference) %>%
+  group_by(gender) %>%
+  mutate(row_pct = n / sum(n) * 100) %>%
+  ungroup() %>%
+  group_by(preference) %>%
+  mutate(col_pct = n / sum(n) * 100) %>%
+  ungroup()
+
+
+# 3. Crosstab with Margins and Total Percentages
+
+df <- tibble(
+  group = c("A", "B", "A", "A", "B", "B", "A", "D", "C", "A", "C"),
+  category = c("X", "X", "Y", "Y", "Y", "X", "Y", "X", "X", "Y", "X")
+)
+
+df
+
+df %>%
+  count(group, category) %>%
+  pivot_wider(names_from = category, values_from = n, values_fill = 0) %>%
+  rowwise() %>%
+  mutate(Total = sum(c_across(starts_with("X"):starts_with("Y")))) %>%
+  ungroup() %>%
+  mutate(across(starts_with("X"):Total, ~ . / sum(.) * 100, .names = "pct_{.col}"))
+
+
+
+
+df <- tibble(
+  id = 1:4,
+  year_2021 = c(100, 200, NA, 400),
+  year_2022 = c(150, NA, 300, 450)
+)
+
+df
+
+df %>%
+  pivot_longer(cols = starts_with("year"), names_to = "year", values_to = "value") %>%
+  mutate(value = replace_na(value, median(value, na.rm = TRUE))) %>%
+  pivot_wider(names_from = year, values_from = value)
