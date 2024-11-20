@@ -249,3 +249,15 @@ df %>%
   mutate(value = zoo::na.approx(value, na.rm = FALSE)) %>%
   mutate(rolling_avg = rollapply(value, width = 3, align = "right", fill = NA, FUN = mean))
 
+
+
+#add purrr
+# example
+library(purrr)
+
+mtcars |> 
+  split(mtcars$cyl) |>  
+  map(\(df) lm(mpg ~ wt, data = df)) |> 
+  map(summary) %>%
+  map_dbl("r.squared")
+
