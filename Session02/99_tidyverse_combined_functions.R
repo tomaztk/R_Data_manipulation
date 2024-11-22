@@ -261,3 +261,169 @@ mtcars |>
   map(summary) %>%
   map_dbl("r.squared")
 
+
+
+###############################
+library(tidyverse)
+
+# Using lapply (base R)
+numbers <- list(1, 2, 3, 4, 5)
+squared_lapply <- lapply(numbers, function(x) x^2)
+
+# Using map (purrr)
+squared_map <- map(numbers, ~ .x^2)
+
+print(squared_lapply)
+
+
+# Using lapply with a built-in dataset
+iris_split <- split(iris, iris$Species)
+mean_sepal_length_lapply <- lapply(iris_split, function(df) mean(df$Sepal.Length))
+
+# Using map with a built-in dataset
+mean_sepal_length_map <- map(iris_split, ~ mean(.x$Sepal.Length))
+
+print(mean_sepal_length_lapply)
+
+
+iris %>%
+  select(-Species) %>%
+  map_dbl(mean)
+
+
+
+df <- tibble(
+  a = 1:3,
+  b = 4:6,
+  c = 7:9
+)
+
+df
+
+# Summing corresponding elements of multiple lists
+sum_pmap <- pmap(df, ~ ..1 + ..2 + ..3)
+sum_pmap
+
+
+# A named list of scores
+named_scores <- list(math = 90, science = 85, history = 78)
+
+# Create descriptive strings for each score
+score_descriptions <- imap(named_scores, ~ paste(.y, "score is", .x))
+score_descriptions
+
+
+
+# Mixed list of numbers and characters
+mixed_list <- list(1, "a", 3, "b", 5)
+
+# Double only the numeric elements
+doubled_numbers <- map_if(mixed_list, is.numeric, ~ .x * 2)
+doubled_numbers
+
+
+dir.create("plots")
+
+# Save histograms of each numeric column to files
+walk(names(mtcars), ~ {
+  if (is.numeric(mtcars[[.x]])) {
+    plot_path <- paste0("plots/", .x, "_histogram.png")
+    png(plot_path)
+    hist(mtcars[[.x]], main = paste("Histogram of", .x), xlab = .x)
+    dev.off()
+  }
+})
+
+normalized_iris <- iris %>%
+  modify_at(vars(Sepal.Length, Sepal.Width, Petal.Length, Petal.Width),  ~ .x / max(.x))
+
+head(normalized_iris)
+
+
+
+# Check if all cars have more than 10 miles per gallon (mpg)
+all_mpg_above_10 <- mtcars %>%
+  select(mpg) %>%
+  map_lgl(~ every(.x, ~ .x > 10))
+all_mpg_above_10
+
+
+# Check if some cars have more than 150 horsepower (hp)
+some_hp_above_150 <- mtcars %>%
+  select(hp) %>%
+  map_lgl(~ some(.x, ~ .x > 150))
+some_hp_above_150
+
+
+# Check if no car has more than 8 cylinders
+none_cyl_above_8 <- mtcars %>%
+  select(cyl) %>%
+  map_lgl(~ none(.x, ~ .x > 8))
+none_cyl_above_8
+
+
+
+numbers <- list(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+# Keep only the even numbers
+even_numbers <- keep(numbers, ~ .x %% 2 == 0)
+even_numbers
+
+# Discard the even numbers
+odd_numbers <- discard(numbers, ~ .x %% 2 == 0)
+odd_numbers
+
+
+# Keep rows where Sepal.Length is greater than 5.0
+iris_keep <- iris %>%
+  split(1:nrow(.)) %>%
+  keep(~ .x$Sepal.Length > 5.0) %>%
+  bind_rows()
+head(iris_keep)
+
+# Keep cars with mpg greater than 20 and discard cars with hp less than 100
+filtered_cars <- mtcars %>%
+  split(1:nrow(.)) %>%
+  keep(~ .x$mpg > 20) %>%
+  discard(~ .x$hp < 100) %>%
+  bind_rows()
+
+filtered_cars
+
+
+# A list of numbers
+numbers <- list(1, 2, 3, 4, 5)
+
+# Cumulative sum of the numbers
+cumulative_sum <- accumulate(numbers, `+`)
+cumulative_sum
+
+
+# Cumulative sum of mpg values
+cumulative_mpg <- mtcars %>%
+  pull(mpg) %>%
+  accumulate(`+`)
+cumulative_mpg
+
+
+
+# Define scaling and log functions
+scale_by_10 <- function(x) x * 10
+safe_log <- safely(log, otherwise = NA)
+
+# Compose them into a single function
+scale_and_log <- compose(safe_log, scale_by_10)
+
+# Apply the composed function to the hp column
+mtcars <- mtcars %>%
+  mutate(log_scaled_hp = map_dbl(hp, ~ scale_and_log(.x)$result))
+
+head(mtcars)
+
+
+
+apply_funs <- function(x, ...) purrr::map_dbl(list(...), ~ .x(x))
+number <- 1:48
+results <- apply_funs(number, mean, median, sd)
+results
+
