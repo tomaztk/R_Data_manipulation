@@ -421,9 +421,51 @@ mtcars <- mtcars %>%
 head(mtcars)
 
 
-
 apply_funs <- function(x, ...) purrr::map_dbl(list(...), ~ .x(x))
 number <- 1:48
 results <- apply_funs(number, mean, median, sd)
-results
+
+
+
+apply_funs <- function(x, ...) purrr::map_dbl(list(...), ~ .x(x))
+
+
+iris_short <- iris[,1:4]
+iris_short
+
+iris_res <- apply_funs(iris_short[,1], mean, median, sd, min, max)
+
+iris_res2 <- iris_short %>% map_df( ~ list(mean = mean(.), 
+                                     median = median(.),
+                                      sd = sd(.),
+                                     min = min(.),
+                                     max = max(.)
+                                      )
+                        )
+
+iris_res2 <- t(iris_res2)
+colnames(iris_res2) <- names(iris_short)
+iris_res2
+
+
+
+1:10 |>
+  map(rnorm, n = 10) %>%
+  map_dbl(mean)
+
+
+set_names(c("foo", "bar")) |> 
+       map_chr(paste0, ":suffix")
+
+
+favorite_desserts <- list(Sophia = "banana bread", Eliott = "pancakes", Karina = "chocolate cake")
+
+favorite_desserts |> map_chr(\(food) paste(food, "rocks!"))
+
+l1 <- list(list(a = 1L), list(a = NULL, b = 2L), list(b = 3L))
+
+
+l1 |> map("a", .default = "???")
+l1 |> map_int("b", .default = NA)
+l1 |> map_int(2, .default = NA)
 
