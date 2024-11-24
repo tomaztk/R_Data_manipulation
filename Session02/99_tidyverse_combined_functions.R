@@ -422,18 +422,21 @@ head(mtcars)
 
 
 apply_funs <- function(x, ...) purrr::map_dbl(list(...), ~ .x(x))
+#on vector
 number <- 1:48
 results <- apply_funs(number, mean, median, sd)
+results
 
-
-
-apply_funs <- function(x, ...) purrr::map_dbl(list(...), ~ .x(x))
-
-
+#on data.frame
 iris_short <- iris[,1:4]
 iris_short
 
+iris_short_v <- as.vector(iris_short)
+
+#on column dfrom vector
 iris_res <- apply_funs(iris_short[,1], mean, median, sd, min, max)
+
+
 
 iris_res2 <- iris_short %>% map_df( ~ list(mean = mean(.), 
                                      median = median(.),
@@ -447,7 +450,21 @@ iris_res2 <- t(iris_res2)
 colnames(iris_res2) <- names(iris_short)
 iris_res2
 
+###
 
+df <- data.frame(
+  x = c(1, 2, 5),
+  y = c(5, 4, 8),
+  z = c(1,0,0),
+  w = c(11,22,1)
+)
+
+pmin(df$x, df$y)
+map2_dbl(df$x, df$y, min)
+pmap_dbl(df, min)
+pmap_dbl(df, max)
+
+pmap_dbl(iris_short,min)
 
 1:10 |>
   map(rnorm, n = 10) %>%
@@ -459,12 +476,10 @@ set_names(c("foo", "bar")) |>
 
 
 favorite_desserts <- list(Sophia = "banana bread", Eliott = "pancakes", Karina = "chocolate cake")
-
 favorite_desserts |> map_chr(\(food) paste(food, "rocks!"))
 
+
 l1 <- list(list(a = 1L), list(a = NULL, b = 2L), list(b = 3L))
-
-
 l1 |> map("a", .default = "???")
 l1 |> map_int("b", .default = NA)
 l1 |> map_int(2, .default = NA)
