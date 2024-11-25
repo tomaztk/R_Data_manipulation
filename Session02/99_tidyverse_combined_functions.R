@@ -484,3 +484,45 @@ l1 |> map("a", .default = "???")
 l1 |> map_int("b", .default = NA)
 l1 |> map_int(2, .default = NA)
 
+
+
+library(TidyDensity)
+library(tidyverse)
+library(tictoc)
+
+x <- mtcars$mpg
+te <- tidy_bootstrap(x) %>% bootstrap_unnest_tbl()
+
+tic()
+s <- tidy_stat_tbl(.data = te, .x = y, .fns = IQR, .return_type = "vector")
+toc()
+
+tic()
+l <- tidy_stat_tbl(.data = te, .x = y, .fns = IQR, .return_type = "list")
+toc()
+
+tic()
+t <- tidy_stat_tbl(.data = te, .x = y, .fns = IQR, .return_type = "tibble")
+toc()
+
+return_type <- list()
+return_type <- vector()
+
+if (return_type == "tibble") {
+  ret <- purrr::map(
+    df_tbl, ~ func(.x) %>%
+      purrr::imap(.f = ~ cbind(.x, name = .y)) %>%
+      purrr::map_df(dplyr::as_tibble) 
+    #dplyr::select(2, 1)
+  ) %>%
+    purrr::imap(.f = ~ cbind(.x, sim_number = .y)) %>%
+    purrr::map_df(dplyr::as_tibble) %>%
+    dplyr::select(sim_number, name, .x) %>%
+    dplyr::mutate(.x = as.numeric(.x)) %>%
+    dplyr::mutate(sim_number = factor(sim_number)) %>%
+    dplyr::rename(value = .x)
+  
+  cn <- c("sim_number","name",func_chr)
+  names(ret) <- cn
+}
+
