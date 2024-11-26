@@ -489,6 +489,7 @@ l1 |> map_int(2, .default = NA)
 library(TidyDensity)
 library(tidyverse)
 library(tictoc)
+library(purrr)
 
 x <- mtcars$mpg
 te <- tidy_bootstrap(x) %>% bootstrap_unnest_tbl()
@@ -508,8 +509,21 @@ toc()
 return_type <- list()
 return_type <- vector()
 
-if (return_type == "tibble") {
-  ret <- purrr::map(
+df_tbl <- as.tibble(iris)
+
+purrr::map(
+  iris, ~ func(.x) %>%
+    purrr::imap(.f = ~ cbind(.x, name = .y)) %>%
+    purrr::map_df(dplyr::as_tibble) 
+)
+
+
+purrr::map(iris, ~ func(.x) %>%
+             purrr::imap(~ tibble::tibble(data = .x, name = .y)) %>%
+             dplyr::bind_rows()
+)
+
+
     df_tbl, ~ func(.x) %>%
       purrr::imap(.f = ~ cbind(.x, name = .y)) %>%
       purrr::map_df(dplyr::as_tibble) 
@@ -522,7 +536,4 @@ if (return_type == "tibble") {
     dplyr::mutate(sim_number = factor(sim_number)) %>%
     dplyr::rename(value = .x)
   
-  cn <- c("sim_number","name",func_chr)
-  names(ret) <- cn
-}
 
