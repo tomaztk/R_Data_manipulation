@@ -537,3 +537,24 @@ purrr::map(iris, ~ func(.x) %>%
     dplyr::rename(value = .x)
   
 
+###
+df <-
+  tibble(
+    a = c(1, 2, 4),
+    b = c(6, 5, 3)
+  )
+
+df
+
+df %>% 
+  rowwise() %>% 
+  mutate(min = min(a, b)) %>% 
+  ungroup()
+
+
+tibble(
+  a = c(50, 60, 70),
+  b = c(10, 90, 40),
+  c = c(1, 105, 2000)
+) %>% 
+  pmap_dbl(min)
