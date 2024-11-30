@@ -524,7 +524,7 @@ purrr::map(iris, ~ func(.x) %>%
 )
 
 
-    df_tbl, ~ func(.x) %>%
+purrr::map(    df_tbl, ~ func(.x) %>%
       purrr::imap(.f = ~ cbind(.x, name = .y)) %>%
       purrr::map_df(dplyr::as_tibble) 
     #dplyr::select(2, 1)
