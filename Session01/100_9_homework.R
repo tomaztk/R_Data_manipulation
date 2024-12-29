@@ -92,6 +92,8 @@ print(num_vec)
 
 mat <- matrix(1:9, 3, 3, TRUE)
 
+help(rowSums)
+
 row_wise_sum <- rowSums(mat)
 col_wise_sum <- colSums(mat)
 
@@ -118,14 +120,17 @@ update_mat <- mat*2
 #   Select all the dows where 'Kredit_sposob' is equal or bigger than 0.52  and the name ('Ime') starts with "Ti" and 
 #   return only  columns 'Ime' and 'Starost' and create a new dataframe named df_subset2
 
-
+help(data.frame)
 df <- data.frame(
     Ime = c("Tone", "Tina", "Tomaz", "Tilen", "Tia"),
     Starost = c(30,40,35,42,32),
     Kredit_sposob = c(0.32, 0.54, 0.66, 0.52, 0.51)
 )
 
-head(df, 3)
+head(df, 1)
+tail(df, 2)
+
+df[ , ]
 
 df_subset <- df[, c("Ime", "Starost")]
 print(df_subset)
@@ -133,8 +138,8 @@ print(df_subset)
 df[3, "Starost"]
 
 
-df_subset2 <-  df[df$Kredit_sposob >= 0.52 & substr(df$Ime, 1,2) == "Ti", c("Ime", "Starost")]
-
+df_subset2 <- df[df$Kredit_sposob >= 0.52 & substr(df$Ime, 1,2) == "Ti", c("Ime", "Starost")]
+help(substr)
 print(df_subset2)
  
  
@@ -142,11 +147,16 @@ print(df_subset2)
 # Task 6: Creating Functions
 # ====================================== 
 
-# 1. Write a function to calculate the square of a single numeric argument called 'stevka' and returns its square. 
+# 1. Write a function to calculate the square of a single numeric argument 
+#     called 'stevka' and returns its square. 
 #     Call this function "stevka_kvadrat" :-)
 #     Hint: check the input argument data type
-# 2. Write a function add_numbers() that takes two arguments and returns their sum.
-# 4. Use the add_numbers() function to add 10 and 15 and store the result in sum_10_15.
+# 2. Write a function add_numbers() that takes two arguments and 
+#   returns their sum.
+# 4. Use the add_numbers() function to add 10 and 15 and store the result 
+#   in sum_10_15.
+
+
 
 
 stevka_kvadrat <- function(stevka){

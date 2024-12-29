@@ -220,6 +220,67 @@ a == a
 # 2. Write a function add_numbers() that takes two arguments and returns their sum.
 # 4. Use the add_numbers() function to add 10 and 15 and store the result in sum_10_15.
 
+class(x)
+typeof(x)
+
+stevka_kvadrat <- function(x) {
+  
+  if (is.numeric(x) == TRUE){
+    rezultat <- x*x  
+    return(rezultat)
+  } else {
+    print("Input must be integer")
+  }
+}
+
+stevka_kvadrat2 <- function(x) {
+    x <- as.numeric(x)
+    rezultat <- x*x  
+    return(rezultat)
+}
+
+
+stevka_kvadrat2("22")
+
+stevka_kvadrat("22a")
+
+# 2. Write a function add_numbers() that takes two arguments and returns their sum.
+
+add_numbers <- function(x, y) {
+ return(x+y)
+}
+
+add_numbers(2,3)
+add_numbers(x=2,y=3)
+
+add_chars <- function(x, y) {
+  
+  return( x & y )
+}
+
+add_chars(x="da", y="nes")
+
+add_chars2 <- function(x, y) {
+  
+  rezultat <- paste0(x,y)
+  return(rezultat)
+}
+
+add_chars2(x="da", y="nes")
+
+paste("da", "nes", sep="")
+paste0("da", "nes")
+
+# 4. Use the add_numbers() function to add 10 and 15 
+#    and store the result in sum_10_15.
+
+
+add_numbers <- function(ena, dva) ena+dva
+
+sum_10_15 <- add_numbers(10,15)
+
+print(sum_10_15)
+
 
 # ======================================
 # Task 7: For Loops and Basic Iteration
@@ -231,15 +292,100 @@ a == a
 #   Print the final value of cum_sum after the loop ends.
 
 
+#1. Create a numeric vector called nums with values from 1 to 5.
+rm(num)
+
+nums <- seq(5)
+#nums <- c(1,2,3,4,5)
+#nums <- 1:5
+
+# 2. Write a for-loop to iterate over each 
+# element in nums and print each element. and add value of x.
+
+x <- 111
+
+for(i in 1:5) {
+  #print(i)
+  print(paste("Smo na poziciji:",i, sep=" "))
+}
+
+# 3. Use a for-loop to calculate the cumulative sum of the 
+#   vector nums and store it in a variable cum_sum.
+#   Print the final value of cum_sum after the loop ends.
+
+# cumsum(nums)
+
+
+
+domaca_cumsum <- function(x){
+  vsum <- 0
+  for(i in 1:x){
+    vsum = vsum + i
+    }
+return(vsum)
+}
+domaca_cumsum(10)
+
+
+domaca_cumsum_vektor <- function(x){
+  vsum <- 0
+  for(i in 1:length(x)){
+    vsum = vsum + x[i]
+  }
+  return(vsum)
+}
+moj_vector <- seq(5)
+domaca_cumsum_vektor(moj_vector)
+
 # ======================================
 # Task 8: Conditional Statements and Logical Operations
 # ======================================
 
 # 1. Assign a numeric value to a variable temperature (in range from -30 to +50).
-# 2. Write an if-else-then statement that prints “Hot” if temperature is above 30, “Warm” if temperature 
-#  is between 20 and 30, and “Cold” if temperature is between 10 and 20 and "Ljubljana Cold" if temperature is below 10.
+# 2. Write an if-else-then statement that prints
+#   “Hot” if temperature is above 30, “Warm” if temperature 
+#   is between 20 and 30, and “Cold” if temperature 
+#   is between 10 and 20 and "Ljubljana Cold" 
+#   if temperature is below 10.
+
 # 3. Create a logical vector temp_check that is TRUE if temperature is above 25 and FALSE otherwise. Print temp_check.
 
+# 1. Assign a numeric value to a variable temperature 
+# (in range from -30 to +50).
+
+
+
+# 2. Write an if-else-then statement that prints
+#   “Hot” if temperature is above 30, “Warm” if temperature 
+#   is between 20 and 30, and “Cold” if temperature 
+#   is between 10 and 20 and "Ljubljana Cold" 
+#   if temperature is below 10.
+
+temperature <- 10
+
+if (temperature > 30) {
+  print("Hot")
+} else if (temperature > 20 & temperature <= 30) {
+  print("Warm")
+} else if (temperature > 10 & temperature <= 20) {
+  print("Cold")
+} else if (temperature <= 10) {
+  print("Ljubljana Cold")
+}
+
+opisna_temperatura <- function(moja_temp){
+  if (moja_temp > 30) {
+    print("Hot")
+  } else if (moja_temp > 20 & moja_temp <= 30) {
+    print("Warm")
+  } else if (moja_temp > 10 & moja_temp <= 20) {
+    print("Cold")
+  } else if (moja_temp <= 10) {
+    print("Ljubljana Cold")
+  }
+}
+
+opisna_temperatura(20)
 
 # ======================================
 # Tak 9: Working with Strings
@@ -252,6 +398,34 @@ a == a
 # 5. Find all positions of letter "o" in fruit vector, for the second element (word: borovnica).
 #     Hint: use function gregexpr()
 
+# # 1. Create a character vector fruit containing 
+# "jabolka", "borovnice", "hruške", and "banana".
+
+fruit <- c("jabolka","borovnice","hruške","banana")
+
+# 2. Use the paste() function to create a single 
+# string fruit_list that combines all the elements of 
+# fruit separated by commas.
+
+fruit_list <- paste(fruit, collapse=",")
+print(fruit_list)
+print(fruit)
+
+fruit[4]
+length(fruit[4])
+nchar(fruit[4])
+
+yo <- "hello world"
+
+print(toupper(yo))
+
+# 5. Find all positions of letter "o" in fruit vector, 
+# for the second element (word: borovnica).
+#     Hint: use function gregexpr()
+
+# Extract the second element of `fruit`, which is "borovnica"
+sec_word <- fruit[2]
+
 
 # ======================================
 # Task 10: Basic Data Manipulation with Data Frames
@@ -259,7 +433,8 @@ a == a
 
 # 1. Given a dataframe df.
 # 2. Calculate the average and standard deviation for Indeks.
-# 3. Use a subset of starost where Starost is greater or equal than 30.
+# 3. Use a subset of starost where Starost is greater or equal than 
+##   30.
 #    Extra: select only columns: ID and Ime.
 # 4. Use the order() function to sort Indeks in the descending order.
 #    Extra: select only columns: ID and Ime.
@@ -272,6 +447,33 @@ df <- data.frame(
   Indeks = c(88, 92, 95, 85, 90)
 )
 
+print(df)
+
+# 2. Calculate the average and standard deviation for Indeks.
+
+df[,4]
+df$Indeks
+mean(df$Indeks)
+sd(df$Indeks)
+
+
+# 3. Use a subset of starost where Starost is greater or equal than 
+##   30.
+# Extra: select only columns: ID and Ime.
+
+df_subset <- df[df$Starost >= 30, c("ID", "Ime")]
+df_subset
+
+# 4. Use the order() function to sort Indeks in the descending order.
+#    Extra: select only columns: ID and Ime.
+
+df
+
+df[order(-df$Indeks),]
+
+df[order(-df$Indeks), c("ID", "Ime")]
+
+
 
 # ======================================
 # Task 11: Advanced Vector and Conditional Operations
@@ -283,6 +485,8 @@ df <- data.frame(
 #    while skipping even numbers (in case the vector is changed to include even numbers).
 # 4. Find the sum of all elements in vec_squared.
 #    Use the which() function to find the positions in vec_squared where the values are greater than 100.
+
+
 
 
 # ======================================
