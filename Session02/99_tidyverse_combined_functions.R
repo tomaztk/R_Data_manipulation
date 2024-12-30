@@ -560,3 +560,59 @@ tibble(
   pmap_dbl(min)
 
 
+
+### TEst
+
+# Cumulative sum of mpg values
+cumulative_mpg <- mtcars %>%
+  pull(mpg) %>%
+  accumulate(`+`)
+
+cumulative_mpg
+
+
+
+
+
+
+
+
+
+
+apply_funs <- function(x, ...) purrr::map_dbl(list(...), ~ .x(x))
+number <- 1:35
+results <- apply_funs(number, mean, median, sd)
+results
+
+
+iris_short <- iris[,1:4]
+iris_short
+
+
+
+iris_res <- apply_funs(iris_short[,1], mean, median, sd, min, max)
+iris_res
+
+iris_res2 <- iris_short %>% map_df( ~ list(mean = mean(.), 
+                                           median = median(.),
+                                           sd = sd(.),
+                                           min = min(.),
+                                           max = max(.)
+)
+)
+
+iris_res2 <- t(iris_res2)
+colnames(iris_res2) <- names(iris_short)
+iris_res2
+
+
+
+X <- sample(1:100)
+
+# This
+p <- function(X) !(X >= 10)
+X[seq(Position(p, X) - 1)]
+
+# is the same as this
+head_while(X, ~ .x >= 10)
+
