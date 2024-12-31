@@ -616,3 +616,42 @@ X[seq(Position(p, X) - 1)]
 # is the same as this
 head_while(X, ~ .x >= 10)
 
+
+## cross tabs
+
+
+
+cross_tab <- mtcars %>%
+  count(cyl, gear) %>%
+  complete(cyl = unique(mtcars$cyl), gear = unique(mtcars$gear), fill = list(n = 0)) %>% 
+  pivot_wider(names_from = gear, values_from = n, values_fill = list(n = 0)) %>% 
+  mutate(
+    cyl = as.character(cyl),  
+    Row_Total = rowSums(select(., -c(cyl)))  
+  ) %>%
+  mutate(
+    Row_Percent = round(Row_Total / sum(Row_Total) * 100, 2) 
+  ) %>%
+  bind_rows(
+    summarise(
+      .,
+      cyl = "Total",
+      across(-c(cyl), sum, na.rm = TRUE),  
+      Row_Percent = 100  
+    )
+  )
+
+column_percent <- cross_tab %>%
+  filter(cyl == "Total") %>% 
+  mutate(
+    cyl = "Column Percent",
+    across(-c(cyl, Row_Total, Row_Percent), ~ round(.x / sum(.x) * 100, 2)),  
+    Row_Total = NA, 
+    Row_Percent = NA 
+  )
+
+
+final_table <- bind_rows(cross_tab, column_percent)
+
+print(final_table)
+
