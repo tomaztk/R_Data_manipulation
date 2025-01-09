@@ -1,18 +1,15 @@
 ## Data manipulation with dplyr
 
-
-install.packages("dplyr")
-install.packages("ggplot2")
+# install.packages("dplyr")
+# install.packages("ggplot2")
 
 library(dplyr)
 library(ggplot2)
 library(readr)
 
 ## Data available: https://www.kaggle.com/code/ayessa/wine-price-regression    
-wine <- read_csv("https://raw.githubusercontent.com/tomaztk/R_Data_manipulation/refs/heads/main/data/wine.csv")
+wine <- read_csv("https://raw.githubusercontent.com/tomaztk/R_Data_manipulation/refs/heads/main/data/wines.csv")
 
-# if locally
-#wine <- read.csv("wines_SPA.csv",  stringsAsFactors = FALSE,  encoding = 'UTF-8')
 View(wine)
 
 #Removing columns from dataset
