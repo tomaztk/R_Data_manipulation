@@ -5,16 +5,8 @@
 library(tidyverse)
 
 
-police <- read_csv("https://github.com/tomaztk/R_Data_manipulation/tree/main/data/ev_police.csv")
+police <- read_csv("https://raw.githubusercontent.com/tomaztk/R_Data_manipulation/refs/heads/main/data/ev_police.csv")
 
-
-police <- read_csv("https://github.com/tomaztk/R_Data_manipulation/tree/main/data/ev_police.csv",col_types=c("location"="c"))
-
-
-fix_data <- read_csv("https://github.com/tomaztk/R_Data_manipulation/tree/main/data/missing.csv")
-fix_data
-
-police
 
 View(police)
 

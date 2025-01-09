@@ -8,7 +8,7 @@ library(ggplot2)
 library(readr)
 
 ## Data available: https://www.kaggle.com/code/ayessa/wine-price-regression    
-wine <- read_csv("https://raw.githubusercontent.com/tomaztk/R_Data_manipulation/refs/heads/main/data/wines.csv")
+wine <- read_csv("https://raw.githubusercontent.com/tomaztk/R_Data_manipulation/refs/heads/main/data/wine.csv")
 
 View(wine)
 
@@ -119,19 +119,10 @@ goodvalue = intersect(top15percent,cheapest15percent)
 
 goodvalue
 
-#Feature Engineering
-
-wine = read.csv('wine.csv',
-                stringsAsFactors = FALSE,
-                encoding = 'UTF-8')
 
 save(wine, file = "wine.rda")
 load("wine.rda")
 
-#Omiting one column from the wine dataset
-wine = wine[,-c(3)]  
-
-View(wine)
 
 #Using transmute and mutate functions to append a new column
 wine1 = wine %>%
