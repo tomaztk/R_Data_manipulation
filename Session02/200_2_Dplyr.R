@@ -6,14 +6,17 @@ install.packages("ggplot2")
 
 library(dplyr)
 library(ggplot2)
-           
-wine = read.csv("wine.csv",  stringsAsFactors = FALSE,  encoding = 'UTF-8')
-data(wine)
+library(readr)
 
+## Data available: https://www.kaggle.com/code/ayessa/wine-price-regression    
+wine <- read_csv("https://raw.githubusercontent.com/tomaztk/R_Data_manipulation/refs/heads/main/data/wine.csv")
+
+# if locally
+#wine <- read.csv("wines_SPA.csv",  stringsAsFactors = FALSE,  encoding = 'UTF-8')
 View(wine)
 
 #Removing columns from dataset
-wine = wine[,-c(1,3)]
+wine <- wine[,-c(1,3)]
 
 #Creating a dataset by counting all observations grouped by country and then creating a new variable called count
 wine %>% 
