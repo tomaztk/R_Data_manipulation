@@ -6,15 +6,11 @@ install.packages("ggplot2")
 
 library(dplyr)
 library(ggplot2)
-setwd("C:/Users/Arham/Desktop/Files/Introduction to dplyr")                 
-#Reading the dataset from the working directory. 
-#Setting string values as characters
-#loading the greek characters
-wine = read.csv("wine.csv", 
-                stringsAsFactors = FALSE, 
-                encoding = 'UTF-8')
+           
+wine = read.csv("wine.csv",  stringsAsFactors = FALSE,  encoding = 'UTF-8')
+data(wine)
 
-View (wine)
+View(wine)
 
 #Removing columns from dataset
 wine = wine[,-c(1,3)]
