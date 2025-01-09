@@ -128,7 +128,7 @@ filter(mtcars, mpg > 20 | cyl == 4)
 
 
 # What does slice() do?
-#  Selects rows by position.
+#  Selects rows by position or subseting rows by using index positions
 #  Replacement for Base R’s head(), tail(), or indexing [ ].
 
 
@@ -140,3 +140,235 @@ slice(mtcars, 1:5)
 
 
 ####   Examples:
+
+#Slive specific rows
+slice(mtcars, 1:5)
+
+# So filtering will do row selecting, but it will not be
+# able to return the 10th row; therefore, we use slice
+
+filter(mtcars, 10) # returns error in filter()
+slice(mtcars, 10)
+
+#remove rows by positon
+slice(mtcars, -1) # remove the first row
+
+# Return rows from 20th all to the end
+slice(mtcars, 20:n())
+
+
+#Additinoal functions for head and tail 
+slice_head(mtcars, n=3) 
+slice_tail(mtcars, n=5) 
+slice_tail(mtcars, 5) # will give you an error! 
+
+
+# for random selections of rows
+slice_sample(mtcars, n=4)  # run couple of times!
+mtcars_subset <- slice(mtcars, 2:4)
+slice_sample(mtcars_subset, n=12, replace = TRUE) # with repeatition
+slice_sample(mtcars_subset, n=12, replace = FALSE) # without repeat; but return only 3 rows
+
+
+# select rows with smallers or largest values of a variable
+slice_min(mtcars, cyl, n = 1) 
+slice_min(mtcars, cyl, n = 1, with_ties = FALSE) # Use with_ties = FALSE to return exactly n matches
+
+slice_max(mtcars, mpg, n = 5) #biggest: 33.9, 32.4, 30.4,...
+
+
+# EXERCISE 1: Extract last 5  rows from mtcars; use function slice_tail()
+# can we do it without slice_tail() ?
+
+# EXERCISE 2:  Rewrite using slice():  mtcars[1:5, ]
+
+
+## ------------
+## Mutate
+## ------------
+
+# What does mutate() do?
+#  Adds or modifies columns to an existing dataset.
+#  Replacement for Base R’s $ operator or transform().
+ 
+
+# Base R
+mtcars$new_col <- mtcars$mpg * 2
+
+ rm(mtcars)
+ mtcars <- mtcars
+
+# Tidyverse
+mutate(mtcars, new_col = mpg * 2)
+
+
+####   Examples:
+
+
+# Create new column called weight_ratio
+mutate(mtcars, weight_ratio = wt / disp)
+
+# Modify an existing column
+mutate(mtcars, hp = hp * 2)
+
+# Add multiple columns
+mutate(mtcars, hp2 = hp**2, mpg2 = mpg^2)
+
+
+## Additional functions
+# lead(), lag()
+# dense_rank(), min_rank(), percent_rank(), row_number(), cume_dist(), ntile()
+# cumsum(), cummean(), cummin(), cummax(), cumany(), cumall()
+# na_if(), coalesce()
+# if_else(), recode(), case_when()
+
+
+# Ranking
+mutate(mtcars, rank = min_rank(desc(mpg)))
+
+mutate(mtcars, calc =  mean(disp, na.rm = TRUE) / cyl)
+
+# Way to do it: mutate(g = ifelse(condition1, 2, ifelse(condition2, 3, g))
+mutate(mtcars, g = ifelse(gear == 2 | gear == 5 | gear == 3 , 2,
+                  ifelse(gear == 1 | gear == 4, 3, NA)))
+
+
+# EXERCISE: In iris dataset add column using function lag()
+
+# mutate(mtcars, last_prev_val_cyl = lag(cyl))
+
+# EXERICE: Rewrite mtcars$new_col <- mtcars$cyl*mtcars$gea
+
+## ------------
+## Pipe: Chaining Commands Together
+## ------------
+
+
+# What does the pipe operator do?
+
+#  is represented as %>%
+#  Chains commands together to make code more readable.
+#  Passes the output of one function as input to the next.
+
+
+# R (without pipe)
+filtered <- filter(mtcars, cyl == 6)
+selected <- select(filtered, mpg, hp)
+
+# R with example with Pipes
+mtcars %>%
+  filter(cyl == 6) %>%
+  select(mpg, hp)
+
+
+####   Examples:
+
+
+# combining functions 
+mtcars %>%
+  filter(mpg > 20) %>%
+  select(mpg, hp)
+
+
+# EXERCOSE 1: Use mtcars and for rows where gear == 4 and select disp and wt.
+
+
+# EXERCISE 2: The equivalent base R expression would be: `mtcars[mtcars$mpg >= 22.1, c("cyl", "gear", "hp")]`
+
+
+## ------------
+## Pipe: Combinations of functions!
+## ------------
+
+
+# Build a Pipeline:
+  # Filter rows (mpg > 20).
+  # Select specific columns (mpg, cyl, hp).
+  # Add a new column (power_to_weight as hp/wt).
+  # Extract the first 5 rows.
+
+
+mtcars %>%
+  filter(mpg > 20) %>%
+  select(mpg, cyl, hp, wt) %>%
+  mutate(power_to_weight = hp / wt) %>%
+  slice(1:5)
+
+
+# Explain this pipeline
+
+iris %>%
+  filter(Species == "setosa") %>%
+  mutate(Petal.Area = Petal.Length * Petal.Width) %>%
+  select(Sepal.Length, Petal.Area) %>%
+  slice(1:10)
+
+
+# EXERCISE 1: Filter iris for Sepal.Length > 5, create a new column for Sepal.Ratio 
+# (Sepal.Width/Sepal.Length), and select only Sepal.Length, Sepal.Ratio.
+
+
+## ------------
+## Pipe: Caveats!
+## ------------
+
+# 1 Order of operations!
+
+# The order of functions in a pipeline can be repeated and order of the functions is usually not sensitve
+# There is no set order because you can put these commands in any order or sequence depending on what 
+# it is that you want to do.
+
+# Filtering first
+mtcars %>%
+  filter(mpg > 30) %>%
+  mutate(high_mpg = mpg > 30)
+
+# Mutating first
+mtcars %>%
+  mutate(high_mpg = mpg > 30) %>%
+  filter(mpg > 30)
+
+# Mutating first
+mtcars %>%
+  mutate(high_mpg = mpg > 30) %>%
+  filter(mpg > 20) %>%
+  filter(mpg > 30) 
+
+
+# 2 Variables
+mpg <- 10  # Global variable
+mtcars %>%
+  mutate(new_mpg = mpg * 2)  # Uses 'mpg' from mtcars, not the global one
+
+
+# 3 Naming "conflicts"
+mtcars %>%
+  mutate(cyl = cyl * 2)  # Overwrites the 'cyl' column
+
+
+# 4. Not all functions work directly with pipe
+
+mtcars %>%
+  mean()  # Error: 'mean()' expects a numeric vector, not a data frame
+
+mtcars %>%
+ select(mpg) %>%
+  mean()  # argument is not numeric or logical: returning NA
+  
+mtcars %>%
+  summarize(avg_mpg = mean(mpg)) 
+
+  
+mtcars %>%
+  filter(cyl == 6) %>%
+  select(mpg, hp) %>%
+  cor()  # Base R correlation function
+
+
+# Use glimpse() to check the inbetween results
+mtcars %>%
+  filter(mpg > 20) %>%
+  glimpse() %>%
+  select(mpg, hp)
+
+
