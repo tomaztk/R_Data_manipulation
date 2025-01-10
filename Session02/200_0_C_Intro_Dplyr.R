@@ -1,15 +1,18 @@
 ### Using Tidyverse - Part 3
-### Combining functions: `select`, `filter`,  `slice`, `mutate`, `group_by`, `summarize`,  `arrange`, `join`
+### Combining functions: `select`, `filter`,  `slice`, `mutate`, 
+#                        `group_by`, `summarize`,  `arrange`, `join`
+
 
 
 ## Example 1:
 
 # Analyze the mtcars dataset to:
-# 1) calculate summary statistics by car cylinders (cyl),  #here we have group_by hidden
-# 1A) summary statistics are mean and ratio power to weight (hp / wt)
+# 1) calculate summary statistics by car cylinders (cyl),    #here we have group_by hidden
+#       1A) summary statistics are mean and ratio power to weight (hp / wt)
 # 2) filter for specific conditions: wt < 3.5
-# 3) combine the results with another dataset using a join
-# 4) and show top 2 group of cars by best power to weight ratio #here we have hidden arrange, join, slice
+# 3) combine the results with another dataset using a join  # ask
+# 4) and show top 2 group of cars by best power to weight ratio   
+              #here we have hidden arrange, join, slice
 # 5) Store results in a new data.frame
 
 
@@ -21,7 +24,7 @@ car_types <- tibble(
 
 
 df_result <- mtcars %>%
-  select(mpg, cyl, hp, wt, gear) %>%   # Step 1: Select specific columns
+  # select(mpg, cyl, hp, wt, gear) %>%   # Step 1: Select specific columns
   filter(wt < 3.5) %>%   # Step 2: Filter rows with weight (wt) less than 3.5
   mutate(power_to_weight = hp / wt) %>%   # Step 3: Create a new column for power-to-weight ratio
   group_by(cyl) %>%   # Step 4: Group by the number of cylinders
@@ -35,6 +38,8 @@ df_result <- mtcars %>%
   slice(1:2)   # Step 8: Slice the top 2 rows with the highest power-to-weight ratio
 
 
+df_result
+
 ## result will be a tibble showing:
   # The number of cylinders (cyl).
   # The mean miles per gallon (mean_mpg).
@@ -42,7 +47,9 @@ df_result <- mtcars %>%
   # The total number of cars (total_cars).
   # The car type (type).
 
-head(df_result,10)
+
+
+
 
 
 
@@ -50,7 +57,8 @@ head(df_result,10)
 
 # In mtcars create statistics for average hp and wt per transmission type and cylinder.
 # remove the row names, drop one outlier, filter the data by hp > 70 and wt < 7.4, 
-# calculate efficiency and filter the results that statistics are calculated on groups only by 2 or more cars
+# calculate efficiency and filter the results that statistics are calculated on 
+#groups only by 2 or more cars
 # Pick top 2 rows
 
 

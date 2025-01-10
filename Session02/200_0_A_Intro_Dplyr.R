@@ -13,13 +13,15 @@
 # Tidyverse functions are intuitive, readable, and chainable using pipes (%>%).
 
 
-install.packages("tidyverse")
+# install.packages("tidyverse")
 library(tidyverse)
+
 
 #sample dataset
 datasets::mtcars
 datasets::iris
 tidyr::billboard
+
 
 # Persist dataset
 mtcars <- mtcars
@@ -29,6 +31,7 @@ View(mtcars)
 names(mtcars)
 colnames(mtcars)
 rownames(mtcars)
+
 
 ## ------------
 ## select
@@ -40,11 +43,14 @@ rownames(mtcars)
 # Replacement for Base R’s indexing [] or subset() for selecting columns.
 
 # Base R
-mtcars[, c("mpg", "cyl")]
+mtcars[ , c("mpg", "cyl")]
 mtcars[1:3, c("mpg", "cyl", "wt")]
+
 
 # Tidyverse
 select(mtcars, mpg, cyl)
+mtcars[ , c("mpg", "cyl")]
+
 
 
 ####   Examples:
@@ -52,12 +58,16 @@ select(mtcars, mpg, cyl)
 # Selecting columns by name
 select(mtcars, mpg, cyl)
 
+
 # Doubles are ignored
 select(mtcars, mpg, cyl, cyl) # is ignored
-select(mtcars, cyl, mpg) # is ok
-select(mtcars, 1, 3,6) # is returned by order columns in dataframe
-select(mtcars, c(1, 3,6)) # we see, that we do not need to use c() function, but it still works 
 
+select(mtcars, cyl, mpg) # is ok
+
+select(mtcars, 1,3,6,7,8) # is returned by order columns in dataframe
+
+select(mtcars, c(1, 3,6)) # we see, that we do not need to use c() function, but it still works 
+select(mtcars, c(cyl,mpg)) 
 
 
 # Selecting columns by patterns (pattern matches)
@@ -73,16 +83,23 @@ select(billboard,num_range("wk", 6:9))
 # matches(): Matches a regular expression.
 # num_range(): Matches a numerical range like x01, x02, x03.
 
+
 # Dropping the columns
 select(mtcars, -hp, -wt)
 
 
 # EXERCISE 1: Select columns  disp and drat from mtcars.
+select(mtcars, c(disp, drat))
 
 # EXERCISE 2: Rewrite using select(): command: mtcars[,c("cyl", "hp", "mpg")]
+mtcars[,c("cyl", "hp", "mpg")]
+select(mtcars, c("cyl", "hp", "mpg"))
+
 
 # EXERCISE 3: In iris dataset select columns that ends with "Width" or with "Length"
-# select(iris, ends_with(c("Width", "Length")))
+select(iris, ends_with(c("Width", "Length")))
+
+
 
 ## ------------
 ## filter
@@ -110,16 +127,21 @@ filter(mtcars, mpg == 21)
 filter(mtcars, mpg > 20, cyl == 6) # When multiple expressions are used, they are combined using &
 filter(mtcars, mpg > 20 & cyl == 6) # Logical operators &, |, !, xor()
 
+
 # Using logical operators when using multiple conditions
 filter(mtcars, mpg > 20 | cyl == 4)
 
 
 # EXERCISE 1: Filter rows where gear is 5 or mpg > 25.
+filter(mtcars, gear == 5 | mpg > 25)
 
 # EXERCISE 2:  Rewrite using filter():  mtcars[mtcars$mpg == 21,]
+mtcars[mtcars$mpg == 21,]
+filter(mtcars, mpg == 21)
 
 # EXERCISE 3: In mtcars dataset filter rows where mpg is between 21 and 25
-# filter(mtcars, between(mpg, 21, 25))
+filter(mtcars, between(mpg, 21, 25))
+filter(mtcars, mpg >= 21 & mpg < 25)
 
 
 ## ------------
@@ -141,7 +163,7 @@ slice(mtcars, 1:5)
 
 ####   Examples:
 
-#Slive specific rows
+#Slice specific rows
 slice(mtcars, 1:5)
 
 # So filtering will do row selecting, but it will not be
@@ -163,9 +185,11 @@ slice_tail(mtcars, n=5)
 slice_tail(mtcars, 5) # will give you an error! 
 
 
+
 # for random selections of rows
 slice_sample(mtcars, n=4)  # run couple of times!
 mtcars_subset <- slice(mtcars, 2:4)
+
 slice_sample(mtcars_subset, n=12, replace = TRUE) # with repeatition
 slice_sample(mtcars_subset, n=12, replace = FALSE) # without repeat; but return only 3 rows
 
@@ -178,9 +202,14 @@ slice_max(mtcars, mpg, n = 5) #biggest: 33.9, 32.4, 30.4,...
 
 
 # EXERCISE 1: Extract last 5  rows from mtcars; use function slice_tail()
-# can we do it without slice_tail() ?
+# Can we do it without slice_tail() ?
+
+slice_tail(mtcars, n=5)
+# n()-5:n()
 
 # EXERCISE 2:  Rewrite using slice():  mtcars[1:5, ]
+mtcars[1:5, ]
+slice(mtcars, 1:5)
 
 
 ## ------------
@@ -212,7 +241,9 @@ mutate(mtcars, weight_ratio = wt / disp)
 mutate(mtcars, hp = hp * 2)
 
 # Add multiple columns
-mutate(mtcars, hp2 = hp**2, mpg2 = mpg^2)
+mutate(mtcars, hp2 = hp**2, 
+               mpg2 = mpg^2
+       )
 
 
 ## Additional functions
@@ -233,11 +264,13 @@ mutate(mtcars, g = ifelse(gear == 2 | gear == 5 | gear == 3 , 2,
                   ifelse(gear == 1 | gear == 4, 3, NA)))
 
 
-# EXERCISE: In iris dataset add column using function lag()
-
-# mutate(mtcars, last_prev_val_cyl = lag(cyl))
+# EXERCISE: In mtcars dataset add column using function lag()
+ mutate(mtcars, last_prev_val_cyl = lag(cyl))
 
 # EXERICE: Rewrite mtcars$new_col <- mtcars$cyl*mtcars$gea
+mtcars$new_col <- mtcars$cyl*mtcars$gear
+mutate(mtcars, new_col = cyl*gear) 
+
 
 ## ------------
 ## Pipe: Chaining Commands Together
@@ -255,6 +288,8 @@ mutate(mtcars, g = ifelse(gear == 2 | gear == 5 | gear == 3 , 2,
 filtered <- filter(mtcars, cyl == 6)
 selected <- select(filtered, mpg, hp)
 
+selected
+
 # R with example with Pipes
 mtcars %>%
   filter(cyl == 6) %>%
@@ -269,11 +304,22 @@ mtcars %>%
   filter(mpg > 20) %>%
   select(mpg, hp)
 
+mtcars[mtcars$mpg > 20, c("mpg", "hp")]
 
-# EXERCOSE 1: Use mtcars and for rows where gear == 4 and select disp and wt.
 
+# EXERCISE 1: Use mtcars and for rows where gear == 4 and select disp and wt.
+mtcars %>%
+  filter(gear == 4) %>%
+  select(disp, wt)
 
 # EXERCISE 2: The equivalent base R expression would be: `mtcars[mtcars$mpg >= 22.1, c("cyl", "gear", "hp")]`
+
+mtcars[mtcars$mpg >= 22.1, c("cyl", "gear", "hp")]
+
+mtcars %>%
+  filter(mpg >= 22.1) %>%
+  select("cyl", "gear", "hp")
+
 
 
 ## ------------
@@ -285,14 +331,15 @@ mtcars %>%
   # Filter rows (mpg > 20).
   # Select specific columns (mpg, cyl, hp).
   # Add a new column (power_to_weight as hp/wt).
-  # Extract the first 5 rows.
+  # Extract the first 5 rows. !!! podatki niso sortirani
 
 
 mtcars %>%
-  filter(mpg > 20) %>%
-  select(mpg, cyl, hp, wt) %>%
-  mutate(power_to_weight = hp / wt) %>%
-  slice(1:5)
+   filter(mpg > 20) %>%
+   select(mpg, cyl, hp,wt) %>%
+   mutate(power_to_weight = hp/wt) %>%
+   slice(1:5)
+
 
 
 # Explain this pipeline
@@ -307,6 +354,10 @@ iris %>%
 # EXERCISE 1: Filter iris for Sepal.Length > 5, create a new column for Sepal.Ratio 
 # (Sepal.Width/Sepal.Length), and select only Sepal.Length, Sepal.Ratio.
 
+iris %>%
+  filter(Sepal.Length > 5) %>%
+  mutate(Sepal.Ratio = Sepal.Width/Sepal.Length) %>%
+  select(Sepal.Length, Sepal.Ratio)
 
 ## ------------
 ## Pipe: Caveats!
@@ -328,11 +379,23 @@ mtcars %>%
   mutate(high_mpg = mpg > 30) %>%
   filter(mpg > 30)
 
+
+mtcars %>% mutate(high_mpg = mpg > 30) %>% filter(mpg > 30)
+
 # Mutating first
 mtcars %>%
-  mutate(high_mpg = mpg > 30) %>%
-  filter(mpg > 20) %>%
-  filter(mpg > 30) 
+  filter(mpg > 30) %>%
+  mutate(high_mpg = mpg > 30)
+
+
+mtcars %>%
+  filter(cyl == 4) %>%
+  select (wt, mpg)
+
+
+mtcars %>%
+  select (wt, mpg) %>%
+  filter(cyl == 4)
 
 
 # 2 Variables
