@@ -176,3 +176,79 @@ df1 %>%
 
 
 ####   Examples:
+
+# Inner Join
+df1 <- data.frame(id = 1:3, value1 = c("A", "B", "C"))
+df2 <- data.frame(id = 2:4, value2 = c("X", "Y", "Z"))
+
+df1 %>%
+  inner_join(df2, by = "id")
+
+
+# Left Join
+df1 %>%
+  left_join(df2, by = "id")
+
+# Right Join
+df1 %>%
+  right_join(df2, by = "id")
+
+
+# Full (outer) join
+df1 %>%
+  full_join(df2, by = "id")
+
+
+# EXERCISE 1: perform an inner_join() and a full_join() by column name
+
+df1 <- data_frame(
+  ime = c("Matjaz", "Marko", "Tomaz"),
+  dom = c("Ljubljana", "Celje", "Koper"),
+  okraj = c("ABC-CD", "ABC-CD", "ABC-DE")
+)
+df2 <- data_frame(
+  ime = c("Matjaz", "Marko", "Janez"),
+  barva = c("modra", "rdeca", "zelena"),
+  okraj = c("ABC-CD", "ABC-DE", "ABC-DE")
+)
+
+# EXERCISE 1: perform an inner_join() and a full_join().
+inner_join(df1, df2, by = c("ime"))
+
+df1 %>%
+  inner_join (df2, by = c("ime"))
+
+
+full_join(df1, df2, by = c("ime"))
+
+df1 %>%
+  full_join (df2, by = c("ime"))
+
+# EXERCISE 2: Create an inner_join() on multiple columns (ime, okraj).
+
+df1 %>%
+  inner_join(df2, by = c("ime", "okraj"))
+
+
+## ------------
+## combining 
+## ------------
+
+
+# Analyze mtcars:
+# 1) Group by cyl.
+# 2) Calculate the mean of mpg and the total hp.
+# 3) Arrange the results in descending order of mean mpg.
+
+
+mtcars %>%
+  group_by(cyl) %>%
+  summarize(mean_mpg = mean(mpg), total_hp = sum(hp)) %>%
+  arrange(desc(mean_mpg))
+
+# Find average value of Sepal.Length in iris dataset and arrange results in asc order 
+iris %>%
+  group_by(Species) %>%
+  summarize(avg_sepal_length = mean(Sepal.Length)) %>%
+  arrange(avg_sepal_length)
+

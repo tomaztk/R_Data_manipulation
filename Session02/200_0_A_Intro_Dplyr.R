@@ -365,7 +365,7 @@ mtcars %>%
   cor()  # Base R correlation function
 
 
-# Use glimpse() to check the inbetween results
+# Use glimpse() to check the in-between dataset 
 mtcars %>%
   filter(mpg > 20) %>%
   glimpse() %>%
