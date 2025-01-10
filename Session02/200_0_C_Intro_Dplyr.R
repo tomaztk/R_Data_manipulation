@@ -1,6 +1,9 @@
 ### Using Tidyverse - Part 3
 ### Combining functions: `select`, `filter`,  `slice`, `mutate`, `group_by`, `summarize`,  `arrange`, `join`
 
+
+## Example 1:
+
 # Analyze the mtcars dataset to:
 # 1) calculate summary statistics by car cylinders (cyl),  #here we have group_by hidden
 # 1A) summary statistics are mean and ratio power to weight (hp / wt)
@@ -43,9 +46,6 @@ head(df_result,10)
 
 
 
-
-
-
 ## Example 2:
 
 # In mtcars create statistics for average hp and wt per transmission type and cylinder.
@@ -59,6 +59,7 @@ transmission_types <- tibble(
   am = c(0, 1),
   transmission = c("Automatic", "Manual")
 )
+
 
 
 # check  multiple select, filter commands
