@@ -100,7 +100,79 @@ iris %>%
 ## ------------
 
 
-What does arrange() do?
+# What does arrange() do?
+
+#  Orders rows of a dataset by one or more columns.
+#  Replacement for Base R’s order().
+
+
+# Base R equivalent
+mtcars[order(mtcars$mpg), ]
+
+# Tidyverse
+mtcars %>%
+  arrange(mpg) 
+
+####   Examples:
+
+
+# arrange (sort) in ascending order
+mtcars %>%
+  arrange(mpg)
+
+#arrange (sort) in descending order
+
+mtcars %>%
+  arrange(desc(mpg))
+
+# arrange by multiple columns
+mtcars %>%
+  arrange(cyl, desc(mpg))
+
+
+# arrange by group
+# grouped arrange ignores groups
+by_cyl <- mtcars %>% group_by(cyl)
+
+by_cyl %>% arrange(desc(wt))
+#vs.
+by_cyl %>% arrange(desc(wt), .by_group = TRUE)
+
+# EXERCISE 1 : get the iris dataset and arrange by Sepal.Length in descending order.
+
+
+## ------------
+## join
+## ------------
+
+# What do join functions do?
   
-  Orders rows of a dataset by one or more columns.
-Replacement for Base R’s order().
+#  Combine two datasets by matching rows based on one or more keys.
+#  Replacement for Base R’s merge().
+
+
+## Common Joins in Tidyverse:
+  
+# inner_join(): Keeps only rows with matches in both datasets.
+# left_join(): Keeps all rows in the left dataset, with matching rows from the right.
+# right_join(): Keeps all rows in the right dataset, with matching rows from the left.
+# full_join(): Keeps all rows from both datasets.
+
+
+# Create sample data
+df1 <- data.frame(id = 1:3, value1 = c("A", "B", "C"))
+df2 <- data.frame(id = 2:4, value2 = c("X", "Y", "Z"))
+
+head(df1)
+head(df2)
+
+
+# Base R equivalent
+merge(df1, df2, by = "id")
+
+# Tidyverse
+df1 %>%
+  inner_join(df2, by = "id")
+
+
+####   Examples:
