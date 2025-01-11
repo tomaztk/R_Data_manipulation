@@ -60,3 +60,8 @@ ggplot(mtcars_long, aes(x = car_name, y = value, fill = car_attribute)) +
 
 # Transforms data from long format to wide format.
 # Replacement for reshape() in Base R.
+
+head(billboard) #check how dataset looks
+
+billboard_wide <- billboard %>%
+  pivot_wider(names_from = week, values_from = rank)
