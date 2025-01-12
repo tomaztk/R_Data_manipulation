@@ -156,7 +156,7 @@ mtcars_nested <- mtcars %>%
 
 print(mtcars_nested)
 
-# assume i want to calculate lm for each group of cyl (4,6,8)
+# assume we want to calculate lm for each group of cyl (4,6,8)
   mtcars_models <- mtcars %>%
   group_by(cyl) %>% 
   mutate(models = list(lm(mpg ~ wt, data = cur_data())))
@@ -447,4 +447,114 @@ mtcars %>%
 ## ------------
 ## pull()
 ## ------------
+
+# Extract a single column, and stores it as an vector (int,num, char,...)
+# In base R is done with column selection
+
+mpg_vector <- mtcars %>%
+    pull(mpg)
+
+#base R
+mpg_vector2 <- mtcars$mpg
+
+carname_vector <- mtcars %>%
+  mutate(car_name = rownames(mtcars)) %>%
+  pull(car_name)
+
+# check types
+class(mpg_vector)
+class(mpg_vector2)
+class(carname_vector)
+
+
+## ------------
+## relocate()
+## ------------
+
+# Change column order. 
+# Useful function when importing data from files (csv, txt, excel) or from databases or other endpoints 
+
+
+mtcars_persistent <- mtcars
+colnames(mtcars_persistent)
+#  [1] "mpg"  "cyl"  "disp" "hp"   "drat" "wt"   "qsec" "vs"   "am"   "gear" "carb"
+
+mtcars_persistent <- mtcars_persistent %>%
+  relocate(mpg, .after = cyl)
+
+colnames(mtcars_persistent)
+#  [1] "cyl"  "mpg"  "disp" "hp"   "drat" "wt"   "qsec" "vs"   "am"   "gear" "carb"
+
+
+## ------------
+## rename()
+## ------------
+
+# Renames columns.
+
+mtcars_persistent <- mtcars_persistent %>%
+  rename(miles_per_gallon = mpg,
+         cylinder = cyl,
+         horse_power = hp)
+
+colnames(mtcars_persistent)
+# [1] "cylinder"         "miles_per_gallon" "disp"             "horse_power"      "drat"             "wt"               "qsec"            
+# [8] "vs"               "am"               "gear"             "carb"      
+
+## ------------
+## renames_with()
+## ------------
+
+# Renames columns using a function.
+# Let's experiment with  `iris` dataset
+
+iris_persistent <- iris
+
+colnames(iris_persistent)
+# [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species" 
+
+# R is case-sensitive and dots in the variable names redundant.
+# Let's change that
+
+iris_persistent <- iris_persistent %>%
+  rename_with( ~ tolower(gsub(".", "", .x, fixed = TRUE)))
+
+colnames(iris_persistent)
+# [1] "sepallength" "sepalwidth"  "petallength" "petalwidth"  "species"  
+
+
+## ------------
+## across() 
+## ------------
+
+# Applies functions to multiple columns simultaneously.
+# Makes it easy to apply the same transformation to multiple columns, allowing you to use select(),  summarise() and mutate().
+
+set.seed(2908)
+df <- data.frame(id = 1:4, w = runif(4), x = runif(4), y = runif(4), z = runif(4))
+n <- rnorm(1)
+
+df %>%
+  mutate(across(w:z, ~ .x + n))
+
+df
+
+mtcars %>%
+  mutate(across(c(mpg, hp), ~ . * 2))
+
+## ------------
+## c_across()
+## ------------
+ 
+# Combine values from multiple columns and works rowwise() to make it easy to perform row-wise aggregations.
+# in Base R is similar to c()
+
+df %>%
+  # check with rowwise() and without rowwise()
+  # rowwise() %>% #adding rowwise to achieve row wise operation
+  mutate(
+    sum = sum(c_across(w:z)),
+    sd = sd(c_across(w:z))
+  )
+
 
