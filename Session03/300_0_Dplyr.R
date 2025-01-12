@@ -353,3 +353,98 @@ union_dataset
 
 union_all_dataset <- union_all(mtcars[1:10, ], mtcars[5:15, ])
 union_all_dataset
+
+## ## ## ## ## ## ## ## ## ## ## ##
+## Grouped data operations
+## group_map(), group_modify(), group_walk()
+## ## ## ## ## ## ## ## ## ## ## ##
+
+
+## ------------
+##  group_map()
+## ------------
+
+# Applies a function to each group and returns a list.
+# Is a purrr-style functions that can be used to iterate on grouped tibbles.
+
+# applies function f
+# group_map(.data, .f, ..., .keep = FALSE)
+
+
+map_mtcars <- mtcars %>%
+  group_by(cyl) %>%
+  group_map(~ mean(.x$mpg))
+
+
+mtcars %>%
+  group_by(cyl) %>%
+  group_map(~ head(.x, 2))
+
+m1<-mtcars %>%
+  group_by(cyl) %>%
+  group_map( ~ lm(mpg ~ wt, data =.))
+
+
+## ------------
+##  group_modify()
+## ------------
+
+# Allows for custom modifications to each group and returns a grouped tibble. In that case .f must return a data frame.
+# Is a purrr-style functions that can be used to iterate on grouped tibbles.
+
+# Use group_modify() when summarize() is too limited, in terms of
+# what you need to do and return for each group. group_modify() is 
+# good for "data frame in, data frame out". If that is too limited, 
+# you need to use a nested or split workflow. group_modify() is an 
+# evolution of do(), if you have used that before. (source: Tidyverse documentation)
+
+
+mtcars %>%
+  group_by(cyl) %>%
+  group_modify(~ head(.x, 3))
+
+
+#will produce error. it expects data.frame as a result set
+mtcars %>%
+  group_by(cyl) %>%
+  group_modify( ~ lm(mpg ~ wt, data =.))
+ 
+# we use broom 
+mtcars %>%
+  group_by(cyl) %>%
+  # group_modify( ~ lm(mpg ~ wt, data =.))
+   group_modify( ~ broom::tidy(lm(mpg~ wt, data =.)))
+
+
+## ------------
+##  group_walk()
+## ------------
+
+# group_walk() calls .f for side effects and returns the input .tbl, invisibly.
+# Runs a side-effect function (e.g., print) on each group.
+# Is a purrr-style functions that can be used to iterate on grouped tibbles.
+
+
+mtcars %>%
+  group_by(cyl) %>%
+  group_walk(~ print(mean(.x$mpg)))
+
+
+getwd()
+setwd("/Users/tomazkastrun/Documents/tomaztk_github/R_Data_manipulation/Session03")
+
+mtcars %>%
+  group_by(cyl) %>%
+  group_walk(~ write.csv(.x, file = file.path(getwd(), paste0("cyl_",.y$cyl, ".csv"))))
+
+
+## ## ## ## ## ## ## ## ## ## ## ##
+## Helper functions
+## Column manipulation: pull(), relocate(), rename()
+## Column transformations: across(), c_across()
+## ## ## ## ## ## ## ## ## ## ## ##
+
+## ------------
+## pull()
+## ------------
+
