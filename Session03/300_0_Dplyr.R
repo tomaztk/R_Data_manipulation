@@ -318,3 +318,38 @@ try(rows_insert(df, tibble(a = 3, b = "z")))
 # error
 
 df %>% rows_insert(., tibble(a = 15, b = "r"), after = 7)
+
+
+
+
+
+## ## ## ## ## ## ## ## ## ## ## ##
+## Row  operations
+## # intersect(), union(), union_all()
+## ## ## ## ## ## ## ## ## ## ## ##
+
+## ------------
+##  intersect()
+## ------------
+
+# Finds rows common to two datasets.
+
+mtcars[1:10, ]
+mtcars[5:15, ]
+
+intersect_rows <- intersect(mtcars[1:10, ], mtcars[5:15, ])
+head(intersect_rows)
+
+
+## ------------
+##  union()
+##  union_all()
+## ------------
+
+# Combines rows from two datasets. union_all() keeps duplicates.
+
+union_dataset <- union(mtcars[1:10, ], mtcars[5:15, ])
+union_dataset
+
+union_all_dataset <- union_all(mtcars[1:10, ], mtcars[5:15, ])
+union_all_dataset
