@@ -51,6 +51,29 @@ read_delim("file2.csv", locale =  locale(decimal_mark = ",")) #specify decimal m
 library(purrr)
 
 
+# The purrr package simplifies iterations, replacing for loops with elegant, functional-style code.
+# Key Functions:
+  
+# map(): Apply a function to each element of a list.
+# map_df(): Apply a function and return a data frame.
+# map2(): Map a function over two lists simultaneously.
+# pmap(): Map a function over multiple lists.
+
+
+
+tiger <- list(species = "tiger", name = "Cuddle", weight = 150, age = 12)
+shark <- list(species = "shark", name = "Teeth", weight = 302, age = 15)
+dragon <- list(species = "dragon", name = "Firebreath", weight = 2400, age = 4)
+
+# Merge them together
+animals <- list(tiger,shark,dragon)
+names(animals) <- c("earth","water","fantasy")
+
+# Now use map() to access the name of each: 
+
+map(animals,"name") # See output
+map(animals, "species") # See output
+map(animals, "age") # See output. Cool!
 
 
 
