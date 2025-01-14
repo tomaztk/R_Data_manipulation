@@ -77,6 +77,37 @@ map(animals, "age") # See output. Cool!
 
 
 
+my_first_list <- list(my_number = 5,
+                      my_vector = c("a", "b", "c"),
+                      my_dataframe = data.frame(a = 1:3, b = c("q", "b", "z"), c = c("bananas", "are", "so very great")))
+my_first_list
+
+# A map function is one that applies the same action/function to every element of an object 
+# (e.g. each entry of a list or a vector, or each of the columns of a data frame).
+
+addTen <- function(.x) {
+  return(.x + 10)
+}
+
+map(.x = c(1, 4, 7), 
+    .f = addTen)
+
+map(c(1, 4, 7), addTen)
+
+map(data.frame(a = 1, b = 4, c = 7), addTen)
+
+map_dbl(c(1, 4, 7), addTen)
+# or short-hand with tilde and dot
+map_dbl(c(1, 4, 7), ~{.x + 10})
+
+map_chr(c(1, 4, 7), addTen)
+
+map_df(c(1, 4, 7), function(.x) {
+  return(data.frame(old_number = .x, 
+                    new_number = addTen(.x)))
+modify(c(1, 4, 7), addTen)
+
+
 
 ## ## ## ## ## ## ## ## ## ## ## ##
 ## DataEditR
