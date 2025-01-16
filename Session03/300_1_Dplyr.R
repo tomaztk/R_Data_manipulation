@@ -1,7 +1,7 @@
 ### Using Tidyverse - Part 5
 ### exploring packages:  ReadR, purrr,  DataEditR, gt
 
-
+mtcars <- mtcars
 
 ## ## ## ## ## ## ## ## ## ## ## ##
 ## readr (from Tidyverse)
@@ -87,18 +87,6 @@ my_list$my_df[, 2]
 # pmap(): Map a function over multiple lists.
 
 
-# tiger <- list(species = "tiger", name = "Cuddle", weight = 150, age = 12)
-# shark <- list(species = "shark", name = "Teeth", weight = 302, age = 15)
-# dragon <- list(species = "dragon", name = "Firebreath", weight = 2400, age = 4)
-# 
-# animals <- list(tiger,shark,dragon)
-# names(animals) <- c("earth","water","fantasy")
-# 
-# map(animals,"name") # See output
-# map(animals, "species") # See output
-# map(animals, "age") # See output. Cool!
-
-
 
 # !!! Input for map() can be: 1) a list 2) a vector or 3) a data.frame.
 # map() functino works great with %>% operator. it also introduces own |>
@@ -138,26 +126,217 @@ map(mtcars, mean)
 ## map2()
 ## ------------
 
+# Applies a function to corresponding elements of two vectors/lists.
+# Input: Two lists/vectors of the same length.
+# Output: A list.
+
 # Example: Add corresponding elements of two vectors
 result <- map2(1:5, 6:10, ~ .x + .y)
 print(result)
 
+#row-wise
+result <- map2(mtcars$mpg, mtcars$cyl, ~ .x + .y)
+print(result)
+
+head(mtcars)
+head(result)
 
 
+## ------------
+## pmap()
+## ------------
+# Applies a function to multiple arguments stored in a list or data frame.
+# Input: A list of arguments (or data frame columns).
+# Output: A list.
 
 
+# Example: Add numbers in rows of a data frame
+
+a_vec <- list(as.vector(mtcars$mpg), as.vector(mtcars$cyl), as.vector(mtcars$disp))
+a_vec[1]
+a_vec$[2]
+a_vec[3]
+
+
+my_func <- function(a,b,c) return(a+b+c)
+
+result <- pmap(a_vec,  my_func)
+
+head(mtcars)
+head(result)
+
+
+## ------------
+## imap()
+## ------------
+# It applies a function to each element and its index.
+#Input: A list/vector.
+#Output: A list.
+
+
+result <- imap(mtcars, ~ paste0(.y, "_", mean(.x)))
+
+head(mtcars)
+head(result)
+
+## ------------
+## map() functions 
+## and chaining
+## ------------
+
+sample_l <-  list(a = 1:4, b = 8:12,c = 20:23)
+
+set.seed(2908) #assuring same results because of rnorm function
+sample_l |>
+  map(rnorm, n = 10) |> 
+  map_dbl(mean) 
+
+set.seed(2908) 
+sample_l %>%
+  map(rnorm, n = 10) %>% 
+  map_dbl(mean) 
+
+
+mtcars |> 
+    map_dbl(sum)
+
+
+# Supply multiple values to index deeply into a list
+sample_l2 <- list(
+  list(num = 1:3,     letters[1:3]),
+  list(num = 101:103, letters[4:6]),
+  list()
+)
+
+sample_l2 |> map(c(2)) # positions
+sample_l2 |> map(c(2,2)) # positions
+
+sample_l2 |> map(list("num", 3)) #naming the positions
+
+#split into lists by variable cyl
+by_cyl <- mtcars |> split(mtcars$cyl)
+
+#for each dataframe in list by_cyl calcualte lm
+mods <- by_cyl |> map(\(df) lm(mpg ~ wt, data = df))
+
+#maps 2 lists (iterate by same values lists (in this case cyl)) and apply function predict (from stats function)
+map2(mods, by_cyl, predict)
 
 
 
 
 ## ------------
-## modify()
+## modify()    ## Modify elements of a list or vector.
+## modify_if() ## Modify elements conditionally.
+## modify_at() ## Modify specific elements based on index or names.
 ## ------------
+# ways return a fixed object type
 
-#modify  
-modify(c(1, 4, 200, 52525), add5percent)
+#modify
+
+modify(mtcars, ~ .x + 10)
 
 
+#modify_if  
+mtcars |>
+  modify_if(is.numeric, as.character) |>
+  str()
+
+
+iris %>%
+  modify_if(is.factor, as.character) |>
+  str()
+
+iris %>% str()
+# iris |> str()
+
+mtcars |> modify_if(is.numeric, ~ .x * 2) 
+
+
+#modify_at
+
+mtcars |> modify_at(c("cyl", "am"), as.character) |> str()
+
+mtcars |> modify_at("mpg", ~ .x + 5) %>%
+  select(mpg)
+
+# combining purrr and dplyr (please be consistent!!!)
+mtcars |> 
+  mutate(abc = mpg) %>%
+  modify_at("mpg", ~ .x + 5) %>%
+  select(mpg, abc) |>
+  str()
+
+
+## ------------
+## reduce
+## ------------
+#  Combine list elements iteratively with a binary function.
+# Input: A list and a function.
+# Output: A single scalar value.
+
+
+reduce(1:5, `*`)
+1:5
+1*2*3*4*5
+
+1:5 |> reduce(`*`)
+1:5 |> reduce(`+`)
+
+
+my_paste <- function(x, y) {
+  paste(x, y, sep = "-")
+}
+
+list_stavek <- list(c(rep("A",4)), c(0:4))
+
+list_stavek |> reduce(my_paste)
+
+# reduce2 (using two lists)
+list1 <- list(c(0, 1), c(2, 3), c(4, 5)) #3 lists
+list2 <- list(c(6, 7), c(8, 9)) #2 lists
+
+reduce2(list1, list2, paste)
+reduce2(list1, list2, paste0)
+
+
+## ------------
+## accumulate
+## ------------
+# Similar to reduce, but returns intermediate results.
+#Input: A list and a function.
+#Output: A list/vector of intermediate results.
+
+
+accumulate(1:5, `*`)
+
+accumulate(1:5, `*`, .dir = "backward")
+
+1:10 %>%
+  accumulate( paste, sep=".", .dir="backward")
+
+
+accumulate(1:10, \(curr, nxt) curr + nxt, .init = 0)
+reduce(1:10, \(curr, nxt) curr + nxt, .init = 0)
+
+
+## ------------
+## compact
+## ------------
+# filtering function; part of predicate functions
+#removes NULL elements.
+#Input: A list.
+#Output: A list without NULL.
+
+my_list <- list(a = 1, b = NULL, c = 3)
+
+my_list
+compact(my_list)
+
+
+
+
+  
 
 ## ## ## ## ## ## ## ## ## ## ## ##
 ## DataEditR
@@ -165,14 +344,47 @@ modify(c(1, 4, 200, 52525), add5percent)
 
 # install.packages("DataEditR")
 library(DataEditR)
+  
+# RStudio add-in and flexible display options (either dialog box, browser or RStudio viewer pane)
+# fast rendering to quickly view datasets
+# 1)ability to interactively create data.frames from scratch
+# 2)load tabular data saved to file using any reading function (e.g. read.csv())
+# 3) save edited data to file using any writing function (e.g. write.csv())
+# 
+# Data editing features:
+
+data_edit()
+data_edit(mtcars)
+data_edit(iris)
+
+#adding column programmatically
+data_edit(iris, col_bind = data.frame(1,2,3)) #adding three columns
+data_edit(iris, row_bind = c(5.1, 3.7,1.5,0.4,3.4)) # adding 5 rows
+data_edit(iris, row_bind = data.frame(Sepal.Length=5.1, Sepal.Width=3.7,Petal.Length=1.5,Petal.Width=0.4,Species="SetVersi")) #adding row
+
+# Save changes output to csv. file
+mtcars_new <- data_edit(mtcars, save_as = "mtcars_new.csv")
 
 
 
 ## ## ## ## ## ## ## ## ## ## ## ##
 ## gt
+## reference: https://gt.rstudio.com/reference/index.html
 ## ## ## ## ## ## ## ## ## ## ## ##
 # install.packages("gt")
 library(gt)
+
+
+gt()
+
+gt_preview() 
+
+
+
+
+
+
+
 
 start_date <- "2010-06-07"
 end_date <- "2010-06-14"
