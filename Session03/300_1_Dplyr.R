@@ -69,7 +69,10 @@ my_list[4]
 
 my_list$my_df[, 2]
 
- 
+
+## ------------
+## map()
+## ------------
 
 # Key Functions is map.
 # similar to R: apply
@@ -84,16 +87,16 @@ my_list$my_df[, 2]
 # pmap(): Map a function over multiple lists.
 
 
-tiger <- list(species = "tiger", name = "Cuddle", weight = 150, age = 12)
-shark <- list(species = "shark", name = "Teeth", weight = 302, age = 15)
-dragon <- list(species = "dragon", name = "Firebreath", weight = 2400, age = 4)
-
-animals <- list(tiger,shark,dragon)
-names(animals) <- c("earth","water","fantasy")
-
-map(animals,"name") # See output
-map(animals, "species") # See output
-map(animals, "age") # See output. Cool!
+# tiger <- list(species = "tiger", name = "Cuddle", weight = 150, age = 12)
+# shark <- list(species = "shark", name = "Teeth", weight = 302, age = 15)
+# dragon <- list(species = "dragon", name = "Firebreath", weight = 2400, age = 4)
+# 
+# animals <- list(tiger,shark,dragon)
+# names(animals) <- c("earth","water","fantasy")
+# 
+# map(animals,"name") # See output
+# map(animals, "species") # See output
+# map(animals, "age") # See output. Cool!
 
 
 
@@ -109,7 +112,7 @@ add5percent <- function(.x) {
   #return((.x * 1.05) )
 }
 
-map(.x = c(1, 4, 7, 200), 
+map(.x = c(1, 4, 200, 52525), 
     .f = add5percent)
 
 map(my_list[4], add5percent) #complete df
@@ -117,18 +120,42 @@ map(my_list[[4]]$A, add5percent) # variable from df
 
 map_dbl(my_list[[5]]$mpg, add5percent) # double map on double vector
 map(my_list[[5]]$mpg, add5percent) # normal map on double vector
+map_chr(c(1, 4, 200, 52525), add5percent) #adds and converts to character
+
+#working with map_df and internal function
+map_df(c(1, 4, 200, 52525), 
+        .f = function(.x) {
+            return(data.frame(old_number = .x, 
+                new_number = add5percent(.x)) ) }
+      )
+
+
+
+#Compute the mean of each column in mtcars
+map(mtcars, mean)
+
+## ------------
+## map2()
+## ------------
+
+# Example: Add corresponding elements of two vectors
+result <- map2(1:5, 6:10, ~ .x + .y)
+print(result)
 
 
 
 
 
 
-map_chr(c(1, 4, 7), addTen)
 
-map_df(c(1, 4, 7), function(.x) {
-  return(data.frame(old_number = .x, 
-                    new_number = addTen(.x)))
-modify(c(1, 4, 7), addTen)
+
+
+## ------------
+## modify()
+## ------------
+
+#modify  
+modify(c(1, 4, 200, 52525), add5percent)
 
 
 
