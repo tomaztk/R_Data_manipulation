@@ -682,8 +682,9 @@ mtcars_sub <- mtcars %>%
 
 table_5 <- mtcars_sub %>%
   select(cyl, disp, mpg, wt) %>%
-  gt() %>% 
+  gt(groupname_col = "cyl") %>% 
   summary_rows(
+    groups = c("4", "6", "8"), 
     fns = list(
       "min",
       "max",
@@ -698,7 +699,7 @@ table_5 <- mtcars %>%
   rownames_to_column() %>% 
   gt(groupname_col = "cyl") %>% 
   summary_rows(
-      groups = TRUE, 
+      groups = c("4", "6", "8"), 
       columns = c("mpg", "qsec", "gear"), 
       fns = list(
             min = ~min(.x),
@@ -795,12 +796,14 @@ table_8 %>%
 ## ------------
 
 
-# issue with summary
+# issue with summary !?!!!
+
 example_1 <- mtcars %>% 
   group_by(cyl) %>% 
   gt() %>% 
   summary_rows(
-    groups = TRUE,
+    #groups = TRUE, #does not work!
+    groups = c("4", "6", "8"),  # Replace with actual group names
     columns = c(mpg, wt),
     fns = list(mean = ~ mean(.))
   ) %>% 
