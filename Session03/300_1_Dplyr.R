@@ -17,28 +17,35 @@ library(readr)
 # read_table(): whitespace-separated files
 # read_log(): web log files
 
+#setwd("/Users/tomazkastrun/Documents/tomaztk_github/R_Data_manipulation/Session03")
+#getwd()
 
-read_delim("file.txt", delim = "|")  #  Read files with any delimiter. If no  delimiter is specified, 
+read_delim("sub_iris_pipe.txt", delim = "|")  #  Read files with any delimiter. If no  delimiter is specified, 
                                     #   it will automatically guess. 
 
-read_csv("file.csv")    # Read a comma delimited file with period  decimal marks.
+read_csv("sub_iris.csv")    # Read a comma delimited file with period  decimal marks.
 
-read_csv2("file2.csv") # Read semicolon delimited files with comma decimal marks. 
+read_csv2("sub_iris_semicolon.csv") # Read semicolon delimited files with comma decimal marks. 
 
 
-read_tsv("file.tsv") # Read a tab delimited file. Also read_table(). 
-read_fwf("file.tsv", fwf_widths(c(2, 2, NA)))  # Read a fixed width file. 
-
+# read_tsv(file) # Read a tab delimited file. Also read_table(). 
 
 
 # Arguments
 
-read_csv("file.csv", col_names = FALSE) # no header
-read_csv("file.csv",  col_names = c("x", "y", "z"))  # provides header (column names)
-read_csv("file.csv", skip = 1) # skip lines
-read_csv("file.csv", n_max = 1) # Read a subset of lines 
-read_csv("file.csv", na = c("1")) # Read values as missing 
-read_delim("file2.csv", locale =  locale(decimal_mark = ",")) #specify decimal marks
+read_csv("sub_iris.csv", col_names = FALSE) # no header
+read_csv("sub_iris.csv", skip = 1, col_names = FALSE) # skip lines
+
+read_csv("sub_iris.csv", n_max = 1) # Read a subset of lines 
+read_csv("sub_iris.csv", na = c("1")) # Read values as missing 
+read_csv("sub_iris.csv", na = c("3")) # Read values as missing 
+
+read_csv("sub_iris.csv",  col_names = c("id", "sep_len", "sep_wid", "pet_len"))  # provides header (column names)
+read_csv("sub_iris.csv",  col_names = c("id", "sep_len", "sep_wid", "pet_len"), skip = 1) 
+
+
+read_delim("sub_iris.csv", locale =  locale(decimal_mark = ".")) #specify decimal marks
+read_delim("sub_iris.csv", locale =  locale(decimal_mark = ",")) #specify decimal marks
 
 
 ## ## ## ## ## ## ## ## ## ## ## ##
@@ -154,7 +161,7 @@ head(result)
 
 a_vec <- list(as.vector(mtcars$mpg), as.vector(mtcars$cyl), as.vector(mtcars$disp))
 a_vec[1]
-a_vec$[2]
+a_vec[2]
 a_vec[3]
 
 
@@ -562,6 +569,7 @@ table_1 <- mtcars %>%
   head(5) %>% 
   gt()
 
+
 print(table_1)
 
 
@@ -775,6 +783,7 @@ print(table_8)
 ## ------------
 
 #  Save table to  an image
+# must have `CHROMOTE_CHROME` in path!
 table_8 %>% 
   gtsave( filename = "table.png" )
 
@@ -785,6 +794,8 @@ table_8 %>%
 # #  example :)
 ## ------------
 
+
+# issue with summary
 example_1 <- mtcars %>% 
   group_by(cyl) %>% 
   gt() %>% 

@@ -89,11 +89,11 @@ mtcars %>%
 mtcars %>%
   mutate(car_name = rownames(mtcars)) %>%
   group_by(gear, am, cyl) %>% 
-  #summarize(avg_mpg = mean(mpg), .groups = "drop") %>% # Calculate average mpg
+  summarize(avg_mpg = mean(mpg), .groups = "drop") %>% # Calculate average mpg
   pivot_wider(
-    names_from = cyl,        # Spread by the `cyl` column
-    # values_from = avg_mpg,   # Fill values with the `avg_mpg` column
-    values_fn = ~ mean(.x, na.rm = TRUE)
+    names_from = cyl,        # spread
+    values_from = avg_mpg,   # Fill values with the `avg_mpg` column
+    #values_fn = ~ mean(.x, na.rm = TRUE)
     names_prefix = "cyl_"    # Add a prefix for clarity
   )
 
@@ -157,13 +157,13 @@ mtcars_nested <- mtcars %>%
 print(mtcars_nested)
 
 # assume we want to calculate lm for each group of cyl (4,6,8)
-  mtcars_models <- mtcars %>%
+mtcars_models <- mtcars %>%
   group_by(cyl) %>% 
   mutate(models = list(lm(mpg ~ wt, data = cur_data())))
 
-  print(mtcars_models)
+print(mtcars_models)
 
-  #simpler using nest  
+#simpler using nest  
 mtcars_cyl_nested <- mtcars %>%
   nest(.by = cyl) %>%
   mutate(models = lapply(data, function(df) lm(mpg ~ wt, data = df))) # I use lapply and function!
@@ -314,10 +314,15 @@ df
 # row insert is similar to rbind_rows
 df <- rows_insert(df, tibble(a = 4, b = "z"))
 
-try(rows_insert(df, tibble(a = 3, b = "z")))
-# error
 
+# error 
+try(rows_insert(df, tibble(a = 3, b = "z")))
+
+# error because after 7
 df %>% rows_insert(., tibble(a = 15, b = "r"), after = 7)
+
+
+df %>% rows_insert(., tibble(a = 15, b = "r", c=2.4))
 
 
 
@@ -375,6 +380,7 @@ map_mtcars <- mtcars %>%
   group_by(cyl) %>%
   group_map(~ mean(.x$mpg))
 
+map_mtcars
 
 mtcars %>%
   group_by(cyl) %>%
@@ -384,6 +390,7 @@ m1<-mtcars %>%
   group_by(cyl) %>%
   group_map( ~ lm(mpg ~ wt, data =.))
 
+m1
 
 ## ------------
 ##  group_modify()
@@ -399,6 +406,7 @@ m1<-mtcars %>%
 # evolution of do(), if you have used that before. (source: Tidyverse documentation)
 
 
+# will get head(3) from each subset
 mtcars %>%
   group_by(cyl) %>%
   group_modify(~ head(.x, 3))
@@ -454,8 +462,12 @@ mtcars %>%
 mpg_vector <- mtcars %>%
     pull(mpg)
 
+mpg_vector
+
 #base R
 mpg_vector2 <- mtcars$mpg
+
+mpg_vector2
 
 carname_vector <- mtcars %>%
   mutate(car_name = rownames(mtcars)) %>%
@@ -533,6 +545,8 @@ colnames(iris_persistent)
 set.seed(2908)
 df <- data.frame(id = 1:4, w = runif(4), x = runif(4), y = runif(4), z = runif(4))
 n <- rnorm(1)
+
+df
 
 df %>%
   mutate(across(w:z, ~ .x + n))
