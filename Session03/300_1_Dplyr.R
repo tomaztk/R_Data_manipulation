@@ -334,11 +334,177 @@ my_list
 compact(my_list)
 
 
+## ------------
+## keep
+## ------------
+
+#Keeps elements that satisfy a condition.
+#Input: A list/vector and a condition.
+#Output: Filtered list/vector.
 
 
+keep(mtcars, ~ mean(.x) > 20)
+keep(mtcars, ~ mean(.x) > 5)
+
+
+
+## ------------
+## keep_at
+## ------------
+
+# Keeps elements based on specific indices or names.
+#Input: A list/vector and indices/names.
+#Output: Filtered list/vector.
+
+keep_at(mtcars, c("mpg", "cyl"))
+
+mtcars %>% 
+    keep_at(c("mpg", "cyl"))
+
+
+## ------------
+## discard
+## ------------
+
+#Removes elements that satisfy a condition. or a column level!
+#Input: A list/vector and a condition.
+#Output: Filtered list/vector.
   
 
-## ## ## ## ## ## ## ## ## ## ## ##
+discard(mtcars, ~ mean(.x) < 20)
+discard(mtcars, ~ mean(.x) < 5)
+
+
+## ------------
+## discard_at
+## ------------
+# discard elements based on specific indices or names.
+#Input: A list/vector and a condition.
+#Output: Filtered list/vector.
+
+mtcars %>% 
+  discard_at(c("mpg", "cyl"))
+
+
+# drop columns where name lenght == 2
+mtcars %>% 
+  discard_at(~ nchar(.x) == 2) 
+
+
+## ------------
+## pluck
+## ------------
+#Extracts a specific element from a list. 
+# using combination of numeric positions, vectors or list names for extracting 
+# deeply nested data structures
+#Input: A list and an index/name.
+#Output: Extracted element.
+
+pluck(mtcars, "mpg")
+
+# let's make more complex (nested) structure
+obj1 <- list("a", list(1, name = "Tom"))
+obj2 <- list("b", list(2, name = "John"))
+all_object <- list(obj1, obj2)
+
+all_object
+
+pluck(all_object, 1)
+# in base R
+all_object[[1]]
+
+
+pluck(all_object, 1, 2)
+# in base R
+all_object[[1]][[2]]
+
+
+pluck(all_object, 1, 2, "name")
+# in base R
+all_object[[1]][[2]][["name"]]
+
+
+
+## ------------
+## list_flatten
+## ------------
+# Flattens a list of lists into a single list.
+# Input: A nested list.
+#Output: A flat list.
+
+simple_list <- list("a", ime="Tom", 29)
+simple_list
+
+#same functionality
+list_flatten(simple_list) %>% str()
+simple_list |> list_flatten() |> str()
+
+
+# three time nested list
+obj1 <- list("a", list(1, name = "Tom", list(29,8)))
+obj2 <- list("b", list(2, name = "John", list(29,10)))
+obj3 <- list("c", list(4, name = "Jill", list(20,20)))
+all_object <- list(obj1, obj2,obj3)
+
+#does not flatten immediately
+all_object |> list_flatten() |> str()
+
+# Three times is a charm :)
+all_object |> list_flatten() |> 
+              list_flatten() |> 
+              list_flatten() |> str()
+
+
+# check depth of nested lists
+all_object |> pluck_depth()
+
+all_object |>list_flatten() |> pluck_depth()
+
+## ------------
+## list_cbind
+## list_rbind
+## ------------
+# Concatenate / combines elements into a vector or dataframe  
+# by concatenating (list_c) or row|column binding (list_cbind, list_rbind)
+# in R: cbind  or rows  R: rbind
+#Input: Lists.
+#Output: vector or Data frame
+
+l <- list(a = 1:3, b = 4:6)
+print(l)
+
+l %>% list_c()
+
+mtcars_df1 <- mtcars %>%
+                select(mpg, cyl) %>%
+                filter(cyl == 6 & mpg >= 20.0) %>%
+                  rownames_to_column() 
+
+mtcars_df2 <- mtcars %>%
+                select(mpg, cyl) %>%
+                filter(cyl == 8 & mpg <= 16.0) %>%
+                rownames_to_column() 
+                  
+
+mtcars_list <- list(a=mtcars_df1, 
+                       b=mtcars_df2)
+
+#will append rows
+list_rbind(mtcars_list)
+
+#error, not same length
+list_cbind(mtcars_list)
+
+
+mtcars_list <- list(a=mtcars_df1, 
+                    b=data.frame(price=100))
+
+#column bind will work
+list_cbind(mtcars_list)
+ 
+
+
+1## ## ## ## ## ## ## ## ## ## ## ##
 ## DataEditR
 ## ## ## ## ## ## ## ## ## ## ## ##
 
@@ -374,29 +540,318 @@ mtcars_new <- data_edit(mtcars, save_as = "mtcars_new.csv")
 # install.packages("gt")
 library(gt)
 
-
-gt()
-
-gt_preview() 
-
+#Introduction to gt
+# The gt package simplifies creating beautiful, publication-quality tables in R.
+# And Offers powerful formatting tools for styling, summarizing, and customizing tables.
 
 
 
+## ------------
+# 1. Basic Table Creation
+## ------------
+
+# Create a basic table from a data frame.
+#Takes a dataframe  or tibble as an input
+
+
+mtcars %>%
+  head(5) %>% 
+  gt()
+
+table_1 <- mtcars %>%
+  head(5) %>% 
+  gt()
+
+print(table_1)
 
 
 
+## ------------
+# 2. Adding titles, subtitles, notes
+## ------------
+# Functions: tab_header, tab_footnote.
 
-start_date <- "2010-06-07"
-end_date <- "2010-06-14"
-
-sp500 |>
-  dplyr::filter(date >= start_date & date <= end_date) |>
-  dplyr::select(-adj_close) |>
-  gt() |>
+# Adding titles
+table_2 <- mtcars %>% 
+  head(5) %>% 
+  gt() %>% 
   tab_header(
-    title = "S&P 500",
-    subtitle = glue::glue("{start_date} to {end_date}")
-  ) |>
-  fmt_currency() |>
-  fmt_date(columns = date, date_style = "wd_m_day_year") |>
-  fmt_number(columns = volume, suffixing = TRUE)
+    title = "Table of mtcars Dataset",
+    subtitle = "A subset of the mtcars data (first 5 rows)"
+  )
+print(table_2)
+
+
+#  Add a footnote
+table_2 <- table_2 %>% 
+  tab_footnote(
+    footnote = "Source: mtcars dataset; mpg variable",
+    locations = cells_column_labels(c(mpg))
+  )
+print(table_2)
+
+
+## ------------
+# 3. Data formatting columns
+## ------------
+# functions: fmt_number, fmt_percent, fmt_currency, fmt_date, fmt_missing.
+
+
+# Format columns 
+table_3 <- mtcars %>% 
+  mutate(
+    datetime = seq(
+      from = as.POSIXct("2025-01-01 00:00:00"),
+      by = "1 hour",
+      length.out = n()
+    )
+    ,timedate = seq(
+      from = as.POSIXct("2025-01-01 00:00:00"),
+      by = "1 hour",
+      length.out = n()
+    )
+  ) %>%
+  head(5) %>% 
+  gt() %>% 
+  fmt_number(
+    columns = c(mpg, wt),
+    decimals = 2
+  ) %>% 
+  fmt_currency(
+    columns = c(disp),
+    currency = "EUR"
+  ) %>%
+  fmt_percent(
+    columns = drat, 
+    decimals = 0
+  ) %>%
+  fmt_date (
+    columns = datetime,
+    date_style = "day_m"
+  )  %>%
+  fmt_time (
+    columns = timedate,
+    time_style = "h_m_p" #"hm"
+    #locale = "sl"
+  )
+
+print(table_3)
+
+
+#Check locale
+info_locales()
+
+
+## ------------
+# 4. Highlighting Important Data
+# Conditional formatting
+## ------------
+# Functions: tab_style, data_color.
+
+# Example: Highlight rows where mpg > 20
+table_4 <- mtcars %>% 
+  head(10) %>% 
+  gt() %>% 
+  tab_style(
+    style = cell_fill(color = "lightblue"),
+    locations = cells_body(
+      rows = mpg > 20
+    )
+  )
+
+print(table_4)
+
+
+## ------------
+# 5. Adding Summary Rows
+#  and totals
+## ------------
+# summary_rows, grand_summary_rows.
+
+mtcars_sub <- mtcars %>% 
+  filter(cyl == 6) %>%
+  head(10) 
+
+table_5 <- mtcars_sub %>%
+  select(cyl, disp, mpg, wt) %>%
+  gt() %>% 
+  summary_rows(
+    fns = list(
+      "min",
+      "max",
+      list(label = "avg", fn = "mean")
+    )
+  )
+
+print(table_5)
+
+table_5 <- mtcars %>% 
+  select("mpg", "qsec", "gear", "cyl") %>%
+  rownames_to_column() %>% 
+  gt(groupname_col = "cyl") %>% 
+  summary_rows(
+      groups = TRUE, 
+      columns = c("mpg", "qsec", "gear"), 
+      fns = list(
+            min = ~min(.x),
+            avg = ~mean(.x)
+            
+            ))
+
+print(table_5)
+
+## ------------
+# 6. Customizing Column Labels and spanners
+#  (or renaming)
+## ------------
+# cols_label, tab_spanner.
+
+
+table_6 <- mtcars %>% 
+  head(5) %>% 
+  gt() %>% 
+  cols_label(
+    mpg = "Miles/Gallon",
+    cyl = "Cylinders"
+  ) %>% 
+  tab_spanner(
+    label = "Performance Metrics",
+    columns = c(mpg, wt)
+  )
+print(table_6)
+
+
+## ------------
+# 7. Styling Tables
+#  fonts, themes, colours
+## ------------
+# Functions: opt_table_lines, opt_row_striping, tab_options.
+
+
+# row striping
+table_7A <- mtcars %>% 
+  head(10) %>% 
+  gt() %>% 
+  opt_row_striping()
+
+print(table_7A)
+
+# Example: Customize fonts and colors
+table_7B <- table_7A %>% 
+  tab_options(
+    table.font.size = px(12),
+    table.border.top.color = "black",
+    table_body.hlines.color = "gray"
+  )
+print(table_7B)
+
+
+
+## ------------
+# 8. Adding images /  inline HTML
+#  fonts, themes, colours
+## ------------
+# functions: text_transform, cols_merge.
+
+
+table_8 <- mtcars %>% 
+  head(5) %>% 
+  select(mpg, cyl, disp, hp) %>%
+  gt() %>% 
+  text_transform(
+    fn = function(x) { 
+        paste0(
+          "<strong>",  
+          x, 
+          "</strong>"
+        ) 
+    },
+    locations = cells_body(columns = c("mpg"))
+  )
+print(table_8)
+
+## ------------
+# Exporting
+## ------------
+
+#  Save table to  an image
+table_8 %>% 
+  gtsave( filename = "table.png" )
+
+
+## ------------
+# #  example :)
+# #  example :)
+# #  example :)
+## ------------
+
+example_1 <- mtcars %>% 
+  group_by(cyl) %>% 
+  gt() %>% 
+  summary_rows(
+    groups = TRUE,
+    columns = c(mpg, wt),
+    fns = list(mean = ~ mean(.))
+  ) %>% 
+  fmt_number(
+    columns = c(mpg, wt),
+    decimals = 2
+  ) %>% 
+  tab_style(
+    style = cell_fill(color = "lightgray"),
+    locations = cells_summary(groups = TRUE)
+  )
+
+
+print(example_1)
+
+
+
+example_2 <- mtcars %>% 
+  gt() %>% 
+  tab_header(
+    title = "Styled mtcars Table",
+    subtitle = "Custom Formatting and Highlighting"
+  ) %>% 
+  fmt_number(
+    columns = c(mpg, wt),
+    decimals = 1
+  ) %>% 
+  tab_style(
+    style = cell_fill(color = "yellow"),
+    locations = cells_body(rows = mpg > 25)
+  ) %>% 
+  opt_row_striping() %>% 
+  tab_options(
+    table.border.top.width = px(3),
+    table.border.top.color = "blue"
+  )
+
+print(example_2)
+
+
+example_3 <- mtcars %>% 
+  gt() %>% 
+  cols_label(
+    mpg = "Miles per Gallon",
+    cyl = "Cylinders"
+  ) %>% 
+  tab_spanner(
+    label = "Engine Metrics",
+    columns = c(mpg, hp, cyl)
+  ) %>% 
+  summary_rows(
+    groups = NULL,
+    columns = vars(mpg, wt),
+    fns = list(Mean = ~ mean(.), Max = ~ max(.))
+  ) %>% 
+  tab_options(
+    table.font.size = px(12),
+    table_body.hlines.color = "darkgray"
+  )
+
+print(example_3)
+
+
+
+
