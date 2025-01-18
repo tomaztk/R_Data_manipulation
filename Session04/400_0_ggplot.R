@@ -120,3 +120,31 @@ ggplot(mpg2, aes(displ, hwy)) +
    # geom_bar()
    # geom_point()
    # geom_line()
+
+
+# lets create sample dataset
+mpg2_short <- mpg2 %>%
+  select("cty", hwy) %>%
+  tail(5) %>%
+  transmute( x = cty
+          ,y = hwy
+          ,id_label = 1:5)
+
+mpg2_short
+
+
+p <- ggplot(mpg2_short, aes(x, y, label = id_label)) + 
+  labs(x = NULL, y = NULL) + # we will explain it later
+  theme(plot.title = element_text(size = 15)) # defined schema
+
+#check p
+p
+
+p + geom_point() + ggtitle("point")
+p + geom_path() + ggtitle("Connecting the dots")
+p + geom_text() + ggtitle("This is sample dataset with geom_text")
+p + geom_bar(stat = "identity") + ggtitle("Sample graph using geom_bar")
+p + geom_tile() + ggtitle("Sample graph using geom_tile")
+
+
+
