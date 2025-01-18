@@ -43,8 +43,11 @@ library(ggplot2)
 
 ggplot()
 
+## ## ## ## ## ## ## ## ## 
+## 0. General Key components
+## ## ## ## ## ## ## ## ## 
 
-## Key components
+# Key concepts
     # 1)   data,
     # 2) A set of aesthetic mappings between variables in the data and visual properties, and
     # 3) At least one layer which describes how to render each observation. Layers are usually created with a geom function.
@@ -100,7 +103,20 @@ ggplot(mpg, aes(displ, hwy)) + geom_point(colour = "blue")
 
 ggplot(mpg2, aes(displ, hwy, colour = class))  + geom_point()
 
+# or into each graphs
 ggplot(mpg2, aes(displ, hwy)) + 
   geom_point() + 
   facet_wrap(~class)
-                                           
+                                     
+
+#### 1. Layers
+
+# data + aesthetics + layer mapping graph
+
+### 1.1 Simple and basic graphs / individual geoms!
+
+# Each of these geoms is two dimensional and requires both x and y aesthetics.
+   # geom_area()
+   # geom_bar()
+   # geom_point()
+   # geom_line()
