@@ -61,6 +61,7 @@ library(purrr)
 
 # Example of list, that has three elements: a single number, a vector and a data frame
 
+  
 my_list <- list(my_num <- 2908 ,
             num_vector <- c(1:10),
             char_vector <- c("To", "je stavek. Razbit na vec elementov.", "ok", "d"),
@@ -107,10 +108,10 @@ add5percent <- function(.x) {
   #return((.x * 1.05) )
 }
 
-map(.x = c(1, 4, 200, 52525), 
-    .f = add5percent)
+map(.x = c(1, 4, 200, 52525),  .f = add5percent)
 
 map(my_list[4], add5percent) #complete df
+
 map(my_list[[4]]$A, add5percent) # variable from df
 
 map_dbl(my_list[[5]]$mpg, add5percent) # double map on double vector
@@ -165,7 +166,9 @@ a_vec[2]
 a_vec[3]
 
 
-my_func <- function(a,b,c) return(a+b+c)
+my_func <- function(a,b,c) {
+  return(a+b+c)
+}
 
 result <- pmap(a_vec,  my_func)
 
@@ -269,8 +272,8 @@ mtcars |> modify_at("mpg", ~ .x + 5) %>%
 
 # combining purrr and dplyr (please be consistent!!!)
 mtcars |> 
-  mutate(abc = mpg) %>%
-  modify_at("mpg", ~ .x + 5) %>%
+  mutate(abc = mpg) |>
+  modify_at("mpg", ~ .x + 5) |>
   select(mpg, abc) |>
   str()
 
@@ -288,6 +291,7 @@ reduce(1:5, `*`)
 1*2*3*4*5
 
 1:5 |> reduce(`*`)
+1:5 %>% reduce(`*`)
 1:5 |> reduce(`+`)
 
 
@@ -315,6 +319,7 @@ reduce2(list1, list2, paste0)
 #Output: A list/vector of intermediate results.
 
 
+reduce(1:5, `*`)
 accumulate(1:5, `*`)
 
 accumulate(1:5, `*`, .dir = "backward")
@@ -439,7 +444,7 @@ all_object[[1]][[2]][["name"]]
 # Input: A nested list.
 #Output: A flat list.
 
-simple_list <- list("a", ime="Tom", 29)
+simple_list <- list("a", ime="Tom", vec=c(29,10,11,12))
 simple_list
 
 #same functionality
@@ -511,7 +516,7 @@ list_cbind(mtcars_list)
  
 
 
-1## ## ## ## ## ## ## ## ## ## ## ##
+## ## ## ## ## ## ## ## ## ## ## ##
 ## DataEditR
 ## ## ## ## ## ## ## ## ## ## ## ##
 

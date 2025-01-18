@@ -34,19 +34,28 @@ iris <- iris
 # Transforms data from wide format to long format.
 # Replacement for reshape() in Base R.
 
+dim(mtcars)
 
 mtcars_long <- mtcars %>%
-  pivot_longer(cols = c(mpg, hp), names_to = "metric", values_to = "value")
+  pivot_longer(
+        cols = c(mpg, hp, disp), 
+        names_to = "metric", 
+        values_to = "value"
+        ) %>%
+  select(metric, value)
+
 
 # is "ok" but we need car names and drop unneeded variables
 head(mtcars_long,5)
 
+
 mtcars_long <- mtcars %>%
   mutate(car_name = rownames(mtcars)) %>%
-  pivot_longer(cols = c(mpg, hp), names_to = "car_attribute", values_to = "value") %>%
+  pivot_longer(cols = c(mpg, hp, disp), names_to = "car_attribute", values_to = "value") %>%
   select(car_name, car_attribute, value)
 
-head(mtcars_long,5)
+
+head(mtcars_long,15)
 
 #now it is easier to visualize this
 ggplot(mtcars_long, aes(x = car_name, y = value, fill = car_attribute)) +
@@ -74,6 +83,8 @@ mtcars_wide <- mtcars %>%
     )
 
 colnames(mtcars_wide)
+
+head(mtcars_wide,5)
 
 # example 2
 # simulating one-hot encoding
@@ -108,6 +119,7 @@ random_data <- data.frame(
   cases = sample(5000:50000, 25, replace = TRUE)
 )
 
+
 head(random_data,10)
 
 # wider dataset with year but 
@@ -127,8 +139,11 @@ random_data %>%
   pivot_wider(
     names_from = year,
     values_from = cases,
-    names_prefix = "cases_" #add prefix       
+    names_prefix = "year_cases_" #add prefix       
   )
+
+head(random_data,10)
+
 
 # or
 random_data %>%
@@ -139,7 +154,7 @@ random_data %>%
   pivot_wider(
     names_from = year,                              
     values_from = cases,                          
-    names_prefix = "cases_"                         
+    names_prefix = "year_cases_"                         
   )
 
 
@@ -203,6 +218,7 @@ model_results <- mtcars_models %>%
   select(-model) %>%                            
   unnest(c(tidy_model, glance_model), names_sep = "_")  
 
+
 # View the results
 print(model_results)
 
@@ -216,14 +232,17 @@ mtcars_models %>%
 mtcars_models %>%
   mutate(glance_model = map(model, glance)) %>%
   unnest(glance_model) %>%
-  select(cyl, r.squared, adj.r.squared)
+  select(cyl, r.squared, adj.r.squared) %>%
+  ggplot() + geom_bar() ...
+
 
 
 ## ## ## ## ## ## ## ## ## ## ## ##
 ## Row and column operations
 ## ## ## ## ## ## ## ## ## ## ## ##
 
-# reframe(), ungroup(), bind_cols(), bind_rows(), row_insert(), row_append(), row_update(), row_delete()
+# reframe(), ungroup(), bind_cols(), bind_rows(), 
+# row_insert(), row_append(), row_update(), row_delete()
 
 
 ## ------------
@@ -232,7 +251,7 @@ mtcars_models %>%
 
 # A tidy way to create summarized outputs.
 
- mtcars %>%
+mtcars %>%
   group_by(cyl) %>%
   reframe(
           avg_mpg = mean(mpg), 
@@ -251,7 +270,7 @@ mtcars %>%
             ,count = n()
             ) %>%
   ungroup() 
-
+  
 
 mtcars_grouped <- mtcars |>  
   group_by(cyl, mpg)
@@ -264,11 +283,15 @@ mtcars_grouped
 mtcars_grouped %>%
   summarise(n=n())
 
-mtcars_ungroped <- mtcars_grouped |> 
+mtcars_ungroped <- mtcars_grouped %>% 
   ungroup()
 
 mtcars_ungroped
 # but wait, looks exactly as the original dataset mtcars! -> check global environment!
+
+
+# tidy %>%
+# purr |> 
 
 ## ------------
 ##  bind_cols() 
@@ -302,8 +325,8 @@ tail(new_data_rows)
 ## ------------
 
 # Operations like row_insert, row_append, row_update, and row_delete 
-# are self-explanatory. These are part ofdplyr ecosystem and work with tibbles and data.frames.
-# we will focus on isert, update and delete (append is similar to bind_rows)
+# are self-explanatory. These are part of dplyr ecosystem and work with tibbles and data.frames.
+# we will focus on insert, update and delete (append is similar to bind_rows)
 
 
 
@@ -463,6 +486,7 @@ mpg_vector <- mtcars %>%
     pull(mpg)
 
 mpg_vector
+class(mpg_vector)
 
 #base R
 mpg_vector2 <- mtcars$mpg
@@ -496,6 +520,7 @@ mtcars_persistent <- mtcars_persistent %>%
 
 colnames(mtcars_persistent)
 #  [1] "cyl"  "mpg"  "disp" "hp"   "drat" "wt"   "qsec" "vs"   "am"   "gear" "carb"
+
 
 
 ## ------------
