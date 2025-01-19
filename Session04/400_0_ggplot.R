@@ -144,7 +144,74 @@ p + geom_point() + ggtitle("point")
 p + geom_path() + ggtitle("Connecting the dots")
 p + geom_text() + ggtitle("This is sample dataset with geom_text")
 p + geom_bar(stat = "identity") + ggtitle("Sample graph using geom_bar")
+p + geom_area() + ggtitle("Area for individual geom") # creates  areas
+
+#other simple types for individual geoms
+
+p + geom_polygon() + ggtitle("Polygon for individual geom")    # creates  polygons - which are filled paths
+p + geom_path() + ggtitle("Path for indivudaal geom")    
+
+#geom_rect(), geom_tile() and geom_raster() draw rectangles. 
+
+
+# geom_rect() is parameterised by the four corners of the rectangle, xmin, ymin, xmax and ymax. 
+p + geom_rect() + ggtitle("Sample graph using geom_rect")
+# error!
+# xmin, xmax, ymin, and ymax.
+
+
+# Simple data frame for rectangles; we name the variables xmin, xmax, ymin, and ymax.
+rect_data <- data.frame(
+  xmin = c(1, 2, 3),
+  xmax = c(1.5, 2.5, 3.5),
+  ymin = c(1, 2, 3),
+  ymax = c(2, 3, 4),
+  fill_color = c("red", "lightgreen", "lightblue")
+)
+
+rect_data %>%
+    ggplot(aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill  = fill_color)) +
+      geom_rect() +
+      labs(title = "Simple Example of geom_rect", x = "X-axis", y = "Y-axis") 
+
+
+#colours are off :) Let' add the scale_fill_identifier
+rect_data %>%
+  ggplot(aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill  = fill_color)) +
+  geom_rect() +
+  labs(title = "Simple Example of geom_rect", x = "X-axis", y = "Y-axis") +
+  scale_fill_identity(guide = "legend")   # Use the fill colors as defined in the data
+  # add: guide = "legend" to scale_fill_identity funtion in order to get legend
+
+rm(rect_data)
+
+# geom_tile() is exactly the same, but parameterised by the center of the rect and its size, x, y, width and height. 
 p + geom_tile() + ggtitle("Sample graph using geom_tile")
 
 
+# geom_raster() is a fast special case of geom_tile() used when all the tiles are the same size. .
+p + geom_raster() + ggtitle("Sample graph using geom_raster")
+#but will get the warniing!!!
 
+
+## Explore ggplot colors / themes
+
+# packages: Rcolorbrewer, Viridis, Paletteer
+
+
+#### Exercise 1
+# Using Iris dataset, draw histogram, where you will display the count of each observations per species. 
+# On x-axis bring species and on y-axis number of observations.
+
+iris %>% ggplot(aes(x=Species)) +
+        geom_bar() + ggtitle("Sample graph using geom_bar")
+
+
+#### Exercise 2
+# This same graph, make distinct colours per Species and add additional text on axis
+
+iris %>% ggplot(aes(x=Species, fill=Species)) +
+  geom_bar() + ggtitle("Sample graph using geom_bar") +
+  labs(title = "Number of Observations by Species",
+       x = "Species",
+       y = "Number of Observations") 
