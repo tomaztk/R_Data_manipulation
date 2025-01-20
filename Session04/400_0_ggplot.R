@@ -215,3 +215,57 @@ iris %>% ggplot(aes(x=Species, fill=Species)) +
   labs(title = "Number of Observations by Species",
        x = "Species",
        y = "Number of Observations") 
+
+
+### 1.2 Simple and basic graphs / collective geoms!
+
+#  A collective geom displays multiple observations with one geometric object.
+# This may be a result of a statistical summary, like a boxplot, or may be fundamental to the display of the geom, like a polygon. 
+# great for longitudinal data
+
+library(nlme)
+#data(Oxboys, package = "nlme")
+Oxboys <- Oxboys
+head(Oxboys)
+
+## Multiple groups, one aesthetic
+
+# just points
+Oxboys %>%
+  ggplot(aes(x= age, y = height, group = Subject)) + 
+  geom_point() 
+
+# points with lines - interconnecting
+Oxboys %>%
+  ggplot(aes(x= age, y = height, group = Subject)) + 
+  geom_point() + 
+  geom_line()
+
+
+# if you forget to define the grouping variable
+# this happens!
+Oxboys %>% 
+    ggplot( aes(x=age, y=height)) + 
+  geom_point() + 
+  geom_line()
+
+############
+# playing with layers
+#############
+
+# different groups on different layers
+
+Oxboys %>% 
+ggplot( aes(age, height, group = Subject)) + 
+  geom_line() + 
+  geom_smooth(method = "lm", se = FALSE)
+#> `geom_smooth()` using formula = 'y ~ x'
+
+
+#changing group
+Oxboys %>% 
+  ggplot( aes(age, height)) + 
+  geom_line(aes(group = Subject)) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 3)
+
