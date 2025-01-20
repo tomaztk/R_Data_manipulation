@@ -269,3 +269,91 @@ Oxboys %>%
   geom_point() +
   geom_smooth(method = "lm", se = FALSE, linewidth = 3)
 
+
+## interaction plots, profile plots, and parallel coordinate plots, like box plot
+## are plots that have a discrete x scale,but still have  connecting across groups
+
+mpg2 %>%
+ggplot(aes(x=class, y=cty)) + 
+  geom_boxplot()
+
+
+
+# adding lines connecting through Occasions
+
+Oxboys %>%
+ggplot(aes(Occasion, height)) + 
+  geom_boxplot() +
+  geom_line(aes(group = Subject), colour = "#3366FF", alpha = 0.5)
+
+# because adding just line without the group will not connect the dots
+Oxboys %>%
+  ggplot(aes(Occasion, height)) + 
+    geom_boxplot() +
+    geom_line(colour = "#3366FF", alpha = 0.5) # without aesthetics in geom_line
+
+
+
+## 1.2 MAtching aesthetics to graphic objects
+
+# important that with collective geoms  how is  the aesthetics of the individual observations 
+# mapped to the aesthetics of the complete entity.
+
+mpg2 %>%
+ggplot(aes(class)) + 
+  geom_bar()
+
+mpg2 %>%
+ggplot(aes(class, fill = drv)) + 
+  geom_bar()
+
+
+mpg2 %>%
+ggplot(aes(class, fill = hwy)) + 
+  geom_bar()
+# will produce warning
+
+# adding group hwy to show the value
+mpg2 %>%
+ggplot(aes(class, fill = hwy, group = hwy)) + 
+  geom_bar()
+
+
+
+## ## ## ## ## ## ## ## ## 
+## 5. Summaries and
+## statistics on graphs
+## ## ## ## ## ## ## ## ## 
+
+#Discrete x, range: geom_errorbar(), geom_linerange()
+#Discrete x, range & center: geom_crossbar(), geom_pointrange()
+#Continuous x, range: geom_ribbon()
+# Continuous x, range & center: geom_smooth(stat = "identity")
+
+
+
+y <- c(18, 11, 16)
+df <- data.frame(x = 1:3, y = y, se = c(1.2, 0.5, 1.0))
+
+base <- ggplot(df, aes(x, y, ymin = y - se, ymax = y + se))
+base + geom_crossbar()
+base + geom_pointrange()
+base + geom_smooth(stat = "identity")
+
+
+base + geom_errorbar()
+base + geom_linerange()
+base + geom_ribbon()
+
+
+# Showing the weight of the data
+
+
+# Unweighted
+ggplot(midwest, aes(percwhite, percbelowpoverty)) + 
+  geom_point()
+
+# Weight by population
+ggplot(midwest, aes(percwhite, percbelowpoverty)) + 
+  geom_point(aes(size = poptotal / 1e6)) + 
+  scale_size_area("Population\n(millions)", breaks = c(0.5, 1, 2, 4))
