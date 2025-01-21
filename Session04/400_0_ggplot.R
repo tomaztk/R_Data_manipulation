@@ -483,3 +483,42 @@ mtcars %>%
   ggplot(aes(x=1, fill = factor(cyl), y=mpg)) + 
   geom_dotplot(binaxis = "y",stackgroups = TRUE, binwidth = 0.7, method = "histodot") +
   xlim(1, 1.1)
+
+
+
+
+#### Scatterplots 
+# Ideally for two continous variables
+
+# problem of plotting points over the other and hence obscuring the true relations
+
+mpg2 %>%
+  select(cty, hwy) %>%
+  ggplot(aes(x=cty, y=hwy)) +
+  geom_point()
+
+# overlapping
+df <- data.frame(x = rnorm(3000), y = rnorm(3000))
+
+#using hollow circles
+norm <- ggplot(df, aes(x, y)) + xlab(NULL) + ylab(NULL)
+norm + geom_point()
+norm + geom_point(shape = 1) # Hollow circles
+norm + geom_point(shape = ".") # Pixel sized
+
+# or use transparency with alpha
+
+norm + geom_point(alpha = 1 / 3)
+norm + geom_point(alpha = 1 / 5)
+norm + geom_point(alpha = 1 / 10)
+
+
+# or simalute 2D
+geom_bin2d()
+
+norm + geom_bin2d()
+norm + geom_bin2d(bins = 10)
+
+#or
+norm + geom_hex()
+norm + geom_hex(bins = 10)
