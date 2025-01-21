@@ -441,3 +441,45 @@ mpg2 %>%
   geom_density(alpha = 0.2, na.rm = TRUE)  + 
   theme(legend.position = "none") +
   xlim(7,30)
+
+# Comparing many distributions, you can also have different perpsecitve by using:
+
+#  geom_boxplot()
+# geom_violin()
+# geom_dotplot()  # Good for smaller datasets, where each data-point is represented with one dot
+
+# used for categorical and continous variables (for continous use cut_withdt() to set the bins/buckets)
+
+mpg2 %>%
+  ggplot(aes(as.factor(cyl), cty)) + 
+  geom_boxplot()  
+
+mpg2 %>%
+  ggplot(aes(cyl, cty)) + 
+  geom_boxplot(aes(group = cut_width(cyl, 1)))  
+
+diamonds %>%
+ggplot(aes(carat, depth)) + 
+  geom_boxplot(aes(group = cut_width(carat, .1))) + 
+  xlim(NA, 2.05)
+
+
+mpg2 %>%
+  ggplot(aes(cyl, cty)) + 
+  geom_violin(aes(group = cut_width(cyl, 1)))  
+
+
+#uncomment to show different pespectives
+mtcars %>%
+  ggplot(aes(x=as.factor(cyl), fill = factor(cyl), y=mpg)) + 
+  #geom_dotplot(binaxis = "y")
+  #geom_dotplot(binaxis = "y", stackdir = "center", position = "Dodge")  
+  geom_dotplot(binaxis = "y",stackgroups = TRUE, binwidth = 0.7, method = "histodot")
+
+
+# we can stack them on single line
+
+mtcars %>%
+  ggplot(aes(x=1, fill = factor(cyl), y=mpg)) + 
+  geom_dotplot(binaxis = "y",stackgroups = TRUE, binwidth = 0.7, method = "histodot") +
+  xlim(1, 1.1)
