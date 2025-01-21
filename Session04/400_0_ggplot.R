@@ -48,9 +48,9 @@ ggplot()
 ## ## ## ## ## ## ## ## ## 
 
 # Key concepts
-    # 1)   data,
-    # 2) A set of aesthetic mappings between variables in the data and visual properties, and
-    # 3) At least one layer which describes how to render each observation. Layers are usually created with a geom function.
+# 1)   data,
+# 2) A set of aesthetic mappings between variables in the data and visual properties, and
+# 3) At least one layer which describes how to render each observation. Layers are usually created with a geom function.
 
 mtcars <- mtcars
 mpg2 <- ggplot2::mpg
@@ -62,7 +62,7 @@ mpg2 %>%
 
 # key components
 ggplot(mpg2,                   #data
-      aes(x=displ, y=hwy)) +   #aesthetic mappings
+       aes(x=displ, y=hwy)) +   #aesthetic mappings
   geom_point()                 #layer for data rendering
 
 
@@ -107,7 +107,7 @@ ggplot(mpg2, aes(displ, hwy, colour = class))  + geom_point()
 ggplot(mpg2, aes(displ, hwy)) + 
   geom_point() + 
   facet_wrap(~class)
-                                     
+
 
 #### 1. Layers
 
@@ -116,10 +116,10 @@ ggplot(mpg2, aes(displ, hwy)) +
 ### 1.1 Simple and basic graphs / individual geoms!
 
 # Each of these geoms is two dimensional and requires both x and y aesthetics.
-   # geom_area()
-   # geom_bar()
-   # geom_point()
-   # geom_line()
+# geom_area()
+# geom_bar()
+# geom_point()
+# geom_line()
 
 
 # lets create sample dataset
@@ -127,8 +127,8 @@ mpg2_short <- mpg2 %>%
   select("cty", hwy) %>%
   tail(5) %>%
   transmute( x = cty
-          ,y = hwy
-          ,id_label = 1:5)
+             ,y = hwy
+             ,id_label = 1:5)
 
 mpg2_short
 
@@ -170,9 +170,9 @@ rect_data <- data.frame(
 )
 
 rect_data %>%
-    ggplot(aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill  = fill_color)) +
-      geom_rect() +
-      labs(title = "Simple Example of geom_rect", x = "X-axis", y = "Y-axis") 
+  ggplot(aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill  = fill_color)) +
+  geom_rect() +
+  labs(title = "Simple Example of geom_rect", x = "X-axis", y = "Y-axis") 
 
 
 #colours are off :) Let' add the scale_fill_identifier
@@ -181,7 +181,7 @@ rect_data %>%
   geom_rect() +
   labs(title = "Simple Example of geom_rect", x = "X-axis", y = "Y-axis") +
   scale_fill_identity(guide = "legend")   # Use the fill colors as defined in the data
-  # add: guide = "legend" to scale_fill_identity funtion in order to get legend
+# add: guide = "legend" to scale_fill_identity funtion in order to get legend
 
 rm(rect_data)
 
@@ -204,7 +204,7 @@ p + geom_raster() + ggtitle("Sample graph using geom_raster")
 # On x-axis bring species and on y-axis number of observations.
 
 iris %>% ggplot(aes(x=Species)) +
-        geom_bar() + ggtitle("Sample graph using geom_bar")
+  geom_bar() + ggtitle("Sample graph using geom_bar")
 
 
 #### Exercise 2
@@ -245,7 +245,7 @@ Oxboys %>%
 # if you forget to define the grouping variable
 # this happens!
 Oxboys %>% 
-    ggplot( aes(x=age, y=height)) + 
+  ggplot( aes(x=age, y=height)) + 
   geom_point() + 
   geom_line()
 
@@ -256,7 +256,7 @@ Oxboys %>%
 # different groups on different layers
 
 Oxboys %>% 
-ggplot( aes(age, height, group = Subject)) + 
+  ggplot( aes(age, height, group = Subject)) + 
   geom_line() + 
   geom_smooth(method = "lm", se = FALSE)
 #> `geom_smooth()` using formula = 'y ~ x'
@@ -274,7 +274,7 @@ Oxboys %>%
 ## are plots that have a discrete x scale,but still have  connecting across groups
 
 mpg2 %>%
-ggplot(aes(x=class, y=cty)) + 
+  ggplot(aes(x=class, y=cty)) + 
   geom_boxplot()
 
 
@@ -282,15 +282,15 @@ ggplot(aes(x=class, y=cty)) +
 # adding lines connecting through Occasions
 
 Oxboys %>%
-ggplot(aes(Occasion, height)) + 
+  ggplot(aes(Occasion, height)) + 
   geom_boxplot() +
   geom_line(aes(group = Subject), colour = "#3366FF", alpha = 0.5)
 
 # because adding just line without the group will not connect the dots
 Oxboys %>%
   ggplot(aes(Occasion, height)) + 
-    geom_boxplot() +
-    geom_line(colour = "#3366FF", alpha = 0.5) # without aesthetics in geom_line
+  geom_boxplot() +
+  geom_line(colour = "#3366FF", alpha = 0.5) # without aesthetics in geom_line
 
 
 
@@ -300,22 +300,22 @@ Oxboys %>%
 # mapped to the aesthetics of the complete entity.
 
 mpg2 %>%
-ggplot(aes(class)) + 
+  ggplot(aes(class)) + 
   geom_bar()
 
 mpg2 %>%
-ggplot(aes(class, fill = drv)) + 
+  ggplot(aes(class, fill = drv)) + 
   geom_bar()
 
 
 mpg2 %>%
-ggplot(aes(class, fill = hwy)) + 
+  ggplot(aes(class, fill = hwy)) + 
   geom_bar()
 # will produce warning
 
 # adding group hwy to show the value
 mpg2 %>%
-ggplot(aes(class, fill = hwy, group = hwy)) + 
+  ggplot(aes(class, fill = hwy, group = hwy)) + 
   geom_bar()
 
 
@@ -357,3 +357,87 @@ ggplot(midwest, aes(percwhite, percbelowpoverty)) +
 ggplot(midwest, aes(percwhite, percbelowpoverty)) + 
   geom_point(aes(size = poptotal / 1e6)) + 
   scale_size_area("Population\n(millions)", breaks = c(0.5, 1, 2, 4))
+
+
+
+#  Some statistical transformation, we specify weights with the weight aesthetic. Th
+
+# Unweighted
+ggplot(midwest, aes(percwhite, percbelowpoverty)) + 
+  geom_point() + 
+  geom_smooth(method = lm, linewidth = 1)
+#> `geom_smooth()` using formula = 'y ~ x'
+
+
+# Weighted by population
+ggplot(midwest, aes(percwhite, percbelowpoverty)) + 
+  geom_point(aes(size = poptotal / 1e6)) + 
+  geom_smooth(aes(weight = poptotal), method = lm, linewidth = 1) +
+  scale_size_area(guide = "none")
+#> `geom_smooth()` using formula = 'y ~ x'
+
+
+
+
+### Displaying the distributions
+# for 1d continuous distributions the most important geom is the histogram, geom_histogram():
+
+diamonds
+
+diamonds %>%
+  ggplot(aes(depth)) + 
+    geom_histogram()
+# `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+# be aware of "skewness" in the data, since you limit the 
+# xlim between the numbers 55 and 65 or 60 and 65
+diamonds %>%
+  ggplot(aes(depth)) + 
+    geom_histogram(binwidth = 0.1) + 
+    # xlim(55, 65)
+    # xlim(60, 65)
+    xlim(55,70)
+
+
+# If you want to compare the distribution between groups, you have a few options:
+#
+  # Show small multiples of the histogram, facet_wrap(~ var).
+  # Use colour and a frequency polygon, geom_freqpoly().
+  # Use a “conditional density plot”, geom_histogram(position = "fill").
+
+mpg2 %>%
+  ggplot(aes(cty)) + 
+  geom_freqpoly(aes(colour = as.factor(cyl)), binwidth = 1) +
+  xlim(5,30)
+
+
+diamonds %>%
+  ggplot( aes(depth)) + 
+    geom_freqpoly(aes(colour = cut), binwidth = 0.1, na.rm = TRUE) +
+    xlim(58, 68) + 
+    theme(legend.position = "none")
+
+
+# Both the histogram and frequency polygon geom use the same underlying statistical transformation: stat = "bin". 
+# This statistic produces two output variables: count and density. 
+
+# geom_density() places a little normal distribution at each data point and sums up all the curves.
+
+mpg2 %>%
+  ggplot(aes(cty)) + 
+  geom_density(na.rm = TRUE)  + 
+  theme(legend.position = "none")
+
+
+# cyl must be a factor! otherwise will not use fill / colour  
+mpg2 %>%
+  ggplot(aes(cty, fill = cyl, colour = cyl)) + 
+  geom_density(alpha = 0.2, na.rm = TRUE)  + 
+  theme(legend.position = "none")
+
+
+mpg2 %>%
+  ggplot(aes(cty, fill = as.factor(cyl), colour = as.factor(cyl))) + 
+  geom_density(alpha = 0.2, na.rm = TRUE)  + 
+  theme(legend.position = "none") +
+  xlim(7,30)
