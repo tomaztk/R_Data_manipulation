@@ -65,3 +65,18 @@ p1 + p2 + p3 + guide_area() + plot_layout(ncol = 2, guides = "collect")
 ###### ###### ######
 ## Positions and scales
 ###### ###### ######
+
+mpg2 %>%
+ggplot(aes(x = displ)) + 
+    geom_histogram()
+
+# In this example the y aesthetic is not specified by the user. 
+# Rather, the aesthetic is mapped to a computed variable: geom_histogram() 
+# computes a count variable that gets mapped to the y aesthetic. 
+# The default behaviour of geom_histogram() is equivalent to the following:
+  
+mpg2 %>%
+ggplot(aes(x = displ, y = after_stat(count))) + 
+    geom_histogram()
+
+
