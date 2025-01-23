@@ -234,4 +234,62 @@ ggplot( aes(displ, hwy)) +
   scale_x_log10()
 
 
+# time labels
+
+# %a 	day of week, abbreviated (Mon-Sun)
+# %A 	day of week, full (Monday-Sunday)
+# %e 	day of month (1-31)
+# %d 	day of month (01-31)
+# %m 	month, numeric (01-12)
+# %M 	minute (00-59)
+# %l 	hour, in 12-hour clock (1-12)
+# %I 	hour, in 12-hour clock (01-12)
+# %p 	am/pm
+# %H 	hour, in 24-hour clock (00-23)
+
+
+base <- ggplot(economics, aes(date, psavert)) + 
+  geom_line(na.rm = TRUE) +
+  labs(x = NULL, y = NULL)
+
+base + scale_x_date(date_breaks = "5 years")
+base + scale_x_date(date_breaks = "5 years", date_labels = "%y")
+
+
+lim <- as.Date(c("2004-01-01", "2005-01-01"))
+
+base + scale_x_date(limits = lim, date_labels = "%b %y")
+base + scale_x_date(limits = lim, date_labels = "%B\n%Y")
+
+
+base + 
+  scale_x_date(
+    limits = lim, 
+    labels = scales::label_date_short()
+  )
+
+
+# label positioning
+
+base <- ggplot(economics, aes(date, psavert)) + 
+  geom_line(na.rm = TRUE) +
+  labs(x = NULL, y = NULL)
+
+base + scale_x_date(date_breaks = "5 years")
+
+base + guides(x = guide_axis(n.dodge = 3))
+base + guides(x = guide_axis(angle = 90))
+
+
+# Binned position scales
+
+ggplot(mpg, aes(hwy)) + geom_histogram(bins = 8)
+
+ggplot(mpg, aes(hwy)) + 
+  geom_bar() +
+  scale_x_binned() 
+
+
+
+
 
