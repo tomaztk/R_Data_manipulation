@@ -1,0 +1,135 @@
+---
+title: "SVD"
+author: "TK"
+date: "2023-05-12"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+a <- 12
+```
+
+```{r}
+library(MASS)
+
+a <- matrix(c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1), 9, 4)
+
+a.svd <- svd(a)
+a.svd$d
+```
+
+results
+
+```{r}
+ds <- diag(1/a.svd$d[1:3])
+u <- a.svd$u
+v <- a.svd$v
+us <- as.matrix(u[, 1:3])
+vs <- as.matrix(v[, 1:3])
+
+(a.ginv <- vs %*% ds %*% t(us))
+```
+
+results
+
+```{r}
+# using the function ginv defined in MASS
+ginv(a)
+```
+
+## Example
+
+The code below requires the **ReadImages** package. It reads in a jpeg (pansy.jpg) and plots it in R, first in color (when the image is stored as three matrices--one red, one green, one blue) and then in grayscale (when the image is stored as one matrix). Then, using SVD, we can essentially compress the image. Note that we can recover the image to varying degrees of detail as we recreate the image from different numbers of dimensions from our SVD matrices. You can see how many dimensions are needed before you have an image that cannot be differentiated from the original.
+
+```{r}
+#install.packages("ReadImages")
+#library(ReadImages)
+#x <- read.jpeg("pansy.jpg")
+#dim(x)
+```
+
+## Example
+
+This example uses the Stata auto dataset. PCA can be achieved using SVD. Below, we first use the prcomp command in R and then plot the variances of the principal components (i.e. the square roots of the eigenvalues). These values can also be found through spectral decomposition on the correlation matrix or by SVD on the variable matrix after standardizing each variable.
+
+```{r}
+library(foreign)
+auto <- read.dta("https://stats.oarc.ucla.edu/stat/data/auto.dta")
+
+pca.m1 <- prcomp(~trunk + weight + length + headroom, data = auto,
+    scale = TRUE)
+
+screeplot(pca.m1)
+```
+
+spectral decomposition: eigen values and eigen vectors
+
+```{r}
+xvars <- with(auto, cbind(trunk, weight, length, headroom))
+corr <- cor(xvars)
+a <- eigen(corr)
+(std <- sqrt(a$values))
+
+```
+
+```{r}
+(rotation <- a$vectors)
+```
+
+svd approach
+
+```{r}
+df <- nrow(xvars) - 1
+zvars <- scale(xvars)
+z.svd <- svd(zvars)
+z.svd$d/sqrt(df)
+```
+
+```{r}
+z.svd$v
+```
+
+# Example 4: Metric multi-dimensional scaling with SVD
+
+This example uses the Stata cerealnut dataset. Multi-dimensional scaling can also be achieved using SVD. The plots generated using cmdscale and the coordinates generated from the SVD steps are mirrored about the x/x1 = 0 axis, but are otherwise identical.
+
+```{r}
+cnut <- read.dta("http://stats.oarc.ucla.edu/stat/data/cerealnut.dta")
+
+# centering the variables
+mds.data <- as.matrix(sweep(cnut[, -1], 2, colMeans(cnut[, -1])))
+dismat <- dist(mds.data)
+mds.m1 <- cmdscale(dismat, k = 8, eig = TRUE)
+mds.m1$eig
+```
+
+```{r}
+mds.m1 <- cmdscale(dismat, k = 2, eig = TRUE)
+x <- mds.m1$points[, 1]
+y <- mds.m1$points[, 2]
+plot(x, y)
+text(x + 20, y, label = cnut$brand)
+```
+
+```{r}
+# eigenvalues
+xx <- svd(mds.data %*% t(mds.data))
+xx$d
+```
+
+Plot
+
+```{r}
+# coordinates
+xxd <- xx$v %*% sqrt(diag(xx$d))
+x1 <- xxd[, 1]
+y1 <- xxd[, 2]
+
+plot(x1, y1)
+text(x1 + 20, y1, label = cnut$brand)
+```
