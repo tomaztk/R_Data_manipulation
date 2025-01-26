@@ -1,7 +1,6 @@
 library(ggplot2)
 library(patchwork)
 library(tidyverse)
-
 library(viridis)
 
 
@@ -59,6 +58,7 @@ colorspace::diverge_hcl(5, "Tropic")
 
 hcl_palettes()
 
+# Run with x-quartz on mac
 pal <- choose_palette()
 
 
@@ -75,7 +75,7 @@ iris %>% ggplot( aes(Sepal.Length, Sepal.Width))+
 
 iris %>% ggplot( aes(Sepal.Length, Sepal.Width))+
             geom_point(aes(color = Sepal.Length)) +
-            scale_color_viridis(option = "A")+   #B, C, D, E, F, G
+            scale_color_viridis(option = "H")+   #A, B, C, D, E, F, G, H
             theme_minimal() 
 
 
@@ -87,17 +87,19 @@ iris %>% ggplot( aes(Sepal.Length, Sepal.Width))+
           #scale_fill_viridis(discrete = TRUE) +
           theme_minimal() 
 
+
 # 2) RColorBrewer
 library(RColorBrewer)
 
 display.brewer.all()
+
 display.brewer.all(colorblindFriendly = TRUE)
 
 #  scale_fill_brewer() for box plot, bar plot, violin plot, dot plot, etc
 #  scale_color_brewer() for lines and points
 
 brewer.pal(n = 8, name = "Dark2")
-barplot(c(2,5,7), col = brewer.pal(n = 3, name = "RdBu"))
+barplot(c(2,5,7,5,4,2,1,2,5), col = brewer.pal(n = 10, name = "BrBG"))  # "RdBu"))
 
 iris %>% ggplot( aes(Sepal.Length, Sepal.Width))+
   geom_point(aes(color = Species))  + 
@@ -119,6 +121,19 @@ wes_palette("GrandBudapest1")
 wes_palette("AsteroidCity1")
 wes_palette("AsteroidCity2")
 
+# 6 x 4
+števc <- 0
+for (i in 1:6){
+  for (j in 0:3){
+    števc <- števc + 1
+    p <- wes_palette(names_WA[števc])
+    print(števc)
+    cat(p)
+
+  }
+}
+
+
 
 # gradients viridis, distiller
 erupt <- 
@@ -128,10 +143,6 @@ erupt <-
   scale_x_continuous(NULL, expand = c(0, 0)) + 
   scale_y_continuous(NULL, expand = c(0, 0)) + 
   theme(legend.position = "none")
-
-
-
-
 
 erupt
 erupt + scale_fill_viridis_c()
@@ -174,7 +185,88 @@ base + scale_fill_gradient(na.value = "yellow")
 ### 4. Building layers
 
 
+
 ### 5. Themes
+
+base <- iris %>%
+     ggplot(aes(x=Sepal.Length, y=Sepal.Width, colour=Species)) + 
+     geom_point()
+
+base + theme_bw()
+base + theme_classic()
+base + theme_dark()
+base + theme_get()
+base + theme_minimal()
+base + theme_void()
+base + theme_test()
+
+
+##################
+# building own theme
+#################
+
+
+# getwd()
+
+
+cvi_colours = list(
+  cvi_purples = c("#381532", "#4b1b42", "#5d2252", "#702963",
+                  "#833074", "#953784", "#a83e95"),
+  my_favourite_colours = c("#702963", "#637029",    "#296370")
+)
+
+
+cvi_palettes = function(name, n, all_palettes = cvi_colours, type = c("discrete", "continuous")) {
+  palette = all_palettes[[name]]
+  if (missing(n)) {
+    n = length(palette)
+  }
+  
+  type = match.arg(type)
+  out = switch(type,continuous = grDevices::colorRampPalette(palette)(n),discrete = palette[1:n])
+  structure(out, name = name, class = "palette")
+}
+
+
+cvi_palettes("my_favourite_colours", type = "discrete")
+
+
+library("ggplot2")
+df <- data.frame(x = c("A", "B", "C"), y = 1:3)
+g <- ggplot(data = df, mapping = aes(x = x, y = y)) +
+  theme_minimal() +
+  theme(legend.position = c(0.05, 0.95),
+        legend.justification = c(0, 1),
+        legend.title = element_blank(),
+        axis.title = element_blank())
+
+
+g + geom_col(aes(fill = x), colour = "black", size = 2) + ggtitle("Fill")
+g + geom_col(aes(colour = x), fill = "white", size = 2) + ggtitle("Colour")
+
+
+scale_colour_cvi_d = function(name) {
+    ggplot2::scale_colour_manual(values = cvi_palettes(name,type = "discrete"))
+}
+
+scale_colour_cvi_c = function(name) {
+  ggplot2::scale_colour_gradientn(colours = cvi_palettes(name = name, type = "continuous"))
+}
+
+scale_fill_cvi_d = function(name) {
+  ggplot2::scale_fill_manual(values = cvi_palettes(name,type = "discrete"))
+  
+}
+
+scale_fill_cvi_c = function(name) {
+  ggplot2::scale_fill_gradientn(colours = cvi_palettes(name = name,type = "continuous"))
+  
+}
+
+scale_color_cvi_d = scale_colour_cvi_d
+scale_color_cvi_c = scale_colour_cvi_c
+g + geom_col(aes(fill = x), size = 3) + scale_fill_cvi_d("my_favourite_colours")
+
 
 
 
