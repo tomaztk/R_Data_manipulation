@@ -5,6 +5,9 @@ library(ggplot2)
 library(patchwork)
 
 
+mpg2 <- ggplot2::mpg
+
+
 p1 <- ggplot(mpg2) + 
   geom_point(aes(x = displ, y = hwy))
 

@@ -3,6 +3,9 @@ library(patchwork)
 library(tidyverse)
 library(viridis)
 
+# data
+mpg2 <- ggplot2::mpg
+
 
 ####  3. Colours and Legends
 
@@ -164,46 +167,8 @@ erupt + scale_fill_gradientn(colours = terrain.colors(7))
 
 
 
-
-#### Drawing Missing values
-
-df <- data.frame(x = 1, y = 1:5, z = c(1, 3, 2, NA, 5))
-df
-
-base <- ggplot(df, aes(x, y)) + 
-  geom_tile(aes(fill = z), linewidth = 5) + 
-  labs(x = NULL, y = NULL) +
-  scale_x_continuous(labels = NULL)
-
-base
-base + scale_fill_gradient(na.value = NA)
-base + scale_fill_gradient(na.value = "yellow")
-
-
-
-
-### 4. Building layers
-
-
-
-### 5. Themes
-
-base <- iris %>%
-     ggplot(aes(x=Sepal.Length, y=Sepal.Width, colour=Species)) + 
-     geom_point()
-
-base + theme_bw()
-base + theme_classic()
-base + theme_dark()
-base + theme_get()
-base + theme_minimal()
-base + theme_void()
-base + theme_test()
-
-
-##################
-# building own theme
-#################
+####  building own palletes
+# scale_fill_manual() 
 
 
 # getwd()
@@ -246,7 +211,7 @@ g + geom_col(aes(colour = x), fill = "white", size = 2) + ggtitle("Colour")
 
 
 scale_colour_cvi_d = function(name) {
-    ggplot2::scale_colour_manual(values = cvi_palettes(name,type = "discrete"))
+  ggplot2::scale_colour_manual(values = cvi_palettes(name,type = "discrete"))
 }
 
 scale_colour_cvi_c = function(name) {
@@ -268,6 +233,121 @@ scale_color_cvi_c = scale_colour_cvi_c
 g + geom_col(aes(fill = x), size = 3) + scale_fill_cvi_d("my_favourite_colours")
 
 
+
+
+#### Drawing Missing values
+
+df <- data.frame(x = 1, y = 1:5, z = c(1, 3, 2, NA, 5))
+df
+
+base <- ggplot(df, aes(x, y)) + 
+  geom_tile(aes(fill = z), linewidth = 5) + 
+  labs(x = NULL, y = NULL) +
+  scale_x_continuous(labels = NULL)
+
+base
+base + scale_fill_gradient(na.value = NA)
+base + scale_fill_gradient(na.value = "yellow")
+
+
+## Legends
+
+base <- 
+  mpg2 %>%
+  ggplot(aes(cyl, displ, colour = hwy)) +
+  geom_point(size = 2)
+
+base
+
+# Legend can be controlled by  using the guide_colourbar() function.
+  #  reverse flips the colour bar to put the lowest values at the top.
+  #  barwidth and barheight allow you to specify the size of the bar. These are grid units, e.g. unit(1, "cm").
+  #  direction specifies the direction of the guide, "horizontal" or "vertical".
+
+base + guides(colour = guide_colourbar(reverse = TRUE))
+base + guides(colour = guide_colourbar(barheight = unit(2, "cm")))
+base + guides(colour = guide_colourbar(direction = "horizontal"))
+
+
+
+# Discrete values can be used the guide argument to the scale function or with the guides(), 
+# which can be customised using guide_legend(). 
+
+base <- mpg2 %>% ggplot(aes(drv, fill = factor(cyl))) + geom_bar() 
+
+base
+base + guides(fill = guide_legend(ncol = 2))
+base + guides(fill = guide_legend(ncol = 2, byrow = TRUE))
+base + guides(fill = guide_legend(reverse = TRUE))
+# base + guides(colour = guide_legend(override.aes = list(alpha = 1)))
+
+
+# Date legends
+
+base <- ggplot(economics, aes(psavert, uempmed, colour = date)) + 
+  geom_point() 
+
+base
+base + 
+  scale_colour_date(
+    date_breaks = "142 months", 
+    date_labels = "%b %Y"
+  )
+
+
+## Legend position (is part of theme)
+
+
+### 4. Building layers (layer by Layer)
+
+base <- 
+  mpg2 %>%
+  ggplot(aes(cty, displ, colour = drv)) +
+  geom_point(aes(colour = drv), size = 3) + 
+  xlab(NULL) + 
+  ylab(NULL)
+
+base
+
+base + theme(legend.position = "left")
+base + theme(legend.position = "right") # the default 
+base + theme(legend.position = "bottom")
+base + theme(legend.position = "none")
+
+
+
+base + 
+  theme(
+    legend.position = c(0, 1), 
+    legend.justification = c(0, 1)
+  )
+
+base + 
+  theme(
+    legend.position = c(0.5, 0.5), 
+    legend.justification = c(0.5, 0.5)
+  )
+
+base + 
+  theme(
+    legend.position = c(1, 0), 
+    legend.justification = c(1, 0)
+  )
+
+
+### 5. Themes
+
+base <- iris %>%
+     ggplot(aes(x=Sepal.Length, y=Sepal.Width, colour=Species)) + 
+     geom_point()
+
+base + theme_bw()
+base + theme_classic()
+base + theme_dark()
+base + theme_get()
+base + theme_minimal()
+base + theme_void()
+base + theme_test()
 
 
 ## 6. Coordinate systems
