@@ -337,21 +337,21 @@ base + theme_test()
 # making own theme
 
 my_theme <- theme(
-  plot.title = element_text(size = 16, face = "bold"), # Font size set to 16 and bold.
-  axis.title = element_text(size = 14), # Font size set to 12.
+  plot.title = element_text(size = 14, face = "bold"), # Font size set to 16 and bold.
+  axis.title = element_text(size = 12), # Font size set to 12.
   axis.text = element_text(size = 10), # Font size set to 10.
   legend.title = element_text(size = 12, face = "bold"), # Font size of the title of the legend set to 12 and bold.
   legend.text = element_text(size = 10), # font size of the text in the legend
-  panel.background = element_rect(fill = "cornsilk"), # color of the panel background
+  panel.background = element_rect(fill = "lightblue"), # color of the panel background
   panel.grid.major = element_line(color = "#b29a9a", linetype = "dashed"), # color and type of the panel lines
   panel.grid.minor = element_blank(), # invisible auxiliary grids
-  plot.background = element_rect(fill = "cornsilk"), # plot's background
+  plot.background = element_rect(fill = "lightblue"), # plot's background
   plot.margin = margin(1, 1, 1, 1, "cm"), # chart margins
-  strip.background = element_rect(fill = "cornsilk", color = "#ff975d"), # strip background
+  strip.background = element_rect(fill = "white", color = "#ff975d"), # strip background
   strip.text = element_text(size = 12, face = "bold"), # strip texts
   plot.title.position = "plot", #position of the plot title
   legend.position = "right", # position of the legend
-  legend.box.background = element_rect(color = "cornsilk"), # background of the plot
+  legend.box.background = element_rect(color = "lightblue"), # background of the plot
   legend.key.size = unit(1, "cm") # size of the legends key
 )
 
