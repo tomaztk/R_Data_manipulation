@@ -1,7 +1,5 @@
 ### Using Tidyverse/ggplot - Part 5
 
-getwd()
-setwd("/Users/tomazkastrun/Documents/tomaztk_github/R_Data_manipulation/Session04")
 
 library(tidyverse)
 library(ggplot2)
