@@ -5,6 +5,7 @@ setwd("/Users/tomazkastrun/Documents/tomaztk_github/R_Data_manipulation/Session0
 
 library(tidyverse)
 library(ggplot2)
+library(nlme)  # adding because of Oxboys dataset
 
 # additional packages
 # install.packages(c(
@@ -12,7 +13,7 @@ library(ggplot2)
 #   "ggnewscale", "ggplot2", "ggraph", "ggrepel", "ggtext", "ggthemes", 
 #   "hexbin", "Hmisc", "mapproj", "maps", "munsell", "ozmaps", 
 #   "paletteer", "patchwork", "rmapshaper", "scico", "seriation", "sf", 
-#   "stars", "tidygraph", "wesanderson" 
+#   "stars", "tidygraph", "wesanderson", "nlme", "RColorBrewer", "colorspace"
 # ))
 
 
@@ -21,7 +22,9 @@ library(ggplot2)
 # Required Data.frame Format: - Works with data frames or tibbles, preferably in long format for facets or grouped visualizations.
 
 
-# All plots are composed of the data, the information you want to visualise, and a mapping, the description of how the data’s variables are mapped to aesthetic attributes. There are five mapping components:
+# All plots are composed of the data, the information you want to visualise, and a mapping, 
+# the description of how the data’s variables are mapped to aesthetic attributes. 
+# There are five mapping components:
 
 # 1)  A layer is a collection of geometric elements and statistical transformations. 
 # Geometric elements, geoms for short, represent what you actually see in the plot: points, lines, polygons, etc. 
@@ -48,7 +51,7 @@ ggplot()
 ## ## ## ## ## ## ## ## ## 
 
 # Key concepts
-# 1)   data,
+# 1) data,
 # 2) A set of aesthetic mappings between variables in the data and visual properties, and
 # 3) At least one layer which describes how to render each observation. Layers are usually created with a geom function.
 
@@ -100,7 +103,6 @@ ggplot(mpg, aes(displ, hwy)) + geom_point(colour = "blue")
 
 
 # facets
-
 ggplot(mpg2, aes(displ, hwy, colour = class))  + geom_point()
 
 # or into each graphs
@@ -194,27 +196,29 @@ p + geom_raster() + ggtitle("Sample graph using geom_raster")
 #but will get the warniing!!!
 
 
-## Explore ggplot colors / themes
 
-# packages: Rcolorbrewer, Viridis, Paletteer
 
 
 #### Exercise 1
 # Using Iris dataset, draw histogram, where you will display the count of each observations per species. 
 # On x-axis bring species and on y-axis number of observations.
 
-iris %>% ggplot(aes(x=Species)) +
-  geom_bar() + ggtitle("Sample graph using geom_bar")
+
+# iris %>% ggplot(aes(x=Species)) +
+#   geom_bar() + ggtitle("Sample graph using geom_bar")
 
 
 #### Exercise 2
 # This same graph, make distinct colours per Species and add additional text on axis
 
-iris %>% ggplot(aes(x=Species, fill=Species)) +
-  geom_bar() + ggtitle("Sample graph using geom_bar") +
-  labs(title = "Number of Observations by Species",
-       x = "Species",
-       y = "Number of Observations") 
+
+# iris %>% ggplot(aes(x=Species, fill=Species)) +
+#   geom_bar() + ggtitle("Sample graph using geom_bar") +
+#   labs(title = "Number of Observations by Species",
+#        x = "Species",
+#        y = "Number of Observations") 
+
+
 
 
 ### 1.2 Simple and basic graphs / collective geoms!
@@ -229,6 +233,7 @@ Oxboys <- Oxboys
 head(Oxboys)
 
 ## Multiple groups, one aesthetic
+
 
 # just points
 Oxboys %>%
@@ -445,8 +450,8 @@ mpg2 %>%
 # Comparing many distributions, you can also have different perpsecitve by using:
 
 #  geom_boxplot()
-# geom_violin()
-# geom_dotplot()  # Good for smaller datasets, where each data-point is represented with one dot
+#  geom_violin()
+#  geom_dotplot()  # Good for smaller datasets, where each data-point is represented with one dot
 
 # used for categorical and continous variables (for continous use cut_withdt() to set the bins/buckets)
 
@@ -515,6 +520,7 @@ norm + geom_point(alpha = 1 / 10)
 
 # or simalute 2D
 geom_bin2d()
+
 
 norm + geom_bin2d()
 norm + geom_bin2d(bins = 10)

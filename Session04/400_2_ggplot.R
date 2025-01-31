@@ -2,10 +2,11 @@ library(ggplot2)
 library(patchwork)
 library(tidyverse)
 library(viridis)
+library(nlme)  # adding because of Oxboys dataset
 
 # data
+mtcars <- mtcars
 mpg2 <- ggplot2::mpg
-
 
 ####  3. Colours and Legends
 
@@ -47,7 +48,7 @@ grDevices::colors()
 require(graphics)
 
 hcl.pals()
-hcl.colors()
+hcl.colors(3)
 
 hcl.pals("qualitative")
 hcl.pals("sequential")
@@ -62,6 +63,7 @@ colorspace::diverge_hcl(5, "Tropic")
 hcl_palettes()
 
 # Run with x-quartz on mac
+#Caution! Do Not Run this!
 pal <- choose_palette()
 
 
@@ -124,17 +126,17 @@ wes_palette("GrandBudapest1")
 wes_palette("AsteroidCity1")
 wes_palette("AsteroidCity2")
 
-# 6 x 4
-števc <- 0
-for (i in 1:6){
-  for (j in 0:3){
-    števc <- števc + 1
-    p <- wes_palette(names_WA[števc])
-    print(števc)
-    cat(p)
-
-  }
-}
+# # 6 x 4
+# števc <- 0
+# for (i in 1:6){
+#   for (j in 0:3){
+#     števc <- števc + 1
+#     p <- wes_palette(names_WA[števc])
+#     print(števc)
+#     cat(p)
+# 
+#   }
+# }
 
 
 
@@ -169,7 +171,6 @@ erupt + scale_fill_gradientn(colours = terrain.colors(7))
 
 ####  building own palletes
 # scale_fill_manual() 
-
 
 # getwd()
 

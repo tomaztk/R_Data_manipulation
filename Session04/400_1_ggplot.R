@@ -3,39 +3,49 @@
 
 library(ggplot2)
 library(patchwork)
+library(nlme)  # adding because of Oxboys dataset
 
-
+mtcars <- mtcars
 mpg2 <- ggplot2::mpg
 
 
 p1 <- ggplot(mpg2) + 
   geom_point(aes(x = displ, y = hwy))
 
+p1
+
 p2 <- ggplot(mpg2) + 
   geom_bar(aes(x = as.character(year), fill = drv), position = "dodge") + 
   labs(x = "year")
+
+p2
 
 p3 <- ggplot(mpg2) + 
   geom_density(aes(x = hwy, fill = drv), colour = NA) + 
   facet_grid(rows = vars(drv))
 
+
+p3
+
 p4 <- ggplot(mpg2) + 
   stat_summary(aes(x = drv, y = hwy, fill = drv), geom = "col", fun.data = mean_se) +
   stat_summary(aes(x = drv, y = hwy), geom = "errorbar", fun.data = mean_se, width = 0.5)
 
+p4
 
+
+
+#package patchwork
 # plots arranging
-
 p1 + p2
 
 p1 + p2 + p3 + p4
 
 
 # arranging differently
-
 p1 + p2 + p3 + plot_layout(ncol = 2)
 
-#package patchwork
+
 # patchwork provides two operators, 
 # # | and / respectively, to facilitate this (under the hood they simply set number of rows or columns in the layout to 1).
 
@@ -45,7 +55,6 @@ p3 | p4
 
 
 # and creating beautiful combinations
-
 p3 | (p2 / (p1 | p4))
 
 
@@ -60,7 +69,6 @@ p1 + p2 + p3 + p4 + plot_layout(design = layout)
 
 
 #and using collect
-
 p1 + p2 + p3 + plot_layout(ncol = 2, guides = "collect")
 p1 + p2 + p3 + guide_area() + plot_layout(ncol = 2, guides = "collect")
 
@@ -83,9 +91,7 @@ ggplot(aes(x = displ, y = after_stat(count))) +
     geom_histogram()
 
 
-
 # aligning scales
-
 mpg_99 <- mpg2 %>% filter(year == 1999)
 mpg_08 <- mpg2 %>% filter(year == 2008)
 
@@ -96,16 +102,21 @@ base_08 <- ggplot(mpg_08, aes(displ, hwy)) + geom_point()
 base_99 #y-scale from 15 to 45
 base_08 #y-scale from 15 to 35
 
+#with patchwork comparison
+
+base_99 + base_08
 
 # we fix the x-axis and y-axis with limits
-base_99 + 
-  scale_x_continuous(limits = c(1, 7)) +
-  scale_y_continuous(limits = c(10, 45))
+base99_fix <- base_99 + 
+                scale_x_continuous(limits = c(1, 7)) +
+                scale_y_continuous(limits = c(10, 45))
 
-base_08 + 
-  scale_x_continuous(limits = c(1, 7)) +
-  scale_y_continuous(limits = c(10, 45))
+base08_fix  <- base_08 + 
+                scale_x_continuous(limits = c(1, 7)) +
+                scale_y_continuous(limits = c(10, 45))
 
+#looks different now
+base99_fix + base08_fix
 
 
 # adding breaks in scales
@@ -184,12 +195,12 @@ base + scale_y_continuous(
 
 
 ## Transformations
-
 base <- ggplot(mpg2, aes(displ, hwy)) + geom_point()
 
 base
 base + scale_x_reverse()
 base + scale_y_reverse()
+
 
 # Every continuous scale takes a trans argument, allowing the use of a variety of transformations: 
 
