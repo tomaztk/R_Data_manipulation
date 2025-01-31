@@ -298,8 +298,6 @@ base +
 ## Legend position (is part of theme)
 
 
-### 4. Building layers (layer by Layer)
-
 base <- 
   mpg2 %>%
   ggplot(aes(cty, displ, colour = drv)) +
@@ -318,6 +316,131 @@ base + theme(legend.position = "none")
 base +  theme( legend.position = c(0, 1),  legend.justification = c(0, 1) )
 base +  theme(legend.position = c(0.5, 0.5), legend.justification = c(0.5, 0.5))
 base +  theme(legend.position = c(1, 0), legend.justification = c(1, 0))
+
+
+
+### 4. Building layers (layer by Layer)
+
+# 1)  mapping: A set of aesthetic mappings, specified using the aes() function 
+# 2) data: A dataset which overrides the default plot dataset. It is usually omitted (set to NULL), 
+# in which case the layer will use the default data specified in ggplot(). 
+# 3) geom: The name of the geometric object to use to draw each observation.Can have additional arguments.  All geoms take aesthetics as parameters.
+# 4) stat: The name of the statistical tranformation to use. 
+#    A statistical transformation performs some useful statistical summary, and is key to histograms and smoothers. 
+      # To keep the data as is, use the “identity” stat!!!!
+     # !! You only need to set one of stat and geom: every geom has a default stat, and every stat a default geom. !!
+
+# 5) position: The method used to adjust overlapping objects, like jittering, stacking or dodging.
+
+#pseudo
+layer(
+  mapping = NULL, 
+  data = NULL,
+  geom = "point", 
+  stat = "identity",
+  position = "identity"
+)
+
+
+mod <- loess(hwy ~ displ, data = mpg)
+grid <- tibble(displ = seq(min(mpg$displ), max(mpg$displ), length = 50))
+grid$hwy <- predict(mod, newdata = grid)
+
+grid
+
+
+std_resid <- resid(mod) / mod$s
+outlier <- filter(mpg, abs(std_resid) > 2)
+outlier
+
+mpg2 %>%
+ggplot(aes(displ, hwy)) + 
+  geom_point() + 
+  geom_line(data = grid, colour = "blue", linewidth = 1.5) + #adding extra layer of data
+  geom_text(data = outlier, aes(label = model))  ## adding extra layer of data
+
+
+
+ggplot(mapping = aes(displ, hwy)) + 
+  geom_point(data = mpg) + 
+  geom_line(data = grid) + 
+  geom_text(data = outlier, aes(label = model))
+
+
+# map aesthetics to constants
+
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point() +
+  geom_smooth(aes(colour = "loess"), method = "loess", se = FALSE) + 
+  geom_smooth(aes(colour = "lm"), method = "lm", se = FALSE) +
+  labs(colour = "Method")
+
+
+## recap geoms:
+
+# 
+### Graphical primitives:
+#  geom_blank(): display nothing. Most useful for adjusting axes limits using data.
+#  geom_point(): points.
+#  geom_path(): paths.
+#  geom_ribbon(): ribbons, a path with vertical thickness.
+#  geom_segment(): a line segment, specified by start and end position.
+#  geom_rect(): rectangles.
+#  geom_polygon(): filled polygons.
+#  geom_text(): text.
+
+###  One variable:
+##   Discrete:
+#      geom_bar(): display distribution of discrete variable.
+
+##  Continuous:
+#    geom_histogram(): bin and count continuous variable, display with bars.
+#    geom_density(): smoothed density estimate.
+#    geom_dotplot(): stack individual points into a dot plot.
+#    geom_freqpoly(): bin and count continuous variable, display with lines.
+
+### Two variables:
+##   Both continuous:
+#    geom_point(): scatterplot.
+#    geom_quantile(): smoothed quantile regression.
+#    geom_rug(): marginal rug plots.
+#    geom_smooth(): smoothed line of best fit.
+#    geom_text(): text labels.
+
+#### Show distribution:
+#   geom_bin2d(): bin into rectangles and count.
+#   geom_density2d(): smoothed 2d density estimate.
+#   geom_hex(): bin into hexagons and count.
+
+## At least one discrete:
+#   geom_count(): count number of point at distinct locations
+#   geom_jitter(): randomly jitter overlapping points.
+
+### One continuous, one discrete:
+#     geom_bar(stat = "identity"): a bar chart of precomputed summaries.
+#     geom_boxplot(): boxplots.
+#     geom_violin(): show density of values in each group.
+
+### One time, one continuous:
+#    geom_area(): area plot.
+#    geom_line(): line plot.
+#    geom_step(): step plot.
+
+### Display uncertainty:
+#   geom_crossbar(): vertical bar with center.
+#   geom_errorbar(): error bars.
+#   geom_linerange(): vertical line.
+#   geom_pointrange(): vertical line with center.
+
+### Spatial:
+#   geom_map(): fast version of geom_polygon() for map data.
+
+###Three variables:
+#   geom_contour(): contours.
+#   geom_tile(): tile the plane with rectangles.
+#   geom_raster(): fast version of geom_tile() for equal sized tiles.
+
+
 
 
 ### 5. Themes
@@ -361,7 +484,66 @@ base + labs(title = "My custom theme on  base graph") + my_theme
 
 ## 6. Coordinate systems
 
+# fliping axes with coord_flip() 
+
+iris %>%
+  ggplot(aes(x=Sepal.Length, y=Sepal.Width, colour=Species)) + 
+  geom_point()
+
+iris %>%
+  ggplot(aes(x=Sepal.Length, y=Sepal.Width, colour=Species)) + 
+  geom_point() + 
+  coord_flip()
 
 
+# fixing ration between x and y with coord_fixed()
 
-## 7. FAcets
+
+# non-linear coordinate system
+
+rect <- data.frame(x = 50, y = 50)
+line <- data.frame(x = c(1, 200), y = c(100, 1))
+
+base <- ggplot(mapping = aes(x, y)) + 
+  geom_tile(data = rect, aes(width = 50, height = 50)) + 
+  geom_line(data = line) + 
+  xlab(NULL) + ylab(NULL)
+
+base
+
+base + coord_polar("x")
+base + coord_polar("y")
+base + coord_flip()
+base + coord_trans(y = "log10")
+base + coord_fixed()
+
+## 7. Facets
+
+
+mpg3 <- subset(mpg, cyl != 5 & drv %in% c("4", "f") & class != "2seater")
+
+
+mpg3
+
+base <- ggplot(mpg3, aes(displ, hwy)) + 
+  geom_blank() + #reason why only facets are visible 
+  xlab(NULL) + 
+  ylab(NULL)
+
+base
+
+# facet_wrap() makes a long ribbon of panels (generated by any number of variables) and wraps it into 2d. 
+# This is useful if you have a single variable with many levels and want to arrange the plots in a more space efficient manner. 
+
+base + facet_wrap(~class, ncol = 3)
+base + facet_wrap(~class, ncol = 3, as.table = FALSE)
+
+base + facet_wrap(~class, nrow = 3)
+base + facet_wrap(~class, nrow = 3, dir = "v")
+
+# facet_grid() lays out plots in a 2d grid
+base + facet_grid(. ~ cyl)
+
+base + facet_grid(drv ~ .)
+
+base + facet_grid(drv ~ cyl)
