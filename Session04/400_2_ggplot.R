@@ -3,6 +3,8 @@ library(patchwork)
 library(tidyverse)
 library(viridis)
 library(nlme)  # adding because of Oxboys dataset
+library(RColorBrewer)
+library(wesanderson)
 
 # data
 mtcars <- mtcars
@@ -21,6 +23,7 @@ mpg2 <- ggplot2::mpg
 # Deuteranomaly is a type of color blindness from the defectiveness of green cone cells.
 # Protanomaly is a type of color blindness from the defectiveness of red cone cells.
 # Tritanomaly is a type of colorblindness from the defectiveness of blue cone cells.
+
 
 ## Color Spaces
 
@@ -45,6 +48,12 @@ colorBlindness::displayAllColors(viridis::viridis(6))
 
 grDevices::colors()
 
+"honeydew3"
+"lightsteelblue2"
+"pink"
+"tan1" 
+"turquoise4"
+
 require(graphics)
 
 hcl.pals()
@@ -54,6 +63,11 @@ hcl.pals("qualitative")
 hcl.pals("sequential")
 hcl.pals("diverging")
 hcl.pals("divergingx")
+
+"BluGrn"
+"#F9F9F9"
+"#ADCCF6"
+"mistyrose"
 
 library("colorspace")
 colorspace::qualitative_hcl(3, "Set3")
@@ -73,14 +87,14 @@ pal <- choose_palette()
 #viridis(n), magma(n), inferno(n) and plasma(n): Generate color palettes for base plot, where n is the number of 
 
 # Gradient color
-iris %>% ggplot( aes(Sepal.Length, Sepal.Width))+
+iris %>% ggplot( aes(Sepal.Length, Sepal.Width)) +
         geom_point(aes(color = Sepal.Length)) +
-        scale_color_viridis(option = "D")+
+        scale_color_viridis(option = "D") +
         theme_minimal() 
 
 iris %>% ggplot( aes(Sepal.Length, Sepal.Width))+
             geom_point(aes(color = Sepal.Length)) +
-            scale_color_viridis(option = "H")+   #A, B, C, D, E, F, G, H
+            scale_color_viridis(option = "A")+   #A, B, C, D, E, F, G, H
             theme_minimal() 
 
 
@@ -88,8 +102,8 @@ iris %>% ggplot( aes(Sepal.Length, Sepal.Width))+
 iris %>% ggplot( aes(Sepal.Length, Sepal.Width))+
           geom_point(aes(color = Species)) +
           geom_smooth(aes(color = Species, fill = Species), method = "lm") + 
-          scale_color_viridis(discrete = TRUE, option = "C")+
-          #scale_fill_viridis(discrete = TRUE) +
+          #scale_color_viridis(discrete = TRUE, option = "C")+
+          scale_fill_viridis(discrete = TRUE) +
           theme_minimal() 
 
 
@@ -104,12 +118,13 @@ display.brewer.all(colorblindFriendly = TRUE)
 #  scale_color_brewer() for lines and points
 
 brewer.pal(n = 8, name = "Dark2")
-barplot(c(2,5,7,5,4,2,1,2,5), col = brewer.pal(n = 10, name = "BrBG"))  # "RdBu"))
+# "#1B9E77" "#D95F02" "#7570B3" "#E7298A" "#66A61E" "#E6AB02" "#A6761D" "#666666"
+barplot(c(2,5,7,5,4,2,1,2,5), col = brewer.pal(n = 10, name = "RdBu"))  # "RdBu"))
 
 iris %>% ggplot( aes(Sepal.Length, Sepal.Width))+
   geom_point(aes(color = Species))  + 
-  #scale_color_brewer(palette = "Dark2") +
-  scale_color_brewer(palette = "Pastel1") +
+  scale_color_brewer(palette = "Dark2") +
+  #scale_color_brewer(palette = "Pastel1") +
   theme_minimal()
   
 
@@ -122,7 +137,7 @@ names_WA <- names(wes_palettes)
 
 wes_palette("Darjeeling1")
 wes_palette("Moonrise1")
-wes_palette("GrandBudapest1")
+wes_palette("GrandBudapest3")
 wes_palette("AsteroidCity1")
 wes_palette("AsteroidCity2")
 
@@ -187,7 +202,7 @@ cvi_palettes = function(name, n, all_palettes = cvi_colours, type = c("discrete"
   if (missing(n)) {
     n = length(palette)
   }
-  
+
   type = match.arg(type)
   out = switch(type,continuous = grDevices::colorRampPalette(palette)(n),discrete = palette[1:n])
   structure(out, name = name, class = "palette")
@@ -197,7 +212,6 @@ cvi_palettes = function(name, n, all_palettes = cvi_colours, type = c("discrete"
 cvi_palettes("my_favourite_colours", type = "discrete")
 
 
-library("ggplot2")
 df <- data.frame(x = c("A", "B", "C"), y = 1:3)
 g <- ggplot(data = df, mapping = aes(x = x, y = y)) +
   theme_minimal() +
@@ -280,7 +294,7 @@ base
 base + guides(fill = guide_legend(ncol = 2))
 base + guides(fill = guide_legend(ncol = 2, byrow = TRUE))
 base + guides(fill = guide_legend(reverse = TRUE))
-# base + guides(colour = guide_legend(override.aes = list(alpha = 1)))
+base + guides(colour = guide_legend(override.aes = list(alpha = 1)))
 
 
 # Date legends
@@ -450,6 +464,8 @@ base <- iris %>%
      ggplot(aes(x=Sepal.Length, y=Sepal.Width, colour=Species)) + 
      geom_point()
 
+base
+
 base + theme_bw()
 base + theme_classic()
 base + theme_dark()
@@ -547,4 +563,6 @@ base + facet_grid(. ~ cyl)
 
 base + facet_grid(drv ~ .)
 
-base + facet_grid(drv ~ cyl)
+base + facet_grid(drv ~ cyl) + my_theme  + p1 + my_theme
+
+base + p1

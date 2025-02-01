@@ -1,6 +1,5 @@
 ### Using Tidyverse/ggplot - Part 5
 
-
 library(tidyverse)
 library(ggplot2)
 library(nlme)  # adding because of Oxboys dataset
@@ -58,6 +57,7 @@ mpg2 <- ggplot2::mpg
 
 
 mpg2 %>%
+  filter(year >= 1000) %>%
   ggplot(aes(x=displ, y=hwy)) +
   geom_point()
 
@@ -101,7 +101,7 @@ ggplot(mpg, aes(displ, hwy)) + geom_point(colour = "blue")
 
 
 # facets
-ggplot(mpg2, aes(displ, hwy, colour = class))  + geom_point()
+ggplot(mpg2, aes(displ, hwy, colour = class))  + geom_point() 
 
 # or into each graphs
 ggplot(mpg2, aes(displ, hwy)) + 
@@ -133,18 +133,20 @@ mpg2_short <- mpg2 %>%
 mpg2_short
 
 
-p <- ggplot(mpg2_short, aes(x, y, label = id_label)) + 
+p <- ggplot(mpg2_short, aes(x, y, label = id_label))  
   labs(x = NULL, y = NULL) + # we will explain it later
   theme(plot.title = element_text(size = 15)) # defined schema
 
 #check p
 p
 
+
 p + geom_point() + ggtitle("point")
 p + geom_path() + ggtitle("Connecting the dots")
 p + geom_text() + ggtitle("This is sample dataset with geom_text")
 p + geom_bar(stat = "identity") + ggtitle("Sample graph using geom_bar")
 p + geom_area() + ggtitle("Area for individual geom") # creates  areas
+
 
 #other simple types for individual geoms
 
@@ -191,31 +193,31 @@ p + geom_tile() + ggtitle("Sample graph using geom_tile")
 
 # geom_raster() is a fast special case of geom_tile() used when all the tiles are the same size. .
 p + geom_raster() + ggtitle("Sample graph using geom_raster")
-#but will get the warniing!!!
-
-
+#but will get the warning!!!
 
 
 
 #### Exercise 1
-# Using Iris dataset, draw histogram, where you will display the count of each observations per species. 
+# Using Iris dataset, draw histogram, where you will display the count of each observations
+# per species. 
+
 # On x-axis bring species and on y-axis number of observations.
 
+head(iris)
 
-# iris %>% ggplot(aes(x=Species)) +
-#   geom_bar() + ggtitle("Sample graph using geom_bar")
-
+  ggplot(iris, aes(x=Species)) +
+   geom_bar() +
+   labs(title = "Sample graph using geom_bar", x = "vrsta", y = "pokauntane vrenosti") 
 
 #### Exercise 2
 # This same graph, make distinct colours per Species and add additional text on axis
 
 
-# iris %>% ggplot(aes(x=Species, fill=Species)) +
-#   geom_bar() + ggtitle("Sample graph using geom_bar") +
-#   labs(title = "Number of Observations by Species",
-#        x = "Species",
-#        y = "Number of Observations") 
-
+ggplot(iris, aes(x=Species, fill=Species)) +
+  geom_bar() + 
+  labs(title = "Number of Observations by Species",
+       x = "Species",
+       y = "Number of Observations")
 
 
 
@@ -261,6 +263,7 @@ Oxboys %>%
 Oxboys %>% 
   ggplot( aes(age, height, group = Subject)) + 
   geom_line() + 
+  geom_point() +
   geom_smooth(method = "lm", se = FALSE)
 #> `geom_smooth()` using formula = 'y ~ x'
 
@@ -328,9 +331,10 @@ mpg2 %>%
 ## statistics on graphs
 ## ## ## ## ## ## ## ## ## 
 
-#Discrete x, range: geom_errorbar(), geom_linerange()
-#Discrete x, range & center: geom_crossbar(), geom_pointrange()
-#Continuous x, range: geom_ribbon()
+# Discrete x, range: geom_errorbar(), geom_linerange()
+# Discrete x, range & center: geom_crossbar(), geom_pointrange()
+
+# Continuous x, range: geom_ribbon()
 # Continuous x, range & center: geom_smooth(stat = "identity")
 
 
@@ -339,6 +343,7 @@ y <- c(18, 11, 16)
 df <- data.frame(x = 1:3, y = y, se = c(1.2, 0.5, 1.0))
 
 base <- ggplot(df, aes(x, y, ymin = y - se, ymax = y + se))
+
 base + geom_crossbar()
 base + geom_pointrange()
 base + geom_smooth(stat = "identity")
@@ -355,6 +360,7 @@ base + geom_ribbon()
 # Unweighted
 ggplot(midwest, aes(percwhite, percbelowpoverty)) + 
   geom_point()
+
 
 # Weight by population
 ggplot(midwest, aes(percwhite, percbelowpoverty)) + 
@@ -390,6 +396,7 @@ diamonds
 diamonds %>%
   ggplot(aes(depth)) + 
     geom_histogram()
+
 # `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
 # be aware of "skewness" in the data, since you limit the 
@@ -398,7 +405,7 @@ diamonds %>%
   ggplot(aes(depth)) + 
     geom_histogram(binwidth = 0.1) + 
     # xlim(55, 65)
-    # xlim(60, 65)
+   #xlim(60, 65)
     xlim(55,70)
 
 
@@ -440,7 +447,8 @@ mpg2 %>%
 
 
 mpg2 %>%
-  ggplot(aes(cty, fill = as.factor(cyl), colour = as.factor(cyl))) + 
+  mutate(cyl_f = as.factor(cyl)) %>%
+  ggplot(aes(cty, fill = cyl_f, colour = cyl_f)) + 
   geom_density(alpha = 0.2, na.rm = TRUE)  + 
   theme(legend.position = "none") +
   xlim(7,30)
@@ -456,6 +464,7 @@ mpg2 %>%
 mpg2 %>%
   ggplot(aes(as.factor(cyl), cty)) + 
   geom_boxplot()  
+
 
 mpg2 %>%
   ggplot(aes(cyl, cty)) + 
@@ -505,6 +514,9 @@ df <- data.frame(x = rnorm(3000), y = rnorm(3000))
 
 #using hollow circles
 norm <- ggplot(df, aes(x, y)) + xlab(NULL) + ylab(NULL)
+
+norm
+
 norm + geom_point()
 norm + geom_point(shape = 1) # Hollow circles
 norm + geom_point(shape = ".") # Pixel sized

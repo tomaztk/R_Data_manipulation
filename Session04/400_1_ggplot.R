@@ -58,11 +58,11 @@ p3 | p4
 p3 | (p2 / (p1 | p4))
 
 
+
+
 # for more complex outlies, you can specify the layout
 layout <- "
-AAB
-C#B
-CDD
+AC#BD
 "
 
 p1 + p2 + p3 + p4 + plot_layout(design = layout)
@@ -217,7 +217,7 @@ ggplot(diamonds, aes(price, carat)) +
 
 # couple of transformers
 # "log" 	scales::log_trans() 	
-# log10" 	scales::log10_trans()
+# "log10" 	scales::log10_trans()
 # "logit" 	scales::logit_trans()
 # "exp" 	scales::exp_trans()
 
@@ -265,6 +265,8 @@ ggplot( aes(displ, hwy)) +
 base <- ggplot(economics, aes(date, psavert)) + 
   geom_line(na.rm = TRUE) +
   labs(x = NULL, y = NULL)
+
+base
 
 base + scale_x_date(date_breaks = "5 years")
 base + scale_x_date(date_breaks = "5 years", date_labels = "%y")
