@@ -13,5 +13,4 @@
 # Enterprise-Ready: Can be automated and integrated with CI/CD pipelines, making it ideal for automated reporting.
 
 ### 
-    sequence <- c(sequence, n)
 # open new Quarto: File -> new Quarto document
