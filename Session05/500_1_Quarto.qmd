@@ -22,3 +22,31 @@ You can add options to executable code like this
 ```
 
 The `echo: false` option disables the printing of code (only output is displayed).
+
+
+```{r}
+# graphs
+library(ggplot2)
+library(tidyverse)
+
+# I have when percentages in pie do not sum to 100%
+data.frame(work = c(rep("Being Productive", 1), 
+                    rep("Being Frustrated", 1), 
+                    rep("Waiting",1)),   #and being Flustered", 1)),
+                   amnt = c(0.03, 0.17, 0.81)) %>%
+ggplot( aes(x="", y=amnt, group=work, color=work, fill=work)) +
+  geom_bar(stat = "identity") +
+  coord_polar("y", start=9.9)  +
+  ggtitle("Working") + 
+  xlab("") + ylab("") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank(),
+        legend.title=element_blank(),
+        panel.background = element_rect(fill = "white",
+                                        colour = "white",
+                                        linetype = "solid")
+        #,legend.position="bottom"
+        )
+
+```
