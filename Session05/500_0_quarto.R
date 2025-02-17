@@ -19,3 +19,16 @@
 #-----
 ### Basics of Markdown
 #-----
+
+# Heading level 1 Title	
+
+## Heading level 2 Title	
+
+### Heading level 3 Title
+
+#### Heading level 4 	Title	
+
+##### Heading level 5 Title 		
+
+###### Heading level 6 Title
+

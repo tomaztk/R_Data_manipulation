@@ -4,9 +4,15 @@ format: html
 editor: visual
 ---
 
-## Quarto
+# Head Title
 
-## Running Code
+## 1. Title
+
+### 1.1. Subtitle
+
+_italic_ and **bold** 
+
+## 2. Running Code
 
 When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 
@@ -23,6 +29,8 @@ You can add options to executable code like this
 
 The `echo: false` option disables the printing of code (only output is displayed).
 
+
+## 3. Creating graphs
 
 ```{r}
 # graphs
