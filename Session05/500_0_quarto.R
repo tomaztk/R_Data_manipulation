@@ -32,3 +32,10 @@
 
 ###### Heading level 6 Title
 
+
+# Table
+
+#  | Col1 | Col2 |
+#  | ---- | ---- |
+#  | Val1 | val2 |
+#  | Val3 | Val4 | 
