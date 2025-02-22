@@ -58,3 +58,24 @@ ggplot( aes(x="", y=amnt, group=work, color=work, fill=work)) +
         )
 
 ```
+
+
+## Loading packages
+
+In Packages...
+
+```{r}
+library(tidyverse)
+library(nycflights13)
+```
+
+
+and persisting data
+
+```{r}
+tt<-nycflights13::flights
+?flights
+View(flights)
+View(tt)
+```
+

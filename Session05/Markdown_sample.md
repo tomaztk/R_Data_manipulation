@@ -77,3 +77,25 @@ ew
 | ---- | ---- |
 | Val1 | val2 |
 | Val3 | Val4 | 
+
+
+# Code Block
+
+```
+jan1 <- filter(flights, month == 1, day == 1)
+flights %>% 
+  filter(month == 1, day == 1) %>%
+  filter(dep_delay>0)
+``` 
+
+#  Bullets 
+
+- [x] Write the press release
+- [ ] Update the website
+- [ ] Contact the media 
+
+## or 
+
+- Write the press release
+- Update the website
+- Contact the media 
