@@ -10,7 +10,7 @@ editor: visual
 
 ### 1.1. Subtitle
 
-_italic_ and **bold** 
+*italic* and **bold**
 
 ## 2. Running Code
 
@@ -28,7 +28,6 @@ You can add options to executable code like this
 ```
 
 The `echo: false` option disables the printing of code (only output is displayed).
-
 
 ## 3. Creating graphs
 
@@ -59,7 +58,6 @@ ggplot( aes(x="", y=amnt, group=work, color=work, fill=work)) +
 
 ```
 
-
 ## Loading packages
 
 In Packages...
@@ -69,7 +67,6 @@ library(tidyverse)
 library(nycflights13)
 ```
 
-
 and persisting data
 
 ```{r}
@@ -77,5 +74,33 @@ tt<-nycflights13::flights
 ?flights
 View(flights)
 View(tt)
+```
+
+## Example Table
+
+```{r}
+# Create a data frame
+data <- data.frame(
+  Name = c("Alice", "Bob", "Charlie", "David"),
+  Age = c(25, 30, 35, 40),
+  City = c("New York", "Los Angeles", "Chicago", "Houston")
+)
+```
+
+### Viewing data
+
+```{r}
+View(data)
+```
+
+## Example Table
+
+Check this
+
+```{r}
+# Display the table using kable from knitr and enhance with kableExtra
+data %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "responsive"))
 ```
 
