@@ -1,0 +1,122 @@
+---
+title: "500_1_Quarto"
+format: html
+editor: visual
+---
+
+
+# Head Title
+
+## 1. Title
+
+### 1.1. Subtitle
+
+*italic* and **bold**
+
+## 2. Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+
+```{r}
+1 + 1
+```
+
+
+You can add options to executable code like this
+
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+## 3. Creating graphs
+
+
+```{r}
+# graphs
+library(ggplot2)
+library(tidyverse)
+
+# I have when percentages in pie do not sum to 100%
+data.frame(work = c(rep("Being Productive", 1), 
+                    rep("Being Frustrated", 1), 
+                    rep("Waiting",1)),   #and being Flustered", 1)),
+                   amnt = c(0.03, 0.17, 0.81)) %>%
+ggplot( aes(x="", y=amnt, group=work, color=work, fill=work)) +
+  geom_bar(stat = "identity") +
+  coord_polar("y", start=9.9)  +
+  ggtitle("Working") + 
+  xlab("") + ylab("") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank(),
+        legend.title=element_blank(),
+        panel.background = element_rect(fill = "white",
+                                        colour = "white",
+                                        linetype = "solid")
+        #,legend.position="bottom"
+        )
+
+```
+
+
+## Loading packages
+
+In Packages...
+
+
+```{r}
+library(tidyverse)
+library(nycflights13)
+```
+
+
+and persisting data
+
+
+```{r}
+tt<-nycflights13::flights
+?flights
+View(flights)
+View(tt)
+```
+
+
+## Example Table
+
+
+```{r}
+# Create a data frame
+data <- data.frame(
+  Name = c("Alice", "Bob", "Charlie", "David"),
+  Age = c(25, 30, 35, 40),
+  City = c("New York", "Los Angeles", "Chicago", "Houston")
+)
+```
+
+
+### Viewing data
+
+
+```{r}
+View(data)
+```
+
+
+## Example Table
+
+Check this
+
+
+```{r}
+# Display the table using kable from knitr and enhance with kableExtra
+data %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "responsive"))
+```
+
