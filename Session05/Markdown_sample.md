@@ -103,8 +103,80 @@ flights %>%
 
 # Notes and foot-notes
 
+# List
+
+## Ordered lists
+1. One
+2. Two
+3. Three
+
+And...
+
+1. First
+1. Second item
+1. Third item
+
+And ...
+
+1. First item
+2. Second item
+3. Third item
+    1. Indented item
+    2. Indented item
+4. Fourth item
 
 
+## Un-Ordered lists
+
+ - One
+ - Two
+ - Three
+
+Or...
+
+* First item
+* Second item
+* Third item
+* Fourth item
+
+Or...
+
+- First item
+- Second item
+- Third item
+    - Indented item
+    - Indented item
+- Fourth item
+
+Or ...
+
++ First item
++ Second item
++ Third item
++ Fourth item
+
+
+
+# Code
+
+writing code
+
+This is sentence with `Code`.
+
+
+We can use escape back tick
+
+
+``Use `code` in your Markdown file.``
+
+
+And block of code
+
+```
+pearl_jam %>% 
+	select (song, title, year) %>%
+	filter(year <= 2000)
+``` 
 
 
 # YAML Settings
