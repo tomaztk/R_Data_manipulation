@@ -273,3 +273,6 @@ params:
   region: "North America"
   date_range: "Q1 2025"
 ---
+
+
+print(paste("Region:", params$region))
