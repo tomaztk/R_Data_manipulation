@@ -276,3 +276,53 @@ params:
 
 
 print(paste("Region:", params$region))
+
+
+
+### Sample - export to word and PDF
+
+install.packages("rmarkdown")
+install.packages("knitr")
+
+
+---
+title: "Sample Parameterized Report"
+author: "Your Name"
+date: today
+format:
+  pdf: default
+  docx: default
+params:
+  name: "John Doe"
+  age: 30
+  country: "USA"
+execute:
+  echo: false
+---
+
+
+# Use parameters in the document
+name <- params$name
+age <- params$age
+country <- params$country
+
+cat("### Personal Information\n")
+cat("- **Name:**", name, "\n")
+cat("- **Age:**", age, "\n")
+cat("- **Country:**", country, "\n")
+
+
+-- render
+library(quarto)
+
+#### Render with custom parameters
+quarto::quarto_render("sample_report.qmd", execute_params = list(name = "Alice", age = 25, country = "UK"))
+
+
+
+Output
+
+This will generate:
+
+    sample_report.docx
+    sample_report.pdf
