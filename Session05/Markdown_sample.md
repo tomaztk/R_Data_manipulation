@@ -326,3 +326,7 @@ This will generate:
 
     sample_report.docx
     sample_report.pdf
+    
+-- or
+quarto::quarto_render("sample_report.qmd", output_format = "docx")
+quarto::quarto_render("sample_report.qmd", output_format = "pdf")
