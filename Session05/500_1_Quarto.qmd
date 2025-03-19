@@ -145,3 +145,7 @@ code {
 Here is an image styled with custom width:
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg" width="200" />
+
+
+## Tables
+
