@@ -1,0 +1,57 @@
+---
+title: "Regression Report"
+author: "Your Name"
+date: today
+format:
+  pdf: default
+  docx: default
+params:
+  year: 2024
+  country: "USA"
+execute:
+  echo: false
+---
+
+
+## report
+
+
+```{r}
+# Load required packages
+library(ggplot2)
+library(dplyr)
+
+# Access parameters
+year <- params$year
+country <- params$country
+```
+
+You can add options to executable code like this
+
+```{r}
+# Simulated dataset (Replace with actual data loading)
+set.seed(123)
+data <- data.frame(
+  x = rnorm(100, mean = ifelse(year == 2024, 50, 60), sd = 10),
+  y = rnorm(100, mean = ifelse(year == 2024, 100, 120), sd = 15)
+)
+
+# Run regression
+model <- lm(y ~ x, data = data)
+
+# Show regression results
+summary(model)
+
+```
+
+
+
+
+```{r}
+# Plot the regression line
+ggplot(data, aes(x = x, y = y)) +
+  geom_point(color = "blue") +
+  geom_smooth(method = "lm", color = "red") +
+  labs(title = paste("Regression Analysis for", country, "-", year),
+       x = "Independent Variable (X)", y = "Dependent Variable (Y)")
+```
