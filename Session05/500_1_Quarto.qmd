@@ -104,9 +104,6 @@ data %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "responsive"))
 ```
 
-
-
-
 ### 3. **Custom CSS Styling**
 
 You can apply custom styles to your Quarto document by linking to a CSS file in the YAML header or by defining styles directly within the document.
@@ -115,7 +112,7 @@ You can apply custom styles to your Quarto document by linking to a CSS file in 
 
 First, create a `styles.css` file with custom styles. For example:
 
-```css
+``` css
 /* styles.css */
 h1 {
   color: darkblue;
@@ -136,17 +133,12 @@ code {
 }
 ```
 
-
-
 # Image Styling
 
 ![Example Image](https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg)
 
 Here is an image styled with custom width:
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg" width="200" />
-
+<img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg" width="200"/>
 
 ## Tables
-
-
