@@ -39,12 +39,45 @@ Heading level 2
 Heading Level 2
 
 
+Or we can do it like:
+
+# H1
+## H2
+### H3
+#### H4
+##### H5
+###### H6
+
+Alternatively, for H1 and H2, an underline-ish style:
+
+Alt-H1
+======
+
+Alt-H2
+------
+
+
 -------
 # Styles
 
 **bold** or __bold__
 
 _italic_ or *italic* 
+
+~~strike this~~
+
+<del>strike out</del>
+</br>
+<s>strike out</s>
+
+Or using it in the sentence:
+
+Emphasis, aka italics, with *asterisks* or _underscores_.
+Strong emphasis, aka bold, with **asterisks** or __underscores__.
+Combined emphasis with **asterisks and _underscores_**.
+
+Strikethrough uses two tildes. ~~Scratch this.~~
+
 
 # Separators
 
