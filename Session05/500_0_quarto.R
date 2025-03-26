@@ -35,7 +35,63 @@
 
 # Table
 
-#  | Col1 | Col2 |
-#  | ---- | ---- |
-#  | Val1 | val2 |
-#  | Val3 | Val4 | 
+ | Col1 | Col2 |
+ | ---- | ---- |
+ | Val1 | val2 |
+ | Val3 | Val4 |
+
+
+
+
+# This is a Quarto document has three parts:
+#   
+# Metadata (YAML)
+# Text (markdown formatting)
+# Code (code formatting)
+
+
+## YAML
+
+---
+title: "An example document"
+author: "Tomaz Kastrun"
+format: docx
+---
+
+  
+## Code
+
+#### Check for backtick
+# on mac - option + "</>"
+# on windows - Alt GR + 7
+  
+```{r}
+#| label: r-chunk-name
+# a code chunk
+```
+
+
+# The code chunks you need to know:
+  
+## eval: true/false Do you want to evaluate the code?
+## echo: true/false Do you want to print the code?
+## cache: true / false Do you want to save the output of the chunk so it doesn’t have to run next time?
+## include: Do you want to include code output in the final output document? Setting to false means nothing is put into the output document, but the code is still run.
+
+```{r}
+#| label: read-iris
+#| eval: false
+iris_data <- iris
+```
+
+# Using inline code
+# Code is executed
+```{r}
+kg_tk <- c(91, 90, 91, 90.5, 89.5, 91.2, 90.7)
+kg_mean <- mean(r_heights)
+```
+
+# Code is used in print 
+The mean of my kilos in 2025 is `{r} kg_mean`
+
+## Create a new R QMMD file
