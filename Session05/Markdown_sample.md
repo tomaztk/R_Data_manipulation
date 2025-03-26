@@ -2,11 +2,14 @@
 
 or
 
-<h1>Heading level 1 Title with HTML</h1> 	
+<h1>Heading level 1 Title with HTML</h1> 
+
+	
 Heading level 1
 
 ## Heading level 2 Title	
 Heading level 2
+
 
 
 ### Heading level 3 Title
@@ -32,6 +35,8 @@ Heading can also be achieved as
 Heading level 1
 =============== 		
 Heading level 1
+
+
 
 Heading level 2
 ---------------
@@ -60,7 +65,11 @@ Alt-H2
 -------
 # Styles
 
+Tole je tekst **boldiran tekst** ali __tekst__
+
 **bold** or __bold__
+
+Ležeče *ležeče* ali _ležeče_
 
 _italic_ or *italic* 
 
@@ -69,6 +78,7 @@ _italic_ or *italic*
 <del>strike out</del>
 </br>
 <s>strike out</s>
+
 
 Or using it in the sentence:
 
@@ -111,6 +121,12 @@ ew
 | Val3 | Val4 | 
 
 
+| Col1 | Col2 |
+| ---- | ---- |
+| Val1 | val2 |
+| Val3 | Val4 | 
+
+
 
 Colons can be used to align columns.
 
@@ -130,6 +146,9 @@ Markdown | Less | Pretty
 *Still* | `renders` | **nicely**
 1 | 2 | 3
 
+
+
+
 # Code Block
 
 ```
@@ -138,6 +157,10 @@ flights %>%
   filter(month == 1, day == 1) %>%
   filter(dep_delay>0)
 ``` 
+
+tole je tekst in uporabi funkcijo `dplyr::select` in spet pišem tekst naprej
+
+
 
 #  Bullets 
 
@@ -242,6 +265,8 @@ We can use escape back tick
 
 ``Use `code` in your Markdown file.``
 
+ Use `code` in your Markdown file.
+
 
 And block of code
 
@@ -253,7 +278,7 @@ pearl_jam %>%
 
 # Links
 
-[I'm an inline-style link](https://www.google.com)
+
 
 [I'm an inline-style link with title](https://www.google.com "Google's Homepage")
 
@@ -281,7 +306,7 @@ Some text to show that the reference links can follow later.
 Here is logo (and hover over text):
 
 Inline-style: 
-![alt text](https://margis.si/wp-content/uploads/2018/01/SID-banka-logo.jpg "Logo SID 1")
+![logo SID](https://margis.si/wp-content/uploads/2018/01/SID-banka-logo.jpg "Logo SID 1")
 
 With size:
 
@@ -291,6 +316,7 @@ Or with different way of size:
 
 ![SID Logo|50x25](https://margis.si/wp-content/uploads/2018/01/SID-banka-logo.jpg)
 *this is Obsedian reference
+
 
 Or using R syntax
 ```{r, fig.cap="SID Logo", out.width = '50%'}
@@ -305,6 +331,8 @@ Reference-style:
 ![alt text][logo]
 
 [logo]: https://margis.si/wp-content/uploads/2018/01/SID-banka-logo.jpg "Logo Banka SID 2"
+
+
 
 
 

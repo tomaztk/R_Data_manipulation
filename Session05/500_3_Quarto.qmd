@@ -127,7 +127,6 @@ This is an example of a 'folded' caution callout that can be expanded by the use
 Using callouts is an effective way to highlight content that your reader give special consideration or attention.
 :::
 
-
 ::: {#tip-example .callout-tip}
 ## Cross-Referencing a Tip
 

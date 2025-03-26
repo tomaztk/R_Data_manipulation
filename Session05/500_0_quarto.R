@@ -65,6 +65,8 @@ format: docx
 # on mac - option + "</>"
 # on windows - Alt GR + 7
   
+  
+  
 ```{r}
 #| label: r-chunk-name
 # a code chunk

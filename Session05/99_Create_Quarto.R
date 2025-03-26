@@ -18,9 +18,7 @@ mpg2 %>%
   geom_boxplot(aes(group = cut_width(cyl, 1)))  
 
 
-
 # Facets
-
 
 mpg3 <- subset(mpg, cyl != 5 & drv %in% c("4", "f") & class != "2seater")
 

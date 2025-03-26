@@ -1,0 +1,33 @@
+---
+title: "Testni Quarto dokument"
+author: "Tomaž Kaštrun"
+description: "An overview of sales performance in Q1 2025."
+format:
+  html:
+    toc: true        # Table of contents
+    toc-depth: 2     # Number of TOC levels
+    number-sections: true
+    theme: cosmo     # Themes: cosmo, flatly, darkly, etc.
+    highlight-style: github
+editor: visual
+lang: en
+fontsize: 12pt
+---
+
+```{r}
+#| label: r-chunk-name-1
+1 + 1
+```
+
+Code is executed
+
+```{r}
+#| eval: true
+kg_tk <- c(91, 90, 91, 90.5, 89.5, 91.2, 90.7)
+kg_mean <- mean(kg_tk)
+print(kg_mean)
+```
+
+### Code is used in print
+
+The mean of my kilos in 2025 is `{r} kg_mean`

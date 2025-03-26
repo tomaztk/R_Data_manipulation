@@ -1,6 +1,6 @@
 ---
 title: "Quarto_500_001"
-format: docx
+format: html
 editor: visual
 ---
 
@@ -98,11 +98,15 @@ inline math: $f(x) = a*b^{3} + 4$
 
 display math:
 
-$$f(x) = a*b^{3} + 4$$
+$$
+f(x) = a*b^{3} + 4
+$$
 
 $$
 \sqrt{2x + 4^{3}}
-$$ $$
+$$
+
+$$
 x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
 $$ Bayes rules:
 
@@ -118,8 +122,7 @@ $$
 library(DiagrammeR)
 ```
 
-```{r , echo=FALSE}
- 
+```{r}
 grViz("
   digraph {
   layout = dot

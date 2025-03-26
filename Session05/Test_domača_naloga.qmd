@@ -1,0 +1,137 @@
+---
+title: "Poročilo o mtcars"
+author: "Tomaž Kaštrun"
+date: 2025-03-26
+editor: visual
+description: "Podrobno poročilo med city in cyl variablami"
+format:
+  html:
+    toc: true        # Table of contents
+    toc-depth: 2     # Number of TOC levels
+    number-sections: true
+    theme: cosmo     # Themes: cosmo, flatly, darkly, etc.
+    highlight-style: github
+---
+
+# Primerajava distribicj z dvema različnima perspektivama
+
+## Podatki
+
+Podatki so zajeti za leto 2023.
+
+```{r}
+#| echo: false
+#| warning: false
+library(tidyverse)
+library(gt)
+
+mtcars <- mtcars
+mpg2 <- ggplot2::mpg
+
+```
+
+## Perspektiova 1
+
+@fig-cyl-city shows the impact of driving in the city (distance) based on the number of cylders.
+
+```{r}
+#| echo: false
+#| label: fig-cyl-city
+#| fig-cap: "City drive with type of Cylinders"
+#| warning: false
+mpg2 %>%
+  ggplot(aes(as.factor(cyl), cty)) + 
+  geom_boxplot()  
+```
+
+## Perspektiva 2
+
+@fig-cyl-city_2 shows the impact of driving in the city (distance) based on the number of cylders with all values without missings.
+
+```{r}
+#| echo: false
+#| label: fig-cyl-city_2
+#| fig-cap: "corrected graph: City drive with type of Cylinders"
+mpg2 %>%
+  ggplot(aes(cyl, cty)) + 
+  geom_boxplot(aes(group = cut_width(cyl, 1)))  
+```
+
+Zaključek: Grafa se razlikujeta na x-osi z vrednostmi.
+
+## Facets
+
+```{r}
+#| echo: false
+#| warning: false
+mpg3 <- subset(mpg, cyl != 5 & drv %in% c("4", "f") & class != "2seater")
+
+ggplot(mpg3, aes(displ, hwy)) +
+  geom_point() + 
+  facet_wrap(~class, ncol = 3)
+```
+
+## Avg City usage per gallon
+
+```{r}
+#| echo: false
+#| warning: false
+avg_cty <- mean(mpg2$cty)
+```
+
+With the average of city distance per gallon is `{r} avg_cty`.
+
+and the formula for calculation is $$
+\sum_{i = 1}^{n}{\frac{x_i}{n}}
+$$
+
+## Prikaz tabelaričnih podatkov
+
+Pregled podatkov
+
+```{r results='asis'}
+#| echo: false
+library(gt)
+library(tidyverse)
+table_3 <- mtcars %>% 
+  mutate(
+    datetime = seq(
+      from = as.POSIXct("2025-01-01 00:00:00"),
+      by = "1 hour",
+      length.out = n()
+    )
+    ,timedate = seq(
+      from = as.POSIXct("2025-01-01 00:00:00"),
+      by = "1 hour",
+      length.out = n()
+    )
+  ) %>%
+  head(5) %>% 
+  gt() %>% 
+  fmt_number(
+    columns = c(mpg, wt),
+    decimals = 2
+  ) %>% 
+  fmt_currency(
+    columns = c(disp),
+    currency = "EUR"
+  ) %>%
+  fmt_percent(
+    columns = drat, 
+    decimals = 0
+  ) %>%
+  fmt_date (
+    columns = datetime,
+    date_style = "day_m"
+  )  %>%
+  fmt_time (
+    columns = timedate,
+    time_style = "h_m_p" #"hm"
+    #locale = "sl"
+  )
+print(table_3)
+```
+
+## Končne zaključke
+
+errtwe werwerw
