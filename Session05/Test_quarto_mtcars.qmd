@@ -1,0 +1,103 @@
+---
+title: "Test_Quarto_mtcars"
+author: "Tomaz Kastrun"
+editor: visual
+date: "11/03/2025"
+format: 
+  html:
+    code-fold: true
+    html-table-processing: none
+---
+
+# General report on Data analysis on mtCars
+
+## Analysis on mtcars
+
+@fig-cyl-city shows the impact of driving in the city (distance) based on the number of cylders.
+
+```{r}
+#| label: fig-cyl-city
+#| fig-cap: "City drive with type of Cylinders"
+#| warning: false
+
+library(ggplot2)
+library(tidyverse)
+
+mpg2 <- ggplot2::mpg
+mpg2 %>%
+  ggplot(aes(as.factor(cyl), cty)) + 
+  geom_boxplot()  
+```
+
+
+but a slight better graph would be
+
+```{r}
+#| echo: false
+#| fig-cap: "corrected graph: City drive with type of Cylinders"
+#| 
+mpg2 %>%
+  ggplot(aes(cyl, cty)) + 
+  geom_boxplot(aes(group = cut_width(cyl, 1)))  
+```
+
+
+```{r}
+#| echo: false
+#| warning: false
+avg_cty <- mean(mpg2$cty)
+```
+
+With the average of city distance per gallon is `{r} avg_cty`.
+
+and the formula for calculation is
+$$
+\sum_{i = 1}^{n}{\frac{x_i}{n}}
+$$
+
+And the results are:
+
+````{r results='asis'}
+#| echo: false
+library(gt)
+library(tidyverse)
+table_3 <- mtcars %>% 
+  mutate(
+    datetime = seq(
+      from = as.POSIXct("2025-01-01 00:00:00"),
+      by = "1 hour",
+      length.out = n()
+    )
+    ,timedate = seq(
+      from = as.POSIXct("2025-01-01 00:00:00"),
+      by = "1 hour",
+      length.out = n()
+    )
+  ) %>%
+  head(5) %>% 
+  gt() %>% 
+  fmt_number(
+    columns = c(mpg, wt),
+    decimals = 2
+  ) %>% 
+  fmt_currency(
+    columns = c(disp),
+    currency = "EUR"
+  ) %>%
+  fmt_percent(
+    columns = drat, 
+    decimals = 0
+  ) %>%
+  fmt_date (
+    columns = datetime,
+    date_style = "day_m"
+  )  %>%
+  fmt_time (
+    columns = timedate,
+    time_style = "h_m_p" #"hm"
+    #locale = "sl"
+  )
+print(table_3)
+````
+
+
