@@ -1,0 +1,40 @@
+---
+title: "600_01_Quarto"
+author: "TK"
+format: docx
+editor: visual
+---
+
+#  mtCars
+
+## Correlation for Cylnder 4
+
+Correlation between drat and wt
+
+
+```{r}
+#| label: fig-1_drat_wt_cyl_4
+#| warning: false
+
+library(ggplot2)
+library(tidyverse)
+
+mtcars %>%
+  filter(cyl == 4) %>%
+ggplot(aes(drat, wt)) + 
+  geom_point() + 
+  geom_smooth(method = "loess")
+```
+
+
+## Table
+
+````{r}
+cor(mtcars$wt, mtcars$drat)
+
+````
+
+The correlation between wt and drat is: 
+
+table(mtcars$cyl, mtcars$drat)
+
