@@ -3,14 +3,16 @@ title: "600_01_Quarto"
 author: "TK"
 format: docx
 editor: visual
+params:
+  cyl: 4
+  vs: 0
 ---
 
-#  mtCars
+# mtCars
 
-## Correlation for Cylnder 4
+## Correlation for number of cylinder `{r} params$cyl` and for vs: `{r} params$vs`!
 
-Correlation between drat and wt
-
+Correlation between drat and wt:
 
 ```{r}
 #| label: fig-1_drat_wt_cyl_4
@@ -20,21 +22,25 @@ library(ggplot2)
 library(tidyverse)
 
 mtcars %>%
-  filter(cyl == 4) %>%
+  filter(cyl == params$cyl) %>%
 ggplot(aes(drat, wt)) + 
   geom_point() + 
   geom_smooth(method = "loess")
 ```
 
-
 ## Table
 
-````{r}
-cor(mtcars$wt, mtcars$drat)
+```{r}
+correl <- cor(mtcars$wt, mtcars$drat)
+```
 
-````
+The correlation between wt and drat is for vs `{r} correl`.
 
-The correlation between wt and drat is: 
+And the table between cyl and drat:
 
-table(mtcars$cyl, mtcars$drat)
+```{r}
+df <- mtcars %>%
+  filter (vs == params$vs) 
 
+table(df$cyl, df$drat)
+```
