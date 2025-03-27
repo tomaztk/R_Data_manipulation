@@ -1,9 +1,8 @@
-library(quarto)
-#quarto_render("document.qmd") # all formats
-#quarto_render("document.qmd", output_format = "pdf")
-
 getwd()
 setwd("/Users/tomazkastrun/Documents/tomaztk_github/R_Data_manipulation/Session06")
+
+library(quarto)
+
 
 # based on defined sets
 
@@ -37,7 +36,7 @@ df <- data |>
   dplyr::mutate(
     output_format = "docx",       
     output_file = paste(          
-      cyl, vs, "-report.docx",
+      "cyl",cyl,"-vs", vs, "-report.docx",
       sep = "-"
     ),
     execute_params = purrr::map2(
