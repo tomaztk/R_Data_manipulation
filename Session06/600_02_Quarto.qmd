@@ -1,0 +1,65 @@
+---
+title: "600_02_Quarto"
+author: "Tomaz Kastrun"
+format:
+  docx:
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    number-depth: 3
+    reference-doc: reference_word_test.docx
+editor: visual
+---
+
+# Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+#     highlight-style: github
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+### Running Code in R
+
+Here with using R Language.
+
+```{r}
+iris <- iris
+library(ggplot2)
+library(tidyverse)
+
+iris %>%
+  select ('Petal.Width', 'Petal.Length') %>%
+  ggplot(aes(x=Petal.Length,y=Petal.Width))+
+  geom_point()+
+  geom_smooth(method="lm")
+
+```
+
+### Running Code in Py
+
+And here is to use with Python:
+
+```{python}
+a = 1
+```
+
+And overall it is irrelevant the origin of language.
+
+::: {custom-style="Poetry"}
+This is overall job!
+:::

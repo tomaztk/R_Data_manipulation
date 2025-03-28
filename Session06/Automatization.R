@@ -3,7 +3,7 @@ setwd("/Users/tomazkastrun/Documents/tomaztk_github/R_Data_manipulation/Session0
 
 library(quarto)
 
-
+# Automatization for 600_01_Quarto
 # based on defined sets
 
 quarto_render(
@@ -53,4 +53,15 @@ purrr::pwalk(
   .l = df,                       
   .f = quarto::quarto_render,   
   input = "600_01_Quarto.qmd"
+)
+
+
+
+
+# Automatization for 600_02_Quarto
+
+quarto_render(
+  input = "600_02_Quarto.qmd",
+  output_format = "docx",
+  output_file = "600_02_Quarto_word.docx"
 )
