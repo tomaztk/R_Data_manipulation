@@ -11,24 +11,54 @@ format:
 editor: visual
 ---
 
-# Quarto
+# Report on analysis of Iris datasets
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+This is a custom function fit:
 
 ```{r}
-#     highlight-style: github
-1 + 1
+#| echo: true
+#| eval: false
+
+library(tidyverse)
+s
+d <- iris
+fit <- lm(Petal.Length ~ Petal.Width, data = d)   
+summary(fit) 
+
+# and adding
+d$predicted <- predict(fit)   
+d$residuals <- residuals(fit) 
+
+d %>% 
+    select(Petal.Length, predicted, residuals) %>% 
+    head()
+
 ```
 
-You can add options to executable code like this
+You can add options to run multiple regression
 
 ```{r}
 #| echo: false
-2 * 2
+#| warning: false
+#| eval: true
+
+library(tidyverse)
+
+d <- iris %>% select(Petal.Length, Petal.Width, Sepal.Length, Sepal.Length)
+
+
+fit <- lm(Petal.Width ~ Sepal.Length + Sepal.Length + Petal.Length, data = d)
+
+# Obtain predicted and residual values
+d$predicted <- predict(fit)
+d$residuals <- residuals(fit)
+
+
+ggplot(d, aes(x = Sepal.Length, y = Petal.Width)) +
+  geom_segment(aes(xend = Sepal.Length, yend = predicted), alpha = .2) +  # Lines to connect points
+  geom_point() +  # Points of actual values
+  geom_point(aes(y = predicted), shape = 1) +  # Points of predicted values
+  theme_bw()
 ```
 
 The `echo: false` option disables the printing of code (only output is displayed).
@@ -38,6 +68,10 @@ The `echo: false` option disables the printing of code (only output is displayed
 Here with using R Language.
 
 ```{r}
+#| eval: true
+#| warning: false
+#| echo: false
+#| fig-cap: Iris scatter between Petal.Width and Petal.Length
 iris <- iris
 library(ggplot2)
 library(tidyverse)
