@@ -1,5 +1,5 @@
 ---
-title: "600_02_Quarto"
+title: "600_02_A_Quarto"
 author: "Tomaz Kastrun"
 format:
   docx:
@@ -8,22 +8,43 @@ format:
     number-sections: true
     number-depth: 3
     reference-doc: reference_word_test.docx
+params:
+  Species: setosa 
 editor: visual
 ---
 
-# 1. Report on analysis of Iris datasets
+
+#  Report on analysis of Iris datasets
+
+## Exploring data
+
+Based on the group selected `{r} params$Species`, here is the table data.
+
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+
+library(tidyverse)
+
+d <- iris %>%
+      filter(Species == params$Species)
+
+head(d)
+```
+
+And calculating for Species `{r} params$Species` and number of observations `{r} nrow(d)`.
 
 ## 1. Checking custom fits
 
 This is a custom function fit:
 
-```{r}
-#| echo: true
-#| eval: false
+`````{r}
+#| echo: false
+#| eval: true
 
-library(tidyverse)
-s
-d <- iris
+
 fit <- lm(Petal.Length ~ Petal.Width, data = d)   
 summary(fit) 
 
@@ -31,13 +52,11 @@ summary(fit)
 d$predicted <- predict(fit)   
 d$residuals <- residuals(fit) 
 
-d %>% 
-    select(Petal.Length, predicted, residuals) %>% 
-    head()
+`````
 
-```
 
-## 2. Running multiple regression
+
+##  Running multiple regression
 
 You can add options to run multiple regression
 
@@ -65,7 +84,7 @@ ggplot(d, aes(x = Sepal.Length, y = Petal.Width)) +
   theme_bw()
 ```
 
-## 3. Adding multiple predictors on graph:
+##  Adding multiple predictors on graph:
 
 `````{r}
 #| echo: false
@@ -86,11 +105,10 @@ d %>%
   theme_bw()
 `````
 
-## 4. Running multiple different code
+##  Running multiple different code
 
 
-
-### 4.1 Example with  R
+###  Example with  R
 
 Here with using R Language.
 
@@ -111,7 +129,7 @@ iris %>%
 
 ```
 
-### 4.2. Example with Python
+###  Example with Python
 
 Example with Python
 
@@ -125,7 +143,7 @@ a = 1
 And overall it is irrelevant the origin of language. and mixing the languages
 
 
-# 2. Conclusion
+#  Conclusion
 
 The results show bigger residuals and predicting the multiple variate regression without filtering the species, to be "interesting" idea. 
 

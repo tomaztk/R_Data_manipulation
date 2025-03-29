@@ -56,7 +56,8 @@ purrr::pwalk(
 )
 
 
-
+# install.packages("reticulate")
+library(reticulate)
 
 # Automatization for 600_02_Quarto
 
@@ -65,3 +66,40 @@ quarto_render(
   output_format = "docx",
   output_file = "600_02_Quarto_word.docx"
 )
+
+
+# Automatization for 600_02_A_Quarto
+
+quarto_render(
+  input = "600_02_A_Quarto.qmd",
+  output_format = "docx",
+  output_file = "600_02_Quarto_word_setosa.docx",
+  execute_params = list( Species = "setosa")
+)
+
+quarto_render(
+  input = "600_02_A_Quarto.qmd",
+  output_format = "docx",
+  output_file = "600_02_Quarto_word_virginica.docx",
+  execute_params = list( Species = "virginica")
+)
+
+quarto_render(
+  input = "600_02_A_Quarto.qmd",
+  output_format = "docx",
+  output_file = "600_02_Quarto_word_versicolor.docx",
+  execute_params = list( Species = "versicolor")
+)
+
+
+#### Short List of YAML Options:
+
+
+
+#### Short List of Word Options:
+
+
+### Short List of HTML Options:
+
+
+
