@@ -1,0 +1,236 @@
+---
+title: "600_03_Quarto"
+description: "Quarto sample book with HTML"
+author: "Tomaz Kastrun"
+date: 2025-03-27
+abstract: "Simple QMD for educational purposes"
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
+    toc: true
+    toc-title: Contents
+    toc-location: right
+    toc-depth: 2
+    toc-expand: 2
+    html-math-method: katex
+    css: styles.css
+    theme:
+     light: flatly
+     dark: darkly
+    number-sections: true
+    number-depth: 3
+    code-copy: true
+    code-fold: true
+    code-line-numbers: true
+    other-links:
+      - text: Bibilography used for this article
+        href: http://www.custom-link.si
+    code-links:
+      - text: Additional R code
+        icon: file-code
+        href: Quarto_samples.R
+    
+editor: visual
+params:
+  Species: setosa
+---
+
+#  Report on analysis of Iris datasets
+
+## Tabsets
+
+::: {.panel-tabset}
+
+## R_v1
+``` {.r}
+fizz_buzz <- function(fbnums = 1:50) {
+  output <- dplyr::case_when(
+    fbnums %% 15 == 0 ~ "FizzBuzz",
+    fbnums %% 3 == 0 ~ "Fizz",
+    fbnums %% 5 == 0 ~ "Buzz",
+    TRUE ~ as.character(fbnums)
+  )
+  print(output)
+}
+```
+
+## R_v2
+``` {.r}
+val1 = 6  
+val2 = 7
+val3 = "s"  
+result = switch(  
+    val3,  
+    "a"= cat("Addition =", val1 + val2),  
+    "d"= cat("Subtraction =", val1 - val2),  
+    "r"= cat("Division = ", val1 / val2),  
+    "s"= cat("Multiplication =", val1 * val2),
+    "m"= cat("Modulus =", val1 %% val2),
+    "p"= cat("Power =", val1 ^ val2)
+)  
+print(result)
+```
+::: 
+
+## Exploring data
+
+Based on the group selected **`{r} params$Species`**, here is the table data.
+
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+
+library(tidyverse)
+
+d <- iris %>%
+      filter(Species == params$Species)
+
+head(d)
+```
+
+And calculating for Species `{r} params$Species` and number of observations `{r} nrow(d)`.
+
+## 1. Checking custom fits
+
+This is a custom function fit:
+
+`````{r}
+#| echo: false
+#| eval: true
+
+
+fit <- lm(Petal.Length ~ Petal.Width, data = d)   
+summary(fit) 
+
+# and adding
+d$predicted <- predict(fit)   
+d$residuals <- residuals(fit) 
+
+`````
+
+
+
+##  Running multiple regression
+
+You can add options to run multiple regression
+
+```{r}
+#| echo: true
+#| warning: false
+#| eval: true
+#| label: fig-1_predictors
+library(tidyverse)
+
+d <- iris %>% select(Petal.Length, Petal.Width, Sepal.Length, Sepal.Length)
+
+
+fit <- lm(Petal.Width ~ Sepal.Length + Sepal.Length + Petal.Length, data = d)
+
+# Obtain predicted and residual values
+d$predicted <- predict(fit)
+d$residuals <- residuals(fit)
+
+
+ggplot(d, aes(x = Sepal.Length, y = Petal.Width)) +
+  geom_segment(aes(xend = Sepal.Length, yend = predicted), alpha = .2) +  # Lines to connect points
+  geom_point() +  # Points of actual values
+  geom_point(aes(y = predicted), shape = 1) +  # Points of predicted values
+  theme_bw()
+```
+
+##  Adding multiple predictors on graph:
+
+`````{r}
+#| echo: false
+#| warning: false
+#| eval: true
+#| label: fig-2_predictors
+#| fig-cap: Iris scatterplot with multiple predictors
+#| 
+d %>% 
+  gather(key = "iv", value = "x", -Sepal.Length, -predicted, -residuals) %>%  # Get data into shape
+  ggplot(aes(x = x, y = Sepal.Length)) +  # Note use of `x` here and next line
+  geom_segment(aes(xend = x, yend = predicted), alpha = .2) +
+  geom_point(aes(color = residuals)) +
+  scale_color_gradient2(low = "blue", mid = "white", high = "red") +
+  guides(color = FALSE) +
+  geom_point(aes(y = predicted), shape = 1) +
+  facet_grid(~ iv, scales = "free_x") +  # Split panels here by `iv`
+  theme_bw()
+`````
+
+##  Running multiple different code
+
+
+###  Example with  R
+
+Here with using R Language.
+
+```{r}
+#| eval: true
+#| warning: false
+#| echo: false
+#| fig-cap: Iris scatter between Petal.Width and Petal.Length
+iris <- iris
+library(ggplot2)
+library(tidyverse)
+
+iris %>%
+  select ('Petal.Width', 'Petal.Length') %>%
+  ggplot(aes(x=Petal.Length,y=Petal.Width))+
+  geom_point()+
+  geom_smooth(method="lm")
+
+```
+
+###  Example with Python
+
+Example with Python
+
+```{python}
+#| eval: true
+#| warning: false
+#| echo: true
+a = 1
+```
+
+And overall it is irrelevant the origin of language. and mixing the languages
+
+### Math 
+
+some formula
+$$
+f(x) = a*b^{3} + 4
+$$
+
+Some formula
+$$
+\sqrt{2x + 4^{3}}
+$$
+
+
+Quadratic formula (or Sridharacharya formula) for second-order polynomial equation 
+$$
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+$$ 
+
+Bayes rules:
+$$
+Pr(\theta | y) = \frac{Pr(y | \theta) Pr(\theta)}{Pr(y)}
+$$
+
+
+
+#  Conclusion
+
+The results show bigger residuals and predicting the multiple variate regression without filtering the species, to be "interesting" idea. 
+
+::: {.callout-note appearance="simple"}
+## Pay Attention
+
+This analysis is fictitious and does not provide any real results
+:::
+

@@ -92,6 +92,18 @@ quarto_render(
 )
 
 
+# Automatization for 600_03_Quarto
+
+Species <- c("setosa", "versicolor", "virginica")
+
+for (Species in Species) {
+  quarto_render(
+    input = "600_03_Quarto.qmd",
+    output_file = paste0("Iris_Analysis_", Species, ".html"),
+    execute_params = list(Species = Species)
+  )
+}
+
 #### Short List of YAML Options:
 
 
@@ -101,5 +113,5 @@ quarto_render(
 
 ### Short List of HTML Options:
 
-
+# -> https://quarto.org/docs/reference/formats/html.html
 
