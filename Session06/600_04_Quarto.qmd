@@ -1,25 +1,225 @@
 ---
 title: "600_4_Quarto"
 author: "Tomaz Kastrun"
-format: pptx
+date: 2025-03-26
+description: "Sample pptx made from Quarto R"
+format:
+  pptx:
+    reference-doc: template_pptx.pptx
+    slide-number: true
+    transition: slide
 editor: visual
+params:
+  cyl: 4
 ---
 
-## Quarto
+# Analysis of mtcars
 
-Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
+## General data view
 
-## Bullets
-
-When you click the **Render** button a document will be generated that includes:
-
--   Content authored with markdown
--   Output from executable code
-
-## Code
-
-When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+Analysis of the mtcars dataset:
 
 ```{r}
-1 + 1
+#| label: fig-1_drat_wt_cyl_4
+#| warning: false
+#| echo: false
+#| eval: true
+
+
+library(ggplot2)
+library(tidyverse)
+
+mtcars %>%
+  filter(cyl == params$cyl) %>%
+ggplot(aes(drat, wt)) + 
+  geom_point() + 
+  geom_smooth(method = "loess")
 ```
+
+## Data understanding
+
+You need to include
+
+-   **understanding** of markdown
+-   general approach for **analysis**
+
+## Code {background-image="background.png"}
+
+Check the first three lines of cross-tabulation of **mpg** and **cyl**.
+
+```{r}
+#| warning: false
+#| echo: false
+#| eval: true
+
+head(table(mtcars$mpg, mtcars$cyl),3)
+```
+
+## Checking data 
+
+We can check first 6 rows and first 6 columns.
+
+```{r}
+#| warning: false
+#| echo: false
+knitr::kable(
+  mtcars[1:6, 1:6], caption = 'A subset of mtcars.'
+)
+```
+
+## Comparing cyl
+
+<div class="centered">
+Comparing 8 and 6 *cyl* on *drat* and wt scatterplot.
+</div>
+
+::::: columns
+::: {.column width="40%"}
+```{r}
+mtcars %>%
+  filter(cyl == 8) %>%
+ggplot(aes(drat, wt)) + 
+  geom_point() + 
+  geom_smooth(method = "loess")
+```
+:::
+
+::: {.column width="60%"}
+```{r}
+mtcars %>%
+  filter(cyl == 6) %>%
+ggplot(aes(drat, wt)) + 
+  geom_point() + 
+  geom_smooth(method = "loess")
+```
+:::
+:::::
+
+
+## Conclusion
+
+
+::::: columns
+
+::: {.column width="33%"}
+```{r}
+
+library(ggforce)
+percentage_done <- 0.95
+fake_dat <- tibble(
+  part = c("Complete", "Incomplete"),
+  percentage = c(percentage_done, 1 - percentage_done),
+  start = lag(percentage, default = 0) * pi,
+  end = start + percentage * pi
+)
+
+gauge_plot <- fake_dat |>
+  ggplot() +
+  geom_arc_bar(
+    aes(
+      x0 = 1,
+      y0 = 1,
+      fill = part,
+      start = start - pi / 2,
+      end = end - pi / 2,
+      r0 = 0.75,
+      r = 1
+    )
+  ) +
+  coord_fixed()
+
+labeled_gauge_plot <- gauge_plot +
+  annotate(
+    "text",
+    x = 1,
+    y = 1,
+    label = glue::glue("{percentage_done * 100}% complete"),
+    size = 16,
+    family = "Source Sans Pro",
+    fontface = "bold",
+    color = "#009E73",
+    vjust = 0
+  ) +
+  labs(
+    title = "This is a gauge plot",
+    subtitle = "It was created in ggplot and shows you how much of your goal\nyou have already achieved."
+  )
+themed_gauge_plot <- labeled_gauge_plot +
+  theme_void() +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(
+      family = "Source Sans Pro", size = 28, face = "bold"
+    ),
+    plot.subtitle = element_text(family = "Source Sans Pro", size = 18)
+  )
+
+themed_gauge_plot +
+  scale_fill_manual(
+    values = c("Complete" = "#009E73", "Incomplete" = "grey80")
+  )
+```
+:::
+
+
+::: {.column width="33%"}
+```{r}
+
+library(ggforce)
+percentage_done <- 0.65
+fake_dat <- tibble(
+  part = c("Complete", "Incomplete"),
+  percentage = c(percentage_done, 1 - percentage_done),
+  start = lag(percentage, default = 0) * pi,
+  end = start + percentage * pi
+)
+
+gauge_plot <- fake_dat |>
+  ggplot() +
+  geom_arc_bar(
+    aes(
+      x0 = 1,
+      y0 = 1,
+      fill = part,
+      start = start - pi / 2,
+      end = end - pi / 2,
+      r0 = 0.75,
+      r = 1
+    )
+  ) +
+  coord_fixed()
+
+labeled_gauge_plot <- gauge_plot +
+  annotate(
+    "text",
+    x = 1,
+    y = 1,
+    label = glue::glue("{percentage_done * 100}% complete"),
+    size = 16,
+    family = "Source Sans Pro",
+    fontface = "bold",
+    color = "#009E73",
+    vjust = 0
+  ) +
+  labs(
+    title = "This is a gauge plot",
+    subtitle = "It was created in ggplot and shows you how much of your goal\nyou have already achieved."
+  )
+themed_gauge_plot <- labeled_gauge_plot +
+  theme_void() +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(
+      family = "Source Sans Pro", size = 28, face = "bold"
+    ),
+    plot.subtitle = element_text(family = "Source Sans Pro", size = 18)
+  )
+
+themed_gauge_plot +
+  scale_fill_manual(
+    values = c("Complete" = "#009E73", "Incomplete" = "grey80")
+  )
+```
+:::
+
+:::::
