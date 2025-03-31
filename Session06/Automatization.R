@@ -106,9 +106,7 @@ for (Species in Species) {
 
 
 
-
 #### Short List of YAML Options:
-
 
 
 #### Short List of Word Options:
