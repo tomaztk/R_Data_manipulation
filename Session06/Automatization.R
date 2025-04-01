@@ -105,9 +105,9 @@ for (Species in Species) {
 }
 
 
-
+#### #### #### #### #### #### #### #### #### ####
 #### Short List of YAML Options:
-
+#### #### #### #### #### #### #### #### #### ####
 
 
 # YAML Settings
@@ -190,11 +190,11 @@ csl: apa.csl  # Citation style (APA, IEEE, etc.)
   
 ## 8. Enabling Interactive Features
   
-  ---
-  format:
+---
+format:
   html:
-  code-tools: true   # Show/hide code
-code-fold: show    # Default: show code, collapsible
+    code-tools: true   # Show/hide code
+    code-fold: show    # Default: show code, collapsible
 filters:
   - include-code-files
 ---
@@ -232,11 +232,14 @@ execute:
 
 #### Short List of Word Options:
 
+# -> https://quarto.org/docs/reference/formats/docx.html
   
-
-
 ### Short List of HTML Options:
 
 # -> https://quarto.org/docs/reference/formats/html.html
 # -> https://quarto.org/docs/output-formats/html-themes.html
+  
+### Short List of PPTX Options:
+  
+# -> https://quarto.org/docs/reference/formats/presentations/pptx.html
 

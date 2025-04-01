@@ -45,3 +45,18 @@ df <- mtcars %>%
 table(df$cyl, df$drat)
 ```
 
+## Adding additional table with gt()
+
+```{r} 
+#| warning: false
+
+# install.packages("gt")
+library(gt)
+
+table_1 <- mtcars %>%
+  head(5) %>% 
+  gt()
+
+
+print(table_1)
+```

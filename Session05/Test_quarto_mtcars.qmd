@@ -29,7 +29,6 @@ mpg2 %>%
   geom_boxplot()  
 ```
 
-
 but a slight better graph would be
 
 ```{r}
@@ -41,7 +40,6 @@ mpg2 %>%
   geom_boxplot(aes(group = cut_width(cyl, 1)))  
 ```
 
-
 ```{r}
 #| echo: false
 #| warning: false
@@ -50,14 +48,13 @@ avg_cty <- mean(mpg2$cty)
 
 With the average of city distance per gallon is `{r} avg_cty`.
 
-and the formula for calculation is
-$$
+and the formula for calculation is $$
 \sum_{i = 1}^{n}{\frac{x_i}{n}}
 $$
 
 And the results are:
 
-````{r results='asis'}
+```{r results='asis'}
 #| echo: false
 library(gt)
 library(tidyverse)
@@ -98,6 +95,4 @@ table_3 <- mtcars %>%
     #locale = "sl"
   )
 print(table_3)
-````
-
-
+```
