@@ -45,9 +45,9 @@ df <- mtcars %>%
 table(df$cyl, df$drat)
 ```
 
-## Adding additional table with gt()
+## Adding additional table with gt() asis does not work. use it with html
 
-```{r} 
+```{r results='asis'}
 #| warning: false
 
 # install.packages("gt")

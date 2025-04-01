@@ -224,6 +224,22 @@ $$
 
 
 
+## Adding additional table with gt() asis does not work. use it with html
+
+```{r results='asis'}
+#| warning: false
+
+# install.packages("gt")
+library(gt)
+
+table_1 <- mtcars %>%
+  head(5) %>% 
+  gt()
+
+
+print(table_1)
+```
+
 #  Conclusion
 
 The results show bigger residuals and predicting the multiple variate regression without filtering the species, to be "interesting" idea. 
@@ -233,4 +249,5 @@ The results show bigger residuals and predicting the multiple variate regression
 
 This analysis is fictitious and does not provide any real results
 :::
+
 
