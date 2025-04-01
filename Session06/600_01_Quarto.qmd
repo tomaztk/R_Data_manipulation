@@ -45,8 +45,3 @@ df <- mtcars %>%
 table(df$cyl, df$drat)
 ```
 
-## Adding new table
-
-```{r}
-
-```

@@ -109,7 +109,130 @@ for (Species in Species) {
 #### Short List of YAML Options:
 
 
+
+# YAML Settings
+
+## 1. Basic Document Metadata
+
+---
+title: "Enterprise Sales Report"
+author: "Data Science Team"
+date: 2025-04-02
+description: "An overview of sales performance in Q1 2025."
+lang: en
+fontsize: 12pt
+---
+  
+  ## 2. Output Format
+  
+---
+format:
+  html:
+    toc: true        # Table of contents
+    toc-depth: 2     # Number of TOC levels
+    number-sections: true
+    theme: cosmo     # Themes: cosmo, flatly, darkly, etc.
+    highlight-style: github
+  pdf:
+    documentclass: article
+    word: default
+---
+  
+  ## 3. Code Execution Options
+  
+---
+execute:
+  eval: true       # Evaluate code (default: true)
+  echo: false      # Hide code but show output
+  warning: false   # Hide warnings
+  message: false   # Hide messages
+  error: true      # Show errors (if any)
+  freeze: auto     # Reuse previous results if code unchanged
+---
+  
+  ## 4. Table of Contents (TOC)
+---
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-location: left
+---
+
+        
+## 5. Cross-Referencing Sections, Figures, and Equations
+---
+format:
+  html:
+    number-sections: true
+    fig-cap-location: top
+    eqn-prefix: Eq.
+---
+  
+  
+## 6. Custom Styling (CSS and LaTeX)
+  
+---
+format:
+  html:
+    css: styles.css  # Custom CSS
+  pdf:
+    include-in-header: custom.tex  # Custom LaTeX settings
+---
+  
+## 7. Citations & References
+  
+---
+bibliography: references.bib
+csl: apa.csl  # Citation style (APA, IEEE, etc.)
+---
+  
+  
+## 8. Enabling Interactive Features
+  
+  ---
+  format:
+  html:
+  code-tools: true   # Show/hide code
+code-fold: show    # Default: show code, collapsible
+filters:
+  - include-code-files
+---
+  
+  ## 9. Parameterized Reports
+  
+---
+params:
+  region: "Europe"
+  date_range: "Q1 2025"
+---
+  
+print(paste("Region:", params$region))
+
+
+### Sample - export to word and PDF
+
+install.packages("rmarkdown")
+install.packages("knitr")
+
+
+---
+title: "Sample Parameterized Report"
+author: "Tomaz Kastrun"
+date: 2025-04-02
+format:
+  pdf: default
+params:
+  name: "Samo Štonije"
+  age: 56
+execute:
+  echo: false
+---
+  
+
 #### Short List of Word Options:
+
+  
 
 
 ### Short List of HTML Options:
