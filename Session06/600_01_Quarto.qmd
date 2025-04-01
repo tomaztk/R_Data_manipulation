@@ -36,11 +36,17 @@ correl <- cor(mtcars$wt, mtcars$drat)
 
 The correlation between wt and drat is for vs `{r} correl`.
 
-And the table between cyl and drat:
+And the table between *cyl* and *drat*:
 
 ```{r}
 df <- mtcars %>%
   filter (vs == params$vs) 
 
 table(df$cyl, df$drat)
+```
+
+## Adding new table
+
+```{r}
+
 ```
