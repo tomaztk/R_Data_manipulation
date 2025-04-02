@@ -67,7 +67,7 @@ ggplot(d, aes(x = Sepal.Length, y = Petal.Width)) +
 
 ## 3. Adding multiple predictors on graph:
 
-`````{r}
+```{r}
 #| echo: false
 #| warning: false
 #| eval: true
@@ -84,13 +84,11 @@ d %>%
   geom_point(aes(y = predicted), shape = 1) +
   facet_grid(~ iv, scales = "free_x") +  # Split panels here by `iv`
   theme_bw()
-`````
+```
 
 ## 4. Running multiple different code
 
-
-
-### 4.1 Example with  R
+### 4.1 Example with R
 
 Here with using R Language.
 
@@ -124,14 +122,12 @@ a = 1
 
 And overall it is irrelevant the origin of language. and mixing the languages
 
-
 # 2. Conclusion
 
-The results show bigger residuals and predicting the multiple variate regression without filtering the species, to be "interesting" idea. 
+The results show bigger residuals and predicting the multiple variate regression without filtering the species, to be "interesting" idea.
 
 ::: {.callout-note appearance="simple"}
 ## Pay Attention
 
 This analysis is fictitious and does not provide any real results
 :::
-

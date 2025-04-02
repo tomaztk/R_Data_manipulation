@@ -1,6 +1,7 @@
 getwd()
-setwd("/Users/tomazkastrun/Documents/tomaztk_github/R_Data_manipulation/Session06")
+#setwd("/Users/tomazkastrun/Documents/tomaztk_github/R_Data_manipulation/Session06")
 
+# install.packages("quarto")
 library(quarto)
 
 # Automatization for 600_01_Quarto
@@ -54,6 +55,7 @@ purrr::pwalk(
   .f = quarto::quarto_render,   
   input = "600_01_Quarto.qmd"
 )
+
 
 
 # install.packages("reticulate")

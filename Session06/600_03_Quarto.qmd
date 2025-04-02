@@ -36,14 +36,14 @@ params:
   Species: setosa
 ---
 
-#  Report on analysis of Iris datasets
+# Report on analysis of Iris datasets
 
 ## Tabsets
 
-::: {.panel-tabset}
-
+::: panel-tabset
 ## R_v1
-``` {.r}
+
+``` r
 fizz_buzz <- function(fbnums = 1:50) {
   output <- dplyr::case_when(
     fbnums %% 15 == 0 ~ "FizzBuzz",
@@ -56,7 +56,8 @@ fizz_buzz <- function(fbnums = 1:50) {
 ```
 
 ## R_v2
-``` {.r}
+
+``` r
 val1 = 6  
 val2 = 7
 val3 = "s"  
@@ -71,12 +72,11 @@ result = switch(
 )  
 print(result)
 ```
-::: 
+:::
 
 ## Exploring data
 
 Based on the group selected **`{r} params$Species`**, here is the table data.
-
 
 ```{r}
 #| echo: false
@@ -97,7 +97,7 @@ And calculating for Species `{r} params$Species` and number of observations `{r}
 
 This is a custom function fit:
 
-`````{r}
+```{r}
 #| echo: false
 #| eval: true
 
@@ -109,11 +109,9 @@ summary(fit)
 d$predicted <- predict(fit)   
 d$residuals <- residuals(fit) 
 
-`````
+```
 
-
-
-##  Running multiple regression
+## Running multiple regression
 
 You can add options to run multiple regression
 
@@ -141,9 +139,9 @@ ggplot(d, aes(x = Sepal.Length, y = Petal.Width)) +
   theme_bw()
 ```
 
-##  Adding multiple predictors on graph:
+## Adding multiple predictors on graph:
 
-`````{r}
+```{r}
 #| echo: false
 #| warning: false
 #| eval: true
@@ -160,12 +158,11 @@ d %>%
   geom_point(aes(y = predicted), shape = 1) +
   facet_grid(~ iv, scales = "free_x") +  # Split panels here by `iv`
   theme_bw()
-`````
+```
 
-##  Running multiple different code
+## Running multiple different code
 
-
-###  Example with  R
+### Example with R
 
 Here with using R Language.
 
@@ -186,12 +183,12 @@ iris %>%
 
 ```
 
-###  Example with Python
+### Example with Python
 
 Example with Python
 
 ```{python}
-#| eval: true
+#| eval: false
 #| warning: false
 #| echo: true
 a = 1
@@ -199,30 +196,23 @@ a = 1
 
 And overall it is irrelevant the origin of language. and mixing the languages
 
-### Math 
+### Math
 
-some formula
-$$
+some formula $$
 f(x) = a*b^{3} + 4
 $$
 
-Some formula
-$$
+Some formula $$
 \sqrt{2x + 4^{3}}
 $$
 
-
-Quadratic formula (or Sridharacharya formula) for second-order polynomial equation 
-$$
+Quadratic formula (or Sridharacharya formula) for second-order polynomial equation $$
 x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
-$$ 
-
-Bayes rules:
 $$
+
+Bayes rules: $$
 Pr(\theta | y) = \frac{Pr(y | \theta) Pr(\theta)}{Pr(y)}
 $$
-
-
 
 ## Adding additional table with gt() asis does not work. use it with html
 
@@ -240,9 +230,9 @@ table_1 <- mtcars %>%
 print(table_1)
 ```
 
-#  Conclusion
+# Conclusion
 
-The results show bigger residuals and predicting the multiple variate regression without filtering the species, to be "interesting" idea. 
+The results show bigger residuals and predicting the multiple variate regression without filtering the species, to be "interesting" idea.
 
 ::: {.callout-note appearance="simple"}
 ## Pay Attention
@@ -250,4 +240,8 @@ The results show bigger residuals and predicting the multiple variate regression
 This analysis is fictitious and does not provide any real results
 :::
 
-
+| Col1 | Col2 | Col3 |
+|------|------|------|
+|      |      |      |
+|      |      |      |
+|      |      |      |

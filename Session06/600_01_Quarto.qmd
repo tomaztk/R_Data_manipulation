@@ -4,7 +4,7 @@ author: "TK"
 format: docx
 editor: visual
 params:
-  cyl: 4
+  cyl: 6
   vs: 0
 ---
 
@@ -47,16 +47,4 @@ table(df$cyl, df$drat)
 
 ## Adding additional table with gt() asis does not work. use it with html
 
-```{r results='asis'}
-#| warning: false
 
-# install.packages("gt")
-library(gt)
-
-table_1 <- mtcars %>%
-  head(5) %>% 
-  gt()
-
-
-print(table_1)
-```
